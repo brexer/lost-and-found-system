@@ -172,4 +172,46 @@ def update_surrendered_item(item_category, item_name, item_description, date_fou
         finally:
                 cursor.close()
                 conn.close()
-    
+
+# add confirmation before delete(both person and item), admin only access
+def delete_person(person_id):
+        conn = database.get_connection()
+        cursor = conn.cursor()
+
+        try:
+                cursor.execute("""
+                        DELETE FROM Persons
+                        WHERE PersonID = %s
+                """, (person_id))
+
+                conn.commit()
+                print("Person has been deleted successfully.") # dialog
+
+        except Exception as e:
+                print("Error:", e)
+                conn.rollback()
+
+        finally:
+                cursor.close()
+                conn.close()
+
+def delete_item(item_id):
+        conn = database.get_connection()
+        cursor = conn.cursor()
+        
+        try:
+                cursor.execute("""
+                        DELETE FROM Items
+                        WHERE ItemID = %s
+                """, (item_id))
+
+                conn.commit()
+                print("Item has been deleted succesfully.") # dialog
+
+        except Exception as e:
+                print("Error: ", e)
+                conn.rollback()
+
+        finally:
+                cursor.close()
+                conn.close()
