@@ -70,7 +70,7 @@ def update_reported_item(item_id, item_category, item_name, item_description, da
         try:
                 cursor.execute("""
                         UPDATE Items
-                        SET Category = %s, ItemName = %s, Description = %s
+                        SET Category = %s, Name = %s, Description = %s
                         WHERE ItemID = %s
                 """, (item_category, item_name, item_description, item_id))
                                
@@ -100,8 +100,8 @@ def claim_item(item_id, date_claimed, person_id):
                 cursor.execute("""
                         UPDATE Items
                         SET Status = 'Claimed'
-                        WHERE PersonID = %s
-                """, (person_id))
+                        WHERE ItemID = %s
+                """, (item_id))
 
                 cursor.execute("""
                         INSERT INTO ClaimedItems (ItemID, DateClaimed, PersonID)
@@ -152,7 +152,7 @@ def update_surrendered_item(item_category, item_name, item_description, date_fou
         try:
                 cursor.execute("""
                         UPDATE Items
-                        SET Category = %s, ItemName = %s, Description = %s
+                        SET Category = %s, Name = %s, Description = %s
                         WHERE ItemID = %s
                 """, (item_category, item_name, item_description, item_id))
                                
