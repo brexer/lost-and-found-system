@@ -1,12 +1,13 @@
 import sys
-from src.backend import Backend
-
+from PyQt5 import QtWidgets
+from main_window import Ui_MainWindow 
+import resources_rc
 def main():
-    app = QApplication(sys.argv)
-    
-    window = MainWindow()
-    window.show()
-
+    app = QtWidgets.QApplication(sys.argv)
+    MainWindow = QtWidgets.QMainWindow()
+    ui = Ui_MainWindow()
+    ui.setupUi(MainWindow)
+    MainWindow.show()
     sys.exit(app.exec_())
 
 if __name__ == "__main__":
