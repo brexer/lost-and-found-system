@@ -5,7 +5,7 @@ db_config = {
     'host': 'localhost',
     'user': 'root',
     'password': 'admin',
-    'database': 'lafdb'
+    'database': 'LostAndFoundDB',
 }
 
 def create_connection():
