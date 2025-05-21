@@ -96,6 +96,10 @@ def claim_reported_item(item_id, date_claimed, person_id):
         conn = database.create_connection()
         cursor = conn.cursor()
 
+        if not can_claim(item_id):
+                print("Item is already claimed.") # dialog
+                return
+
         try:
                 cursor.execute("""
                         UPDATE Items
@@ -125,6 +129,10 @@ def claim_reported_item(item_id, date_claimed, person_id):
 def claim_surrendered_item(item_id, date_claimed, person_id):
         conn = database.create_connection()
         cursor = conn.cursor()
+
+        if not can_claim(item_id):
+                print("Item is already claimed.") # dialog
+                return
 
         try:
                 cursor.execute("""
@@ -273,3 +281,16 @@ def get_all_items():
         cursor.close()
         conn.close()
         return list
+
+
+def can_claim(item_id):
+        conn = database.create_connection()
+        cursor = conn.cursor()
+
+        cursor.execute("SELECT Status FROM Items WHERE ItemID = %s", (item_id))
+        result = cursor.fetchone()
+        status = result[0]
+        
+        cursor.close()
+        conn.close()
+        return status != 'Claimed'
