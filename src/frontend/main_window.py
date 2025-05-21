@@ -922,4 +922,4 @@ class Ui_MainWindow(object):
         self.label_7.setText(_translate("MainWindow", "Match"))
         self.label_8.setText(_translate("MainWindow", "Reports"))
         self.label_9.setText(_translate("MainWindow", "Settings"))
-import resources_rc
+import frontend.resources_rc as resources_rc

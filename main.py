@@ -1,7 +1,7 @@
 import sys
 from PyQt5 import QtWidgets
-from main_window import Ui_MainWindow 
-import resources_rc
+from frontend.main_window import Ui_MainWindow 
+import frontend.resources_rc as resources_rc
 def main():
     app = QtWidgets.QApplication(sys.argv)
     MainWindow = QtWidgets.QMainWindow()
