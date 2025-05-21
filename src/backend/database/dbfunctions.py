@@ -247,3 +247,29 @@ def delete_item(item_id):
         finally:
                 cursor.close()
                 conn.close()
+
+# list of all items
+def get_all_items():
+        conn = database.get_connection()
+        cursor = conn.cursor()
+
+        query = """
+                SELECT
+                i.ItemID, i.Category, i.Name, i.Description, i.Status,
+                COALESCE(ri.LocationLost, si.LocationFound) AS Location,
+                COALESCE(ri.DateLost, si.DateFound, ci.DateClaimed) AS Date,
+                CONCAT(p.FirstName, ' ', p.LastName) AS Person
+
+                FROM Items i
+                LEFT JOIN ReportedItems ri ON i.ItemID = ri.ItemID
+                LEFT JOIN SurrenderedItems si ON i.ItemID = si.ItemID
+                LEFT JOIN ClaimedItems ci ON i.ItemID = ci.ItemID
+                LEFT JOIN Persons p ON p.PersonID = COALESCE(ri.PersonID, si.PersonID, ci.PersonID)
+                ORDER BY i.ItemID
+"""
+
+        cursor.execute(query)
+        list = cursor.fetchall()
+        cursor.close()
+        conn.close()
+        return list
