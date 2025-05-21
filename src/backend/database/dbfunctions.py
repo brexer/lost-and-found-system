@@ -92,7 +92,7 @@ def update_reported_item(item_id, item_category, item_name, item_description, da
                 conn.close()
 
 #only admin should be able to change this
-def claim_item(item_id, date_claimed, person_id):
+def claim_reported_item(item_id, date_claimed, person_id):
         conn = database.get_connection()
         cursor = conn.cursor()
 
@@ -107,6 +107,38 @@ def claim_item(item_id, date_claimed, person_id):
                         INSERT INTO ClaimedItems (ItemID, DateClaimed, PersonID)
                         VALUES (%s, %s, %s)
                 """, (item_id, date_claimed, person_id))
+
+                cursor.execute("DELETE FROM ReportedItems WHERE ItemID = %s", item_id)
+
+                conn.commit()
+                print("Claimed item added succesfully.") # dialog
+
+        except Exception as e:
+                print("Error:", e)
+                conn.rollback()
+
+        finally:
+                cursor.close()
+                conn.close()
+
+#only admin should be able to change this
+def claim_surrendered_item(item_id, date_claimed, person_id):
+        conn = database.get_connection()
+        cursor = conn.cursor()
+
+        try:
+                cursor.execute("""
+                        UPDATE Items
+                        SET Status = 'Claimed'
+                        WHERE ItemID = %s
+                """, (item_id))
+
+                cursor.execute("""
+                        INSERT INTO ClaimedItems (ItemID, DateClaimed, PersonID)
+                        VALUES (%s, %s, %s)
+                """, (item_id, date_claimed, person_id))
+
+                cursor.execute("DELETE FROM SurrenderedItems WHERE ItemID = %s", item_id)
 
                 conn.commit()
                 print("Claimed item added succesfully.") # dialog
@@ -185,7 +217,7 @@ def delete_person(person_id):
                 """, (person_id))
 
                 conn.commit()
-                print("Person has been deleted successfully.") # dialog
+                print("Person has been deleted successfully.") # dialo+g
 
         except Exception as e:
                 print("Error:", e)
