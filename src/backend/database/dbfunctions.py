@@ -1,7 +1,7 @@
 import database
 
 def add_person(person_id, first_name, last_name, person_contact, person_department, proof_id):
-        conn = database.get_connection()
+        conn = database.create_connection()
         cursor = conn.cursor()
         query = """
             INSERT INTO Persons (PersonID, FirstName, LastName, PhoneNumber, Department, ProofID)
@@ -13,7 +13,7 @@ def add_person(person_id, first_name, last_name, person_contact, person_departme
         conn.close()
 
 def update_person(person_id, first_name, last_name, person_contact, person_department, proof_id):
-        conn = database.get_connection()
+        conn = database.create_connection()
         cursor = conn.cursor()
         try:
                 query = """
@@ -36,7 +36,7 @@ def update_person(person_id, first_name, last_name, person_contact, person_depar
 
 
 def add_reported_item(item_id, item_category, item_name, item_description, date_lost, location_lost, person_id):
-        conn = database.get_connection()
+        conn = database.create_connection()
         cursor = conn.cursor()
     
         try:
@@ -64,7 +64,7 @@ def add_reported_item(item_id, item_category, item_name, item_description, date_
                 conn.close()
 
 def update_reported_item(item_id, item_category, item_name, item_description, date_lost, location_lost):
-        conn = database.get_connection()
+        conn = database.create_connection()
         cursor = conn.cursor()
 
         try:
@@ -93,7 +93,7 @@ def update_reported_item(item_id, item_category, item_name, item_description, da
 
 #only admin should be able to change this
 def claim_reported_item(item_id, date_claimed, person_id):
-        conn = database.get_connection()
+        conn = database.create_connection()
         cursor = conn.cursor()
 
         try:
@@ -123,7 +123,7 @@ def claim_reported_item(item_id, date_claimed, person_id):
 
 #only admin should be able to change this
 def claim_surrendered_item(item_id, date_claimed, person_id):
-        conn = database.get_connection()
+        conn = database.create_connection()
         cursor = conn.cursor()
 
         try:
@@ -152,7 +152,7 @@ def claim_surrendered_item(item_id, date_claimed, person_id):
                 conn.close()
 
 def add_surrendered_item(item_id, item_category, item_name, item_description, date_found, location_found, person_id):
-        conn = database.get_connection()
+        conn = database.create_connection()
         cursor = conn.cursor()
 
         try:
@@ -178,7 +178,7 @@ def add_surrendered_item(item_id, item_category, item_name, item_description, da
                 conn.close()
 
 def update_surrendered_item(item_category, item_name, item_description, date_found, location_found, item_id):
-        conn = database.get_connection()
+        conn = database.create_connection()
         cursor = conn.cursor()
 
         try:
@@ -207,7 +207,7 @@ def update_surrendered_item(item_category, item_name, item_description, date_fou
 
 # add confirmation before delete(both person and item), admin only access
 def delete_person(person_id):
-        conn = database.get_connection()
+        conn = database.create_connection()
         cursor = conn.cursor()
 
         try:
@@ -228,7 +228,7 @@ def delete_person(person_id):
                 conn.close()
 
 def delete_item(item_id):
-        conn = database.get_connection()
+        conn = database.create_connection()
         cursor = conn.cursor()
         
         try:
@@ -250,7 +250,7 @@ def delete_item(item_id):
 
 # list of all items
 def get_all_items():
-        conn = database.get_connection()
+        conn = database.create_connection()
         cursor = conn.cursor()
 
         query = """
