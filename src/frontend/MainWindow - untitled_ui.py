@@ -3,7 +3,7 @@
 ################################################################################
 ## Form generated from reading UI file 'MainWindow - untitled.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.8.2
+## Created by: Qt User Interface Compiler version 6.9.0
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -20,197 +20,19 @@ from PySide6.QtWidgets import (QApplication, QDateEdit, QFrame, QGridLayout,
     QMainWindow, QPushButton, QSizePolicy, QSpacerItem,
     QStackedWidget, QTabWidget, QTableWidget, QTableWidgetItem,
     QVBoxLayout, QWidget)
-import frontend.resources_rc as resources_rc
+import resources_rc
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(1153, 813)
+        MainWindow.resize(1153, 792)
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
         self.gridLayout = QGridLayout(self.centralwidget)
         self.gridLayout.setObjectName(u"gridLayout")
         self.gridLayout.setHorizontalSpacing(0)
         self.gridLayout.setContentsMargins(0, 0, 0, 0)
-        self.iconOnly = QWidget(self.centralwidget)
-        self.iconOnly.setObjectName(u"iconOnly")
-        self.iconOnly.setStyleSheet(u"background-color: rgb(247, 216, 83);")
-        self.verticalLayout_5 = QVBoxLayout(self.iconOnly)
-        self.verticalLayout_5.setSpacing(0)
-        self.verticalLayout_5.setObjectName(u"verticalLayout_5")
-        self.verticalLayout_5.setContentsMargins(0, 0, 0, 0)
-        self.horizontalLayout_2 = QHBoxLayout()
-        self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
-        self.horizontalLayout_2.setContentsMargins(-1, 10, -1, -1)
-        self.label = QLabel(self.iconOnly)
-        self.label.setObjectName(u"label")
-        self.label.setMinimumSize(QSize(50, 50))
-        self.label.setMaximumSize(QSize(50, 50))
-        self.label.setPixmap(QPixmap(u":/icons/icons/seal-02.png"))
-        self.label.setScaledContents(True)
-
-        self.horizontalLayout_2.addWidget(self.label)
-
-
-        self.verticalLayout_5.addLayout(self.horizontalLayout_2)
-
-        self.verticalLayout = QVBoxLayout()
-        self.verticalLayout.setSpacing(14)
-        self.verticalLayout.setObjectName(u"verticalLayout")
-        self.verticalLayout.setContentsMargins(-1, 15, -1, -1)
-        self.homeIcon = QPushButton(self.iconOnly)
-        self.homeIcon.setObjectName(u"homeIcon")
-        self.homeIcon.setStyleSheet(u"QPushButton {\n"
-"    border: 1px solid #2C3E50;    /* thinner border */\n"
-"    border-radius: 10px;           /* small rounding */\n"
-"    padding: 4px 8px;             /* top/bottom, left/right */\n"
-"    background-color: #951ab;\n"
-"    color: black;\n"
-"    font-size: 12px;              /* smaller text */\n"
-"}\n"
-"")
-        icon = QIcon()
-        icon.addFile(u":/icons/icons/home.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
-        self.homeIcon.setIcon(icon)
-        self.homeIcon.setIconSize(QSize(20, 20))
-        self.homeIcon.setCheckable(True)
-        self.homeIcon.setAutoExclusive(True)
-
-        self.verticalLayout.addWidget(self.homeIcon)
-
-        self.browseIcon_2 = QPushButton(self.iconOnly)
-        self.browseIcon_2.setObjectName(u"browseIcon_2")
-        self.browseIcon_2.setStyleSheet(u"QPushButton {\n"
-"    border: 1px solid #2C3E50;    /* thinner border */\n"
-"    border-radius: 10px;           /* small rounding */\n"
-"    padding: 4px 8px;             /* top/bottom, left/right */\n"
-"    background-color: #951ab;\n"
-"    color: black;\n"
-"    font-size: 12px;              /* smaller text */\n"
-"}\n"
-"")
-        icon1 = QIcon()
-        icon1.addFile(u":/icons/icons/compass.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
-        self.browseIcon_2.setIcon(icon1)
-        self.browseIcon_2.setIconSize(QSize(20, 20))
-        self.browseIcon_2.setCheckable(True)
-        self.browseIcon_2.setAutoExclusive(True)
-
-        self.verticalLayout.addWidget(self.browseIcon_2)
-
-        self.reportIcon_2 = QPushButton(self.iconOnly)
-        self.reportIcon_2.setObjectName(u"reportIcon_2")
-        self.reportIcon_2.setStyleSheet(u"QPushButton {\n"
-"    border: 1px solid #2C3E50;    /* thinner border */\n"
-"    border-radius: 10px;           /* small rounding */\n"
-"    padding: 4px 8px;             /* top/bottom, left/right */\n"
-"    background-color: #951ab;\n"
-"    color: black;\n"
-"    font-size: 12px;              /* smaller text */\n"
-"}\n"
-"")
-        icon2 = QIcon()
-        icon2.addFile(u":/icons/icons/clipboard.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
-        self.reportIcon_2.setIcon(icon2)
-        self.reportIcon_2.setIconSize(QSize(20, 20))
-        self.reportIcon_2.setCheckable(True)
-        self.reportIcon_2.setAutoExclusive(True)
-
-        self.verticalLayout.addWidget(self.reportIcon_2)
-
-        self.matchIcon = QPushButton(self.iconOnly)
-        self.matchIcon.setObjectName(u"matchIcon")
-        self.matchIcon.setStyleSheet(u"QPushButton {\n"
-"    border: 1px solid #2C3E50;    /* thinner border */\n"
-"    border-radius: 10px;           /* small rounding */\n"
-"    padding: 4px 8px;             /* top/bottom, left/right */\n"
-"    background-color: #951ab;\n"
-"    color: black;\n"
-"    font-size: 12px;              /* smaller text */\n"
-"}\n"
-"")
-        icon3 = QIcon()
-        icon3.addFile(u":/icons/icons/search.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
-        self.matchIcon.setIcon(icon3)
-        self.matchIcon.setIconSize(QSize(20, 20))
-        self.matchIcon.setCheckable(True)
-        self.matchIcon.setAutoExclusive(True)
-
-        self.verticalLayout.addWidget(self.matchIcon)
-
-        self.reportIcon = QPushButton(self.iconOnly)
-        self.reportIcon.setObjectName(u"reportIcon")
-        self.reportIcon.setStyleSheet(u"QPushButton {\n"
-"    border: 1px solid #2C3E50;    /* thinner border */\n"
-"    border-radius: 10px;           /* small rounding */\n"
-"    padding: 4px 8px;             /* top/bottom, left/right */\n"
-"    background-color: #951ab;\n"
-"    color: black;\n"
-"    font-size: 12px;              /* smaller text */\n"
-"}\n"
-"")
-        icon4 = QIcon()
-        icon4.addFile(u":/icons/icons/inbox.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
-        self.reportIcon.setIcon(icon4)
-        self.reportIcon.setIconSize(QSize(20, 20))
-        self.reportIcon.setCheckable(True)
-        self.reportIcon.setAutoExclusive(True)
-
-        self.verticalLayout.addWidget(self.reportIcon)
-
-
-        self.verticalLayout_5.addLayout(self.verticalLayout)
-
-        self.verticalSpacer = QSpacerItem(20, 528, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
-
-        self.verticalLayout_5.addItem(self.verticalSpacer)
-
-        self.verticalLayout_2 = QVBoxLayout()
-        self.verticalLayout_2.setSpacing(14)
-        self.verticalLayout_2.setObjectName(u"verticalLayout_2")
-        self.settingsIcon = QPushButton(self.iconOnly)
-        self.settingsIcon.setObjectName(u"settingsIcon")
-        self.settingsIcon.setStyleSheet(u"QPushButton {\n"
-"    border: 1px solid #2C3E50;    /* thinner border */\n"
-"    border-radius: 10px;           /* small rounding */\n"
-"    padding: 4px 8px;             /* top/bottom, left/right */\n"
-"    background-color: #951ab;\n"
-"    color: black;\n"
-"    font-size: 12px;              /* smaller text */\n"
-"}\n"
-"")
-        icon5 = QIcon()
-        icon5.addFile(u":/icons/icons/settings.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
-        self.settingsIcon.setIcon(icon5)
-        self.settingsIcon.setIconSize(QSize(20, 20))
-
-        self.verticalLayout_2.addWidget(self.settingsIcon)
-
-        self.logoutIcon = QPushButton(self.iconOnly)
-        self.logoutIcon.setObjectName(u"logoutIcon")
-        self.logoutIcon.setStyleSheet(u"QPushButton {\n"
-"    border: 1px solid #2C3E50;    /* thinner border */\n"
-"    border-radius: 10px;           /* small rounding */\n"
-"    padding: 4px 8px;             /* top/bottom, left/right */\n"
-"    background-color: #951ab;\n"
-"    color: black;\n"
-"    font-size: 12px;              /* smaller text */\n"
-"}\n"
-"")
-        icon6 = QIcon()
-        icon6.addFile(u":/icons/icons/log-out.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
-        self.logoutIcon.setIcon(icon6)
-        self.logoutIcon.setIconSize(QSize(20, 20))
-
-        self.verticalLayout_2.addWidget(self.logoutIcon)
-
-
-        self.verticalLayout_5.addLayout(self.verticalLayout_2)
-
-
-        self.gridLayout.addWidget(self.iconOnly, 0, 0, 1, 1)
-
         self.widget_2 = QWidget(self.centralwidget)
         self.widget_2.setObjectName(u"widget_2")
         self.widget_2.setStyleSheet(u"background-color: rgb(247, 216, 83);")
@@ -265,6 +87,8 @@ class Ui_MainWindow(object):
 "    font-size: 12px;              /* smaller text */\n"
 "}\n"
 "")
+        icon = QIcon()
+        icon.addFile(u":/icons/icons/home.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.homeButton.setIcon(icon)
         self.homeButton.setIconSize(QSize(20, 20))
         self.homeButton.setCheckable(True)
@@ -284,6 +108,8 @@ class Ui_MainWindow(object):
 "    font-size: 12px;              /* smaller text */\n"
 "}\n"
 "")
+        icon1 = QIcon()
+        icon1.addFile(u":/icons/icons/compass.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.browseButton.setIcon(icon1)
         self.browseButton.setIconSize(QSize(20, 20))
         self.browseButton.setCheckable(True)
@@ -303,6 +129,8 @@ class Ui_MainWindow(object):
 "    font-size: 12px;              /* smaller text */\n"
 "}\n"
 "")
+        icon2 = QIcon()
+        icon2.addFile(u":/icons/icons/clipboard.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.reportButton.setIcon(icon2)
         self.reportButton.setIconSize(QSize(20, 20))
         self.reportButton.setCheckable(True)
@@ -322,6 +150,8 @@ class Ui_MainWindow(object):
 "    font-size: 12px;              /* smaller text */\n"
 "}\n"
 "")
+        icon3 = QIcon()
+        icon3.addFile(u":/icons/icons/search.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.matchButton.setIcon(icon3)
         self.matchButton.setIconSize(QSize(20, 20))
         self.matchButton.setCheckable(True)
@@ -341,6 +171,8 @@ class Ui_MainWindow(object):
 "    font-size: 12px;              /* smaller text */\n"
 "}\n"
 "")
+        icon4 = QIcon()
+        icon4.addFile(u":/icons/icons/inbox.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.reportButton_2.setIcon(icon4)
         self.reportButton_2.setIconSize(QSize(20, 20))
         self.reportButton_2.setCheckable(True)
@@ -370,6 +202,8 @@ class Ui_MainWindow(object):
 "    font-size: 12px;              /* smaller text */\n"
 "}\n"
 "")
+        icon5 = QIcon()
+        icon5.addFile(u":/icons/icons/settings.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.settingsButton.setIcon(icon5)
         self.settingsButton.setIconSize(QSize(20, 20))
 
@@ -387,6 +221,8 @@ class Ui_MainWindow(object):
 "    font-size: 12px;              /* smaller text */\n"
 "}\n"
 "")
+        icon6 = QIcon()
+        icon6.addFile(u":/icons/icons/log-out.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.logoutButton.setIcon(icon6)
         self.logoutButton.setIconSize(QSize(20, 20))
 
@@ -396,7 +232,7 @@ class Ui_MainWindow(object):
         self.verticalLayout_6.addLayout(self.verticalLayout_4)
 
 
-        self.gridLayout.addWidget(self.widget_2, 0, 1, 1, 1)
+        self.gridLayout.addWidget(self.widget_2, 0, 0, 1, 1)
 
         self.widget_3 = QWidget(self.centralwidget)
         self.widget_3.setObjectName(u"widget_3")
@@ -411,29 +247,20 @@ class Ui_MainWindow(object):
         self.horizontalLayout_4.setSpacing(0)
         self.horizontalLayout_4.setObjectName(u"horizontalLayout_4")
         self.horizontalLayout_4.setContentsMargins(0, 0, 0, 0)
-        self.pushButton_15 = QPushButton(self.widget)
-        self.pushButton_15.setObjectName(u"pushButton_15")
-        icon7 = QIcon()
-        icon7.addFile(u":/icons/icons/menu.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
-        self.pushButton_15.setIcon(icon7)
-        self.pushButton_15.setCheckable(True)
-
-        self.horizontalLayout_4.addWidget(self.pushButton_15)
-
         self.horizontalLayout = QHBoxLayout()
         self.horizontalLayout.setObjectName(u"horizontalLayout")
 
         self.horizontalLayout_4.addLayout(self.horizontalLayout)
 
-        self.horizontalSpacer_2 = QSpacerItem(279, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+        self.horizontalSpacer_2 = QSpacerItem(300, 45, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 
         self.horizontalLayout_4.addItem(self.horizontalSpacer_2)
 
         self.pushButton_17 = QPushButton(self.widget)
         self.pushButton_17.setObjectName(u"pushButton_17")
-        icon8 = QIcon()
-        icon8.addFile(u":/icons/icons/user.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
-        self.pushButton_17.setIcon(icon8)
+        icon7 = QIcon()
+        icon7.addFile(u":/icons/icons/user.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        self.pushButton_17.setIcon(icon7)
         self.pushButton_17.setIconSize(QSize(20, 20))
 
         self.horizontalLayout_4.addWidget(self.pushButton_17)
@@ -465,7 +292,7 @@ class Ui_MainWindow(object):
 "}")
         self.outisideFrame = QFrame(self.homePage)
         self.outisideFrame.setObjectName(u"outisideFrame")
-        self.outisideFrame.setGeometry(QRect(20, 120, 861, 371))
+        self.outisideFrame.setGeometry(QRect(10, 120, 921, 371))
         self.outisideFrame.setStyleSheet(u"")
         self.outisideFrame.setFrameShape(QFrame.StyledPanel)
         self.outisideFrame.setFrameShadow(QFrame.Raised)
@@ -480,7 +307,7 @@ class Ui_MainWindow(object):
 "}")
         self.layoutWidget = QWidget(self.outisideFrame)
         self.layoutWidget.setObjectName(u"layoutWidget")
-        self.layoutWidget.setGeometry(QRect(30, 60, 821, 301))
+        self.layoutWidget.setGeometry(QRect(50, 50, 821, 301))
         self.horizontalLayout_5 = QHBoxLayout(self.layoutWidget)
         self.horizontalLayout_5.setObjectName(u"horizontalLayout_5")
         self.horizontalLayout_5.setContentsMargins(0, 0, 0, 0)
@@ -544,6 +371,11 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_5.addWidget(self.frame_8)
 
+        self.frame_10 = QFrame(self.homePage)
+        self.frame_10.setObjectName(u"frame_10")
+        self.frame_10.setGeometry(QRect(10, 510, 921, 221))
+        self.frame_10.setFrameShape(QFrame.StyledPanel)
+        self.frame_10.setFrameShadow(QFrame.Raised)
         self.stackedWidget.addWidget(self.homePage)
         self.browsePage = QWidget()
         self.browsePage.setObjectName(u"browsePage")
@@ -788,9 +620,9 @@ class Ui_MainWindow(object):
 "    font-size: 12px;              /* smaller text */\n"
 "}\n"
 "")
-        icon9 = QIcon()
-        icon9.addFile(u":/icons/icons/arrow-down-circle.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
-        self.pushButton_21.setIcon(icon9)
+        icon8 = QIcon()
+        icon8.addFile(u":/icons/icons/arrow-down-circle.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        self.pushButton_21.setIcon(icon8)
         self.pushButton_21.setIconSize(QSize(20, 20))
         self.pushButton_21.setCheckable(True)
         self.pushButton_21.setAutoExclusive(True)
@@ -824,9 +656,9 @@ class Ui_MainWindow(object):
 "    font-size: 12px;              /* smaller text */\n"
 "}\n"
 "")
-        icon10 = QIcon()
-        icon10.addFile(u":/icons/icons/check-circle.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
-        self.pushButton_23.setIcon(icon10)
+        icon9 = QIcon()
+        icon9.addFile(u":/icons/icons/check-circle.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        self.pushButton_23.setIcon(icon9)
         self.pushButton_23.setIconSize(QSize(20, 20))
         self.pushButton_23.setCheckable(True)
         self.pushButton_23.setAutoExclusive(True)
@@ -842,7 +674,7 @@ class Ui_MainWindow(object):
 "    font-size: 12px;              /* smaller text */\n"
 "}\n"
 "")
-        self.pushButton_24.setIcon(icon10)
+        self.pushButton_24.setIcon(icon9)
         self.pushButton_24.setIconSize(QSize(20, 20))
         self.pushButton_24.setCheckable(True)
         self.pushButton_24.setAutoExclusive(True)
@@ -869,30 +701,14 @@ class Ui_MainWindow(object):
         self.verticalLayout_7.addWidget(self.stackedWidget)
 
 
-        self.gridLayout.addWidget(self.widget_3, 0, 2, 1, 1)
+        self.gridLayout.addWidget(self.widget_3, 0, 1, 1, 1)
 
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
-        self.pushButton_15.toggled.connect(self.iconOnly.setVisible)
-        self.pushButton_15.toggled.connect(self.widget_2.setHidden)
-        self.homeIcon.toggled.connect(self.homeButton.setChecked)
-        self.browseIcon_2.toggled.connect(self.browseButton.setChecked)
-        self.reportIcon_2.toggled.connect(self.reportButton.setChecked)
-        self.matchIcon.toggled.connect(self.matchButton.setChecked)
-        self.reportIcon.toggled.connect(self.reportButton_2.setChecked)
-        self.settingsIcon.toggled.connect(self.settingsButton.setChecked)
-        self.logoutIcon.toggled.connect(self.logoutButton.setChecked)
-        self.homeButton.toggled.connect(self.homeIcon.setChecked)
-        self.browseButton.toggled.connect(self.browseIcon_2.setChecked)
-        self.reportButton.toggled.connect(self.reportIcon_2.setChecked)
-        self.matchButton.toggled.connect(self.matchIcon.setChecked)
-        self.reportButton_2.toggled.connect(self.reportIcon.setChecked)
-        self.settingsButton.toggled.connect(self.settingsIcon.setChecked)
-        self.logoutButton.toggled.connect(self.logoutIcon.setChecked)
 
-        self.stackedWidget.setCurrentIndex(0)
-        self.tabWidget.setCurrentIndex(1)
+        self.stackedWidget.setCurrentIndex(2)
+        self.tabWidget.setCurrentIndex(0)
 
 
         QMetaObject.connectSlotsByName(MainWindow)
@@ -900,14 +716,6 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"MainWindow", None))
-        self.label.setText("")
-        self.homeIcon.setText("")
-        self.browseIcon_2.setText("")
-        self.reportIcon_2.setText("")
-        self.matchIcon.setText("")
-        self.reportIcon.setText("")
-        self.settingsIcon.setText("")
-        self.logoutIcon.setText("")
         self.label_2.setText("")
         self.label_3.setText(QCoreApplication.translate("MainWindow", u"Lost and Found", None))
         self.homeButton.setText(QCoreApplication.translate("MainWindow", u"Home", None))
@@ -916,8 +724,7 @@ class Ui_MainWindow(object):
         self.matchButton.setText(QCoreApplication.translate("MainWindow", u"Match Item", None))
         self.reportButton_2.setText(QCoreApplication.translate("MainWindow", u"My Reports", None))
         self.settingsButton.setText(QCoreApplication.translate("MainWindow", u"Settings", None))
-        self.logoutButton.setText(QCoreApplication.translate("MainWindow", u"Log Out", None))
-        self.pushButton_15.setText("")
+        self.logoutButton.setText(QCoreApplication.translate("MainWindow", u"Exit", None))
         self.pushButton_17.setText("")
         self.label_25.setText(QCoreApplication.translate("MainWindow", u"Welcome to the Lost and Found System!", None))
         self.label_4.setText(QCoreApplication.translate("MainWindow", u"Let us help you find what you're looking for or return something you found.", None))
