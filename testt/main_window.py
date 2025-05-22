@@ -7,6 +7,7 @@
 
 
 from PyQt6 import QtCore, QtGui, QtWidgets
+from src.backend.database import dbfunctions
 
 
 class Ui_MainWindow(object):

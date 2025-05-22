@@ -1,7 +1,25 @@
 import sys
 from PyQt6 import QtWidgets
 from PyQt6.QtGui import QIcon
-from src.frontend.main_window import Ui_MainWindow
+from testt.main_window import Ui_MainWindow
+from src.backend.database import dbfunctions
+
+def load_reported_items(table_widget):
+    all_items = dbfunctions.get_all_items()
+    reported_items = [item for item in all_items if item[4] == "Unclaimed"]
+
+    table = table_widget
+    table.setRowCount(0)
+    table.setColumnCount(8)
+    table.setHorizontalHeaderLabels([
+        "Item ID", "Category", "Name", "Description", "Status", "Location", "Date", "Reported By"
+    ])
+    
+    for row_num, item in enumerate(reported_items):
+        table.insertRow(row_num)
+        for col, value in enumerate(item):
+            table.setItem(row_num, col, QtWidgets.QTableWidgetItem(str(value)))
+
 
 def main():
     app = QtWidgets.QApplication(sys.argv)
@@ -9,25 +27,18 @@ def main():
     ui = Ui_MainWindow()
     ui.setupUi(MainWindow)
 
+    load_reported_items(ui.tableWidget)
+
     # Set the main window background to white and text to black
     MainWindow.setStyleSheet("background-color: white; color: black;")
 
-    # Set SVG icons for sidebar buttons with correct button names
-    ui.browseButton.setIcon(QIcon("assets/compass.svg"))
-    ui.homeButton.setIcon(QIcon("assets/home.svg"))
-    ui.matchButton.setIcon(QIcon("assets/clipboard.svg"))
-    ui.reportButton.setIcon(QIcon("assets/search.svg"))
-    ui.reportButton_2.setIcon(QIcon("assets/inbox.svg"))
-    ui.settingsButton.setIcon(QIcon("assets/settings.svg"))
-    ui.logoutButton.setIcon(QIcon("assets/log-out.svg"))
-
     # Connect sidebar buttons to pages
     ui.homeButton.clicked.connect(lambda: ui.stackedWidget.setCurrentWidget(ui.homePage))
-    ui.browseButton.clicked.connect(lambda: ui.stackedWidget.setCurrentWidget(ui.browsePage))
-    ui.matchButton.clicked.connect(lambda: ui.stackedWidget.setCurrentWidget(ui.matchPage))
-    ui.reportButton.clicked.connect(lambda: ui.stackedWidget.setCurrentWidget(ui.reportPage))
-    ui.reportButton_2.clicked.connect(lambda: ui.stackedWidget.setCurrentWidget(ui.myreportPage))
-    ui.settingsButton.clicked.connect(lambda: ui.stackedWidget.setCurrentWidget(ui.settingsPage))
+    ui.lostButton.clicked.connect(lambda: ui.stackedWidget.setCurrentWidget(ui.ReportedItems))
+    ui.foundButton.clicked.connect(lambda: ui.stackedWidget.setCurrentWidget(ui.SurrenderedItems))
+    ui.claimedButton.clicked.connect(lambda: ui.stackedWidget.setCurrentWidget(ui.ClaimedItems))
+    ui.reportButton.clicked.connect(lambda: ui.stackedWidget.setCurrentWidget(ui.myreportPage))
+    ui.settingsButton.clicked.connect(lambda: ui.stackedWidget.setCurrentWidget(ui.ManagePersons))
 
     MainWindow.show()
     sys.exit(app.exec())

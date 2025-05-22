@@ -1,4 +1,4 @@
-import database
+from src.backend.database import database
 
 def add_person(person_id, first_name, last_name, person_contact, person_department, proof_id):
         conn = database.create_connection()
@@ -282,7 +282,6 @@ def get_all_items():
         conn.close()
         return list
 
-
 def can_claim(item_id):
         conn = database.create_connection()
         cursor = conn.cursor()
@@ -294,3 +293,5 @@ def can_claim(item_id):
         cursor.close()
         conn.close()
         return status != 'Claimed'
+
+
