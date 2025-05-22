@@ -1,7 +1,7 @@
 import sys
 from PyQt6 import QtWidgets
 from PyQt6.QtGui import QIcon
-from main_window import Ui_MainWindow
+from src.frontend.main_window import Ui_MainWindow
 
 def main():
     app = QtWidgets.QApplication(sys.argv)
