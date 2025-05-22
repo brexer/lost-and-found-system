@@ -1,0 +1,20 @@
+QPushButton#exitButton,
+QPushButton#manageButton,
+QPushButton#claimedButton,
+QPushButton#foundButton,
+QPushButton#homeButton,
+QPushButton#LostandFound,
+QPushButton#lostButton,
+QPushButton#reportButton {
+    color: #000000;
+    font-family: "Century Gothic";
+    font-size: 15px;
+    font-weight: bold;
+}
+
+QLabel#LostandFoundLabel {
+    color: #000000;
+    font-family: "Century Gothic";
+    font-size: 12px;
+    font-weight: bold;
+}
