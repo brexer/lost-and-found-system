@@ -1,0 +1,1147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1440</width>
+    <height>960</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QStackedWidget" name="stackedWidget">
+    <property name="geometry">
+     <rect>
+      <x>320</x>
+      <y>10</y>
+      <width>1111</width>
+      <height>941</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(255, 255, 255);
+</string>
+    </property>
+    <property name="currentIndex">
+     <number>2</number>
+    </property>
+    <widget class="QWidget" name="homePage">
+     <widget class="QLabel" name="label_2">
+      <property name="geometry">
+       <rect>
+        <x>260</x>
+        <y>90</y>
+        <width>651</width>
+        <height>91</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>20</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>THIS IS THE HOME PAGE</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_4">
+      <property name="geometry">
+       <rect>
+        <x>460</x>
+        <y>380</y>
+        <width>251</width>
+        <height>141</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton {
+                background-color: maroon;
+                color: white;
+                border: none;
+                border-radius: 20px;
+                padding: 8px 16px;
+            }
+            QPushButton:hover {
+                background-color: #a00000;
+            }
+            QPushButton:pressed {
+                background-color: #700000;
+            }</string>
+      </property>
+      <property name="text">
+       <string>Add Report</string>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="managePersonsPage">
+     <widget class="QLabel" name="label_3">
+      <property name="geometry">
+       <rect>
+        <x>180</x>
+        <y>30</y>
+        <width>681</width>
+        <height>101</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>20</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>this is the person management page</string>
+      </property>
+     </widget>
+     <widget class="QTableWidget" name="personTable">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>200</y>
+        <width>1091</width>
+        <height>661</height>
+       </rect>
+      </property>
+      <column>
+       <property name="text">
+        <string>PersonID</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>New Column</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Last Name</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>New Column</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Department</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>ProofID</string>
+       </property>
+      </column>
+     </widget>
+     <widget class="QPushButton" name="pushButton_7">
+      <property name="geometry">
+       <rect>
+        <x>990</x>
+        <y>880</y>
+        <width>112</width>
+        <height>34</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Update</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_8">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>880</y>
+        <width>112</width>
+        <height>34</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Delete</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="personSearchEdit">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>148</y>
+        <width>401</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QLineEdit {
+                border: 1px solid #ccc;
+                border-radius: 15px;
+                padding: 6px 12px;
+                background-color: #f9f9f9;
+            }
+            QLineEdit:focus {
+                border: 1px solid #0078d7;
+                background-color: #ffffff;
+            }</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="personSearchButton">
+      <property name="geometry">
+       <rect>
+        <x>430</x>
+        <y>150</y>
+        <width>112</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton {
+                background-color: maroon;
+                color: white;
+                border: none;
+                border-radius: 20px;
+                padding: 8px 16px;
+            }
+            QPushButton:hover {
+                background-color: #a00000;
+            }
+            QPushButton:pressed {
+                background-color: #700000;
+            }</string>
+      </property>
+      <property name="text">
+       <string>Search</string>
+      </property>
+     </widget>
+     <widget class="QWidget" name="">
+      <property name="geometry">
+       <rect>
+        <x>390</x>
+        <y>870</y>
+        <width>341</width>
+        <height>51</height>
+       </rect>
+      </property>
+      <layout class="QHBoxLayout" name="horizontalLayout">
+       <item>
+        <widget class="QPushButton" name="personPrev">
+         <property name="text">
+          <string>Prev</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="personPageLabel">
+         <property name="text">
+          <string>Page</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="personNext">
+         <property name="text">
+          <string>Next</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="manageItemsPage">
+     <widget class="QLabel" name="label_7">
+      <property name="geometry">
+       <rect>
+        <x>400</x>
+        <y>10</y>
+        <width>401</width>
+        <height>111</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>20</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>manage Items page</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="itemUpdateButton">
+      <property name="geometry">
+       <rect>
+        <x>990</x>
+        <y>880</y>
+        <width>112</width>
+        <height>34</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Update</string>
+      </property>
+     </widget>
+     <widget class="QTableWidget" name="itemTable">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>200</y>
+        <width>1091</width>
+        <height>661</height>
+       </rect>
+      </property>
+      <column>
+       <property name="text">
+        <string>ItemID</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Category</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Name</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Description</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Status</string>
+       </property>
+      </column>
+     </widget>
+     <widget class="QPushButton" name="itemDeleteButton">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>880</y>
+        <width>112</width>
+        <height>34</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Delete</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="itemSearchButton">
+      <property name="geometry">
+       <rect>
+        <x>430</x>
+        <y>150</y>
+        <width>112</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton {
+                background-color: maroon;
+                color: white;
+                border: none;
+                border-radius: 20px;
+                padding: 8px 16px;
+            }
+            QPushButton:hover {
+                background-color: #a00000;
+            }
+            QPushButton:pressed {
+                background-color: #700000;
+            }</string>
+      </property>
+      <property name="text">
+       <string>Search</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="itemSearchEdit">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>148</y>
+        <width>401</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QLineEdit {
+                border: 1px solid #ccc;
+                border-radius: 15px;
+                padding: 6px 12px;
+                background-color: #f9f9f9;
+            }
+            QLineEdit:focus {
+                border: 1px solid #0078d7;
+                background-color: #ffffff;
+            }</string>
+      </property>
+     </widget>
+     <widget class="QWidget" name="layoutWidget_5">
+      <property name="geometry">
+       <rect>
+        <x>390</x>
+        <y>870</y>
+        <width>341</width>
+        <height>51</height>
+       </rect>
+      </property>
+      <layout class="QHBoxLayout" name="horizontalLayout_5">
+       <item>
+        <widget class="QPushButton" name="itemPrevButton">
+         <property name="text">
+          <string>Prev</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="personPageLabel_2">
+         <property name="text">
+          <string>Page</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="itemNextButton">
+         <property name="text">
+          <string>Next</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="claimedItems">
+     <widget class="QLineEdit" name="claimSearchEdit">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>148</y>
+        <width>401</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QLineEdit {
+                border: 1px solid #ccc;
+                border-radius: 15px;
+                padding: 6px 12px;
+                background-color: #f9f9f9;
+            }
+            QLineEdit:focus {
+                border: 1px solid #0078d7;
+                background-color: #ffffff;
+            }</string>
+      </property>
+     </widget>
+     <widget class="QTableWidget" name="claimTable">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>200</y>
+        <width>1091</width>
+        <height>661</height>
+       </rect>
+      </property>
+      <column>
+       <property name="text">
+        <string>ItemID</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Name</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Date Claimed</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Claimed By</string>
+       </property>
+      </column>
+     </widget>
+     <widget class="QPushButton" name="deleteClaimButton">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>880</y>
+        <width>112</width>
+        <height>34</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Delete</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="claimSearchButton">
+      <property name="geometry">
+       <rect>
+        <x>430</x>
+        <y>150</y>
+        <width>112</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton {
+                background-color: maroon;
+                color: white;
+                border: none;
+                border-radius: 20px;
+                padding: 8px 16px;
+            }
+            QPushButton:hover {
+                background-color: #a00000;
+            }
+            QPushButton:pressed {
+                background-color: #700000;
+            }</string>
+      </property>
+      <property name="text">
+       <string>Search</string>
+      </property>
+     </widget>
+     <widget class="QWidget" name="layoutWidget_2">
+      <property name="geometry">
+       <rect>
+        <x>390</x>
+        <y>870</y>
+        <width>341</width>
+        <height>51</height>
+       </rect>
+      </property>
+      <layout class="QHBoxLayout" name="horizontalLayout_2">
+       <item>
+        <widget class="QPushButton" name="claimPrev">
+         <property name="text">
+          <string>Prev</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="claimPageLabel">
+         <property name="text">
+          <string>Page</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="claimNext">
+         <property name="text">
+          <string>Next</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QPushButton" name="updateClaimButton">
+      <property name="geometry">
+       <rect>
+        <x>990</x>
+        <y>880</y>
+        <width>112</width>
+        <height>34</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Update</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_4">
+      <property name="geometry">
+       <rect>
+        <x>460</x>
+        <y>50</y>
+        <width>541</width>
+        <height>71</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>DEFAULT IS CLAIMED ITEMS</string>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="reportedItems">
+     <widget class="QLineEdit" name="reportSearchEdit">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>148</y>
+        <width>401</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QLineEdit {
+                border: 1px solid #ccc;
+                border-radius: 15px;
+                padding: 6px 12px;
+                background-color: #f9f9f9;
+            }
+            QLineEdit:focus {
+                border: 1px solid #0078d7;
+                background-color: #ffffff;
+            }</string>
+      </property>
+     </widget>
+     <widget class="QWidget" name="layoutWidget_3">
+      <property name="geometry">
+       <rect>
+        <x>390</x>
+        <y>870</y>
+        <width>341</width>
+        <height>51</height>
+       </rect>
+      </property>
+      <layout class="QHBoxLayout" name="horizontalLayout_3">
+       <item>
+        <widget class="QPushButton" name="reportPrev">
+         <property name="text">
+          <string>Prev</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="reportPageLabel">
+         <property name="text">
+          <string>Page</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="reportNext">
+         <property name="text">
+          <string>Next</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QPushButton" name="reportUpdateButton">
+      <property name="geometry">
+       <rect>
+        <x>990</x>
+        <y>880</y>
+        <width>112</width>
+        <height>34</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Update</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="deleteClaimButton_2">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>880</y>
+        <width>112</width>
+        <height>34</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Delete</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="reportSearchButton">
+      <property name="geometry">
+       <rect>
+        <x>430</x>
+        <y>150</y>
+        <width>112</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton {
+                background-color: maroon;
+                color: white;
+                border: none;
+                border-radius: 20px;
+                padding: 8px 16px;
+            }
+            QPushButton:hover {
+                background-color: #a00000;
+            }
+            QPushButton:pressed {
+                background-color: #700000;
+            }</string>
+      </property>
+      <property name="text">
+       <string>Search</string>
+      </property>
+     </widget>
+     <widget class="QTableWidget" name="reportTable">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>200</y>
+        <width>1091</width>
+        <height>661</height>
+       </rect>
+      </property>
+      <column>
+       <property name="text">
+        <string>ItemID</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Name</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Date Lost</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Location Lost</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Reported By</string>
+       </property>
+      </column>
+     </widget>
+     <widget class="QLabel" name="label_5">
+      <property name="geometry">
+       <rect>
+        <x>330</x>
+        <y>30</y>
+        <width>551</width>
+        <height>101</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>20</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>reported items page</string>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="surrenderedItems">
+     <widget class="QPushButton" name="surrenderUpdateButton">
+      <property name="geometry">
+       <rect>
+        <x>990</x>
+        <y>880</y>
+        <width>112</width>
+        <height>34</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Update</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="surrenderSearchButton">
+      <property name="geometry">
+       <rect>
+        <x>430</x>
+        <y>150</y>
+        <width>112</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton {
+                background-color: maroon;
+                color: white;
+                border: none;
+                border-radius: 20px;
+                padding: 8px 16px;
+            }
+            QPushButton:hover {
+                background-color: #a00000;
+            }
+            QPushButton:pressed {
+                background-color: #700000;
+            }</string>
+      </property>
+      <property name="text">
+       <string>Search</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="surrenederSearchEdit">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>148</y>
+        <width>401</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QLineEdit {
+                border: 1px solid #ccc;
+                border-radius: 15px;
+                padding: 6px 12px;
+                background-color: #f9f9f9;
+            }
+            QLineEdit:focus {
+                border: 1px solid #0078d7;
+                background-color: #ffffff;
+            }</string>
+      </property>
+     </widget>
+     <widget class="QWidget" name="layoutWidget_4">
+      <property name="geometry">
+       <rect>
+        <x>390</x>
+        <y>870</y>
+        <width>341</width>
+        <height>51</height>
+       </rect>
+      </property>
+      <layout class="QHBoxLayout" name="horizontalLayout_4">
+       <item>
+        <widget class="QPushButton" name="surrenderPrev">
+         <property name="text">
+          <string>Prev</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="surrenederPageLabel">
+         <property name="text">
+          <string>Page</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="surrenderNext">
+         <property name="text">
+          <string>Next</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QTableWidget" name="surrenderTable">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>200</y>
+        <width>1091</width>
+        <height>661</height>
+       </rect>
+      </property>
+      <column>
+       <property name="text">
+        <string>ItemID</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Name</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Date Found</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Location Found</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Reported By</string>
+       </property>
+      </column>
+     </widget>
+     <widget class="QPushButton" name="surrenderDeleteButton">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>880</y>
+        <width>112</width>
+        <height>34</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Delete</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_6">
+      <property name="geometry">
+       <rect>
+        <x>320</x>
+        <y>30</y>
+        <width>421</width>
+        <height>91</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>26</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Report page</string>
+      </property>
+     </widget>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="sidebar" native="true">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>311</width>
+      <height>961</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: maroon;</string>
+    </property>
+    <layout class="QVBoxLayout" name="verticalLayout_4">
+     <property name="spacing">
+      <number>0</number>
+     </property>
+     <property name="leftMargin">
+      <number>10</number>
+     </property>
+     <property name="topMargin">
+      <number>30</number>
+     </property>
+     <property name="rightMargin">
+      <number>10</number>
+     </property>
+     <property name="bottomMargin">
+      <number>0</number>
+     </property>
+     <item>
+      <widget class="QLabel" name="label">
+       <property name="font">
+        <font>
+         <pointsize>14</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">color: rgb(255, 255, 255);</string>
+       </property>
+       <property name="text">
+        <string>     Lost and Found</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <layout class="QVBoxLayout" name="verticalLayout_3">
+       <property name="spacing">
+        <number>10</number>
+       </property>
+       <property name="topMargin">
+        <number>30</number>
+       </property>
+       <item>
+        <widget class="QPushButton" name="homeButton">
+         <property name="styleSheet">
+          <string notr="true">color: rgb(255, 255, 255);</string>
+         </property>
+         <property name="text">
+          <string>HOME</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="managePersonsButton">
+         <property name="styleSheet">
+          <string notr="true">color: rgb(255, 255, 255);</string>
+         </property>
+         <property name="text">
+          <string>MANAGE PERSONS</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="manageItemsButton">
+         <property name="styleSheet">
+          <string notr="true">color: rgb(255, 255, 255);</string>
+         </property>
+         <property name="text">
+          <string>MANAGE ITEMS</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QFrame" name="manage_items">
+         <property name="frameShape">
+          <enum>QFrame::StyledPanel</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Raised</enum>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_2">
+          <property name="spacing">
+           <number>0</number>
+          </property>
+          <property name="leftMargin">
+           <number>0</number>
+          </property>
+          <property name="topMargin">
+           <number>0</number>
+          </property>
+          <property name="rightMargin">
+           <number>0</number>
+          </property>
+          <property name="bottomMargin">
+           <number>0</number>
+          </property>
+          <item>
+           <widget class="QPushButton" name="itemHistoryButton">
+            <property name="styleSheet">
+             <string notr="true">color: rgb(255, 255, 255);</string>
+            </property>
+            <property name="text">
+             <string>ITEM HISTORY</string>
+            </property>
+            <property name="checkable">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QFrame" name="item_dropdown">
+            <property name="styleSheet">
+             <string notr="true">color: rgb(255, 255, 255);</string>
+            </property>
+            <property name="frameShape">
+             <enum>QFrame::StyledPanel</enum>
+            </property>
+            <property name="frameShadow">
+             <enum>QFrame::Raised</enum>
+            </property>
+            <layout class="QVBoxLayout" name="verticalLayout">
+             <property name="spacing">
+              <number>5</number>
+             </property>
+             <property name="leftMargin">
+              <number>0</number>
+             </property>
+             <property name="topMargin">
+              <number>0</number>
+             </property>
+             <property name="rightMargin">
+              <number>0</number>
+             </property>
+             <property name="bottomMargin">
+              <number>0</number>
+             </property>
+             <item>
+              <widget class="QPushButton" name="claimItemButton">
+               <property name="styleSheet">
+                <string notr="true">QPushButton {
+	padding-left: 5px;
+	border: none;
+}
+QPushButton:hover {
+    color: yellow; 
+}</string>
+               </property>
+               <property name="text">
+                <string>Claimed</string>
+               </property>
+               <property name="checkable">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="reportItemButton">
+               <property name="styleSheet">
+                <string notr="true">QPushButton {
+	padding-left: 20px;
+	border: none;
+}
+QPushButton:hover {
+    color: yellow; 
+}</string>
+               </property>
+               <property name="text">
+                <string>Reported</string>
+               </property>
+               <property name="checkable">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="surrenderItemButton">
+               <property name="styleSheet">
+                <string notr="true">QPushButton {
+	padding-left: 45px;
+	border: none;
+}
+QPushButton:hover {
+    color: yellow; 
+}</string>
+               </property>
+               <property name="text">
+                <string>Surrendered</string>
+               </property>
+               <property name="checkable">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <spacer name="verticalSpacer">
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>20</width>
+         <height>614</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+    </layout>
+   </widget>
+  </widget>
+ </widget>
+ <resources>
+  <include location="resources.qrc"/>
+ </resources>
+ <connections>
+  <connection>
+   <sender>itemHistoryButton</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>item_dropdown</receiver>
+   <slot>setHidden(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>626</x>
+     <y>267</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>687</x>
+     <y>411</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>
