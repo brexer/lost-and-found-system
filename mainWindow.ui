@@ -28,7 +28,7 @@
 </string>
     </property>
     <property name="currentIndex">
-     <number>2</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="homePage">
      <widget class="QLabel" name="label_2">
@@ -49,10 +49,10 @@
        <string>THIS IS THE HOME PAGE</string>
       </property>
      </widget>
-     <widget class="QPushButton" name="pushButton_4">
+     <widget class="QPushButton" name="addReportItemButton">
       <property name="geometry">
        <rect>
-        <x>460</x>
+        <x>280</x>
         <y>380</y>
         <width>251</width>
         <height>141</height>
@@ -75,6 +75,34 @@
       </property>
       <property name="text">
        <string>Add Report</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="addSurrenderItemButton">
+      <property name="geometry">
+       <rect>
+        <x>560</x>
+        <y>380</y>
+        <width>251</width>
+        <height>141</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton {
+                background-color: maroon;
+                color: white;
+                border: none;
+                border-radius: 20px;
+                padding: 8px 16px;
+            }
+            QPushButton:hover {
+                background-color: #a00000;
+            }
+            QPushButton:pressed {
+                background-color: #700000;
+            }</string>
+      </property>
+      <property name="text">
+       <string>Add Surrender</string>
       </property>
      </widget>
     </widget>
@@ -213,7 +241,7 @@
        <string>Search</string>
       </property>
      </widget>
-     <widget class="QWidget" name="">
+     <widget class="QWidget" name="layoutWidget">
       <property name="geometry">
        <rect>
         <x>390</x>

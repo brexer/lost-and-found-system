@@ -1,7 +1,9 @@
 import sys
 
-from PyQt5.QtWidgets import QApplication, QPushButton, QMainWindow
+from PyQt5.QtWidgets import QApplication, QPushButton, QMainWindow, QDialog
 from mainWindow import Ui_MainWindow
+from reportItem import Ui_ReportItemDialog
+from surrenderItem import Ui_SurrenderItemDialog
 
 class MainClass(QMainWindow, Ui_MainWindow):
     def __init__(self):
@@ -16,6 +18,23 @@ class MainClass(QMainWindow, Ui_MainWindow):
         self.claimItemButton.clicked.connect(self.goClaimedItemsPage)
         self.reportItemButton.clicked.connect(self.goReportedItemsPage)
         self.surrenderItemButton.clicked.connect(self.goSurrenderedItemsPage)
+
+        # Homepage Button connections
+        self.addReportItemButton.clicked.connect(self.addReportedItem)
+        self.addSurrenderItemButton.clicked.connect(self.addSurrenderedItem)
+
+    # Connections to add and surrender item
+    def addReportedItem(self):
+        reportItem = ReportItemDialog(self)
+        if reportItem.exec_():
+            pass
+
+    def addSurrenderedItem(self):
+        surrenderItem = SurrenderItemDialog(self)
+        if surrenderItem.exec_():
+            pass
+
+    # connections of main pages
 
     def goHomePage(self):
         self.pageShown = 0
@@ -40,6 +59,50 @@ class MainClass(QMainWindow, Ui_MainWindow):
     def goSurrenderedItemsPage(self):
         self.pageShown = 5
         self.stackedWidget.setCurrentIndex(5)
+
+class ReportItemDialog(QDialog, Ui_ReportItemDialog):
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self.setupUi(self)
+        self.stackedWidget.setCurrentIndex(0)
+
+        self.nextButton.clicked.connect(self.goToPerson)
+        self.confirmButton.clicked.connect(self.validateInput)
+        self.backButton.clicked.connect(self.goBack)
+
+        self.cancelButton.clicked.connect(self.reject)
+        self.cancelButton_2.clicked.connect(self.reject)
+
+    def goBack(self):
+        self.stackedWidget.setCurrentIndex(0)
+
+    def goToPerson(self):
+        self.stackedWidget.setCurrentIndex(1)
+
+    def validateInput(self):
+        pass
+
+class SurrenderItemDialog(QDialog, Ui_SurrenderItemDialog):
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self.setupUi(self)
+        self.stackedWidget.setCurrentIndex(0)
+
+        self.nextButton.clicked.connect(self.goToPerson)
+        self.confirmButton.clicked.connect(self.validateInput)
+        self.backButton.clicked.connect(self.goBack)
+
+        self.cancelButton.clicked.connect(self.reject)
+        self.cancelButton_2.clicked.connect(self.reject)
+
+    def goBack(self):
+        self.stackedWidget.setCurrentIndex(0)
+
+    def goToPerson(self):
+        self.stackedWidget.setCurrentIndex(1)
+
+    def validateInput(self):
+        pass
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)

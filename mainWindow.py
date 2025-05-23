@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'prototype.ui'
+# Form implementation generated from reading ui file 'mainWindow.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.11
 #
@@ -30,9 +30,9 @@ class Ui_MainWindow(object):
         font.setPointSize(20)
         self.label_2.setFont(font)
         self.label_2.setObjectName("label_2")
-        self.pushButton_4 = QtWidgets.QPushButton(self.homePage)
-        self.pushButton_4.setGeometry(QtCore.QRect(460, 380, 251, 141))
-        self.pushButton_4.setStyleSheet("QPushButton {\n"
+        self.addReportItemButton = QtWidgets.QPushButton(self.homePage)
+        self.addReportItemButton.setGeometry(QtCore.QRect(280, 380, 251, 141))
+        self.addReportItemButton.setStyleSheet("QPushButton {\n"
 "                background-color: maroon;\n"
 "                color: white;\n"
 "                border: none;\n"
@@ -45,7 +45,23 @@ class Ui_MainWindow(object):
 "            QPushButton:pressed {\n"
 "                background-color: #700000;\n"
 "            }")
-        self.pushButton_4.setObjectName("pushButton_4")
+        self.addReportItemButton.setObjectName("addReportItemButton")
+        self.addSurrenderItemButton = QtWidgets.QPushButton(self.homePage)
+        self.addSurrenderItemButton.setGeometry(QtCore.QRect(560, 380, 251, 141))
+        self.addSurrenderItemButton.setStyleSheet("QPushButton {\n"
+"                background-color: maroon;\n"
+"                color: white;\n"
+"                border: none;\n"
+"                border-radius: 20px;\n"
+"                padding: 8px 16px;\n"
+"            }\n"
+"            QPushButton:hover {\n"
+"                background-color: #a00000;\n"
+"            }\n"
+"            QPushButton:pressed {\n"
+"                background-color: #700000;\n"
+"            }")
+        self.addSurrenderItemButton.setObjectName("addSurrenderItemButton")
         self.stackedWidget.addWidget(self.homePage)
         self.managePersonsPage = QtWidgets.QWidget()
         self.managePersonsPage.setObjectName("managePersonsPage")
@@ -107,19 +123,19 @@ class Ui_MainWindow(object):
 "                background-color: #700000;\n"
 "            }")
         self.personSearchButton.setObjectName("personSearchButton")
-        self.widget = QtWidgets.QWidget(self.managePersonsPage)
-        self.widget.setGeometry(QtCore.QRect(390, 870, 341, 51))
-        self.widget.setObjectName("widget")
-        self.horizontalLayout = QtWidgets.QHBoxLayout(self.widget)
+        self.layoutWidget = QtWidgets.QWidget(self.managePersonsPage)
+        self.layoutWidget.setGeometry(QtCore.QRect(390, 870, 341, 51))
+        self.layoutWidget.setObjectName("layoutWidget")
+        self.horizontalLayout = QtWidgets.QHBoxLayout(self.layoutWidget)
         self.horizontalLayout.setContentsMargins(0, 0, 0, 0)
         self.horizontalLayout.setObjectName("horizontalLayout")
-        self.personPrev = QtWidgets.QPushButton(self.widget)
+        self.personPrev = QtWidgets.QPushButton(self.layoutWidget)
         self.personPrev.setObjectName("personPrev")
         self.horizontalLayout.addWidget(self.personPrev)
-        self.personPageLabel = QtWidgets.QLabel(self.widget)
+        self.personPageLabel = QtWidgets.QLabel(self.layoutWidget)
         self.personPageLabel.setObjectName("personPageLabel")
         self.horizontalLayout.addWidget(self.personPageLabel)
-        self.personNext = QtWidgets.QPushButton(self.widget)
+        self.personNext = QtWidgets.QPushButton(self.layoutWidget)
         self.personNext.setObjectName("personNext")
         self.horizontalLayout.addWidget(self.personNext)
         self.stackedWidget.addWidget(self.managePersonsPage)
@@ -510,7 +526,7 @@ class Ui_MainWindow(object):
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
-        self.stackedWidget.setCurrentIndex(2)
+        self.stackedWidget.setCurrentIndex(0)
         self.itemHistoryButton.toggled['bool'].connect(self.item_dropdown.setHidden) # type: ignore
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
@@ -518,7 +534,8 @@ class Ui_MainWindow(object):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
         self.label_2.setText(_translate("MainWindow", "THIS IS THE HOME PAGE"))
-        self.pushButton_4.setText(_translate("MainWindow", "Add Report"))
+        self.addReportItemButton.setText(_translate("MainWindow", "Add Report"))
+        self.addSurrenderItemButton.setText(_translate("MainWindow", "Add Surrender"))
         self.label_3.setText(_translate("MainWindow", "this is the person management page"))
         item = self.personTable.horizontalHeaderItem(0)
         item.setText(_translate("MainWindow", "PersonID"))
