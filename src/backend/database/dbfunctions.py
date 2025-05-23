@@ -309,3 +309,50 @@ def can_claim(item_id):
         conn.close()
         return status != 'Claimed'
 
+def get_item_history(item_id):
+    conn = database.create_connection()
+    cursor = conn.cursor(dictionary=True)
+
+    try:
+        cursor.execute("SELECT * FROM ReportedItems WHERE ItemID = %s", (item_id,))
+        reported = cursor.fetchone()
+
+        cursor.execute("SELECT * FROM SurrenderedItems WHERE ItemID = %s", (item_id,))
+        surrendered = cursor.fetchone()
+
+        return {
+            "Reported": reported,      #kani gamiton for history
+            "Surrendered": surrendered #kani gamiton for history
+        }
+
+    except Exception as e:
+        print("Error:", e)
+        return None
+
+    finally:
+        cursor.close()
+        conn.close()
+
+def merge_items(source_item_id, target_item_id):
+    conn = database.create_connection()
+    cursor = conn.cursor()
+
+    try:
+        # move reporteditems to 
+        cursor.execute("""
+            UPDATE ReportedItems
+            SET ItemID = %s
+            WHERE ItemID = %s
+        """, (target_item_id, source_item_id))
+
+        # delete old item
+        cursor.execute("DELETE FROM Items WHERE ItemID = %s", (source_item_id,))
+
+        conn.commit()
+        print("Items merged successfully.")
+    except Exception as e:
+        print("Error during merge:", e)
+        conn.rollback()
+    finally:
+        cursor.close()
+        conn.close()
