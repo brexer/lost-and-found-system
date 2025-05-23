@@ -3,7 +3,7 @@
 ################################################################################
 ## Form generated from reading UI file 'main_window.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.9.0
+## Created by: Qt User Interface Compiler version 6.8.2
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -35,7 +35,7 @@ class Ui_MainWindow(object):
         self.horizontalLayout.setContentsMargins(0, 0, 0, 0)
         self.sidebar = QWidget(self.centralwidget)
         self.sidebar.setObjectName(u"sidebar")
-        sizePolicy = QSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Preferred)
+        sizePolicy = QSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Fixed)
         sizePolicy.setHorizontalStretch(2)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.sidebar.sizePolicy().hasHeightForWidth())
@@ -50,13 +50,13 @@ class Ui_MainWindow(object):
         self.verticalLayout_3.setSpacing(14)
         self.verticalLayout_3.setObjectName(u"verticalLayout_3")
         self.verticalLayout_3.setContentsMargins(-1, 0, 0, -1)
-        self.label_3 = QLabel(self.sidebar)
-        self.label_3.setObjectName(u"label_3")
+        self.LostandFound = QLabel(self.sidebar)
+        self.LostandFound.setObjectName(u"LostandFound")
         sizePolicy1 = QSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Fixed)
         sizePolicy1.setHorizontalStretch(0)
         sizePolicy1.setVerticalStretch(0)
-        sizePolicy1.setHeightForWidth(self.label_3.sizePolicy().hasHeightForWidth())
-        self.label_3.setSizePolicy(sizePolicy1)
+        sizePolicy1.setHeightForWidth(self.LostandFound.sizePolicy().hasHeightForWidth())
+        self.LostandFound.setSizePolicy(sizePolicy1)
         font = QFont()
         font.setFamilies([u"Century Gothic"])
         font.setPointSize(14)
@@ -64,11 +64,11 @@ class Ui_MainWindow(object):
         font.setUnderline(False)
         font.setStrikeOut(False)
         font.setKerning(True)
-        self.label_3.setFont(font)
-        self.label_3.setMargin(5)
-        self.label_3.setIndent(-1)
+        self.LostandFound.setFont(font)
+        self.LostandFound.setMargin(5)
+        self.LostandFound.setIndent(-1)
 
-        self.verticalLayout_3.addWidget(self.label_3)
+        self.verticalLayout_3.addWidget(self.LostandFound)
 
         self.homeButton = QPushButton(self.sidebar)
         self.homeButton.setObjectName(u"homeButton")
@@ -160,23 +160,13 @@ class Ui_MainWindow(object):
         self.verticalLayout.setSpacing(0)
         self.verticalLayout.setObjectName(u"verticalLayout")
         self.verticalLayout.setContentsMargins(0, 0, 0, 0)
-        self.topbar = QWidget(self.widget_2)
-        self.topbar.setObjectName(u"topbar")
-        sizePolicy3 = QSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Preferred)
-        sizePolicy3.setHorizontalStretch(0)
-        sizePolicy3.setVerticalStretch(1)
-        sizePolicy3.setHeightForWidth(self.topbar.sizePolicy().hasHeightForWidth())
-        self.topbar.setSizePolicy(sizePolicy3)
-
-        self.verticalLayout.addWidget(self.topbar)
-
         self.widget_3 = QWidget(self.widget_2)
         self.widget_3.setObjectName(u"widget_3")
-        sizePolicy4 = QSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Preferred)
-        sizePolicy4.setHorizontalStretch(0)
-        sizePolicy4.setVerticalStretch(14)
-        sizePolicy4.setHeightForWidth(self.widget_3.sizePolicy().hasHeightForWidth())
-        self.widget_3.setSizePolicy(sizePolicy4)
+        sizePolicy3 = QSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Preferred)
+        sizePolicy3.setHorizontalStretch(0)
+        sizePolicy3.setVerticalStretch(14)
+        sizePolicy3.setHeightForWidth(self.widget_3.sizePolicy().hasHeightForWidth())
+        self.widget_3.setSizePolicy(sizePolicy3)
         self.verticalLayout_2 = QVBoxLayout(self.widget_3)
         self.verticalLayout_2.setObjectName(u"verticalLayout_2")
         self.stackedWidget = QStackedWidget(self.widget_3)
@@ -725,7 +715,7 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"MainWindow", None))
-        self.label_3.setText(QCoreApplication.translate("MainWindow", u"Lost and Found", None))
+        self.LostandFound.setText(QCoreApplication.translate("MainWindow", u"Lost and Found", None))
         self.homeButton.setText(QCoreApplication.translate("MainWindow", u"Home", None))
         self.lostButton.setText(QCoreApplication.translate("MainWindow", u"Lost Items", None))
         self.foundButton.setText(QCoreApplication.translate("MainWindow", u"Found Items", None))
@@ -763,16 +753,5 @@ class Ui_MainWindow(object):
         self.lostButton_2.setText(QCoreApplication.translate("MainWindow", u"Lost", None))
         self.foundButton_2.setText(QCoreApplication.translate("MainWindow", u"Found", None))
         self.label_9.setText(QCoreApplication.translate("MainWindow", u"Manage Persons (accessible by admin)", None))
+    # retranslateUi
 
-        self.homeButton.clicked.connect(lambda: self.stackedWidget.setCurrentWidget(self.homePage))
-        self.lostButton.clicked.connect(lambda: self.stackedWidget.setCurrentWidget(self.ReportedItems))
-        self.foundButton.clicked.connect(lambda: self.stackedWidget.setCurrentWidget(self.SurrenderedItems))
-        self.claimedButton.clicked.connect(lambda: self.stackedWidget.setCurrentWidget(self.ClaimedItems))
-        self.reportButton.clicked.connect(lambda: self.stackedWidget.setCurrentWidget(self.myreportPage))
-        self.manageButton.clicked.connect(lambda: self.stackedWidget.setCurrentWidget(self.ManagePersons))
-        self.exitButton.clicked.connect(MainWindow.close)
-        
-        self.sidebar = QWidget(self.centralwidget)
-        self.sidebar.setObjectName(u"sidebar")
-        self.sidebar.setMinimumWidth(220) 
-        self.sidebar.setMaximumWidth(220)
