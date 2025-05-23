@@ -19,3 +19,4 @@ def claim_item(item_id, person_id, date_claimed):
         return False
     dbfunctions.claim_item(item_id, date_claimed, person_id)
     return True
+

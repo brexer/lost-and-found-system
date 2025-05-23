@@ -256,6 +256,20 @@ def delete_item(item_id):
                 cursor.close()
                 conn.close()
 
+def get_all_persons():
+        conn = database.create_connection()
+        cursor = conn.cursor()
+
+        query = """
+                SELECT PersonID, FirstName, LastName, PhoneNumber, Department, ProofID
+                FROM Persons
+"""
+        cursor.execute(query)
+        list = cursor.fetchall()
+        cursor.close()
+        conn.close()
+        return list
+
 # list of all items
 def get_all_items():
         conn = database.create_connection()
@@ -287,27 +301,11 @@ def can_claim(item_id):
         conn = database.create_connection()
         cursor = conn.cursor()
 
-        cursor.execute("SELECT Status FROM Items WHERE ItemID = %s", (item_id))
+        cursor.execute("SELECT Status FROM Items WHERE ItemID = %s", (item_id,))
         result = cursor.fetchone()
         status = result[0]
         
         cursor.close()
         conn.close()
         return status != 'Claimed'
-
-def load_reported_items(table_widget):
-    all_items = dbfunctions.get_all_items()
-    reported_items = [item for item in all_items if item[4] == "Unclaimed"]
-
-    table = table_widget
-    table.setRowCount(0)
-    table.setColumnCount(8)
-    table.setHorizontalHeaderLabels([
-        "Item ID", "Category", "Name", "Description", "Status", "Location", "Date", "Reported By"
-    ])
-    
-    for row_num, item in enumerate(reported_items):
-        table.insertRow(row_num)
-        for col, value in enumerate(item):
-            table.setItem(row_num, col, QtWidgets.QTableWidgetItem(str(value)))
 
