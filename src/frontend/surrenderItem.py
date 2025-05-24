@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'reportItem.ui'
+# Form implementation generated from reading ui file 'surrenderItem.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.11
 #
@@ -11,11 +11,11 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 
 
-class Ui_ReportItemDialog(object):
-    def setupUi(self, ReportItemDialog):
-        ReportItemDialog.setObjectName("ReportItemDialog")
-        ReportItemDialog.resize(599, 682)
-        self.stackedWidget = QtWidgets.QStackedWidget(ReportItemDialog)
+class Ui_SurrenderItemDialog(object):
+    def setupUi(self, SurrenderItemDialog):
+        SurrenderItemDialog.setObjectName("SurrenderItemDialog")
+        SurrenderItemDialog.resize(599, 682)
+        self.stackedWidget = QtWidgets.QStackedWidget(SurrenderItemDialog)
         self.stackedWidget.setGeometry(QtCore.QRect(0, 0, 601, 681))
         self.stackedWidget.setStyleSheet("background-color: rgb(255, 255, 255);")
         self.stackedWidget.setObjectName("stackedWidget")
@@ -57,14 +57,6 @@ class Ui_ReportItemDialog(object):
         font.setPointSize(12)
         self.label_4.setFont(font)
         self.label_4.setObjectName("label_4")
-        self.dateLostEdit = QtWidgets.QLineEdit(self.itemPage)
-        self.dateLostEdit.setGeometry(QtCore.QRect(20, 370, 271, 41))
-        self.dateLostEdit.setStyleSheet("QLineEdit {\n"
-"        border: 2px solid #ccc;\n"
-"        border-radius: 10px;\n"
-"        padding: 5px;\n"
-"    }")
-        self.dateLostEdit.setObjectName("dateLostEdit")
         self.locationLostEdit = QtWidgets.QLineEdit(self.itemPage)
         self.locationLostEdit.setGeometry(QtCore.QRect(310, 370, 271, 41))
         self.locationLostEdit.setStyleSheet("QLineEdit {\n"
@@ -142,7 +134,7 @@ class Ui_ReportItemDialog(object):
         self.frame_2.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame_2.setObjectName("frame_2")
         self.label_11 = QtWidgets.QLabel(self.frame_2)
-        self.label_11.setGeometry(QtCore.QRect(160, 0, 291, 81))
+        self.label_11.setGeometry(QtCore.QRect(130, 0, 351, 81))
         font = QtGui.QFont()
         font.setPointSize(18)
         font.setBold(True)
@@ -150,6 +142,12 @@ class Ui_ReportItemDialog(object):
         self.label_11.setFont(font)
         self.label_11.setStyleSheet("color: rgb(255, 255, 255);")
         self.label_11.setObjectName("label_11")
+        self.dateTimeEdit = QtWidgets.QDateTimeEdit(self.itemPage)
+        self.dateTimeEdit.setGeometry(QtCore.QRect(20, 370, 271, 41))
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        self.dateTimeEdit.setFont(font)
+        self.dateTimeEdit.setObjectName("dateTimeEdit")
         self.stackedWidget.addWidget(self.itemPage)
         self.personPage = QtWidgets.QWidget()
         self.personPage.setObjectName("personPage")
@@ -268,7 +266,7 @@ class Ui_ReportItemDialog(object):
         self.frame.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame.setObjectName("frame")
         self.label = QtWidgets.QLabel(self.frame)
-        self.label.setGeometry(QtCore.QRect(160, 0, 291, 81))
+        self.label.setGeometry(QtCore.QRect(130, 0, 341, 81))
         font = QtGui.QFont()
         font.setPointSize(18)
         font.setBold(True)
@@ -293,42 +291,42 @@ class Ui_ReportItemDialog(object):
         self.backButton.setObjectName("backButton")
         self.stackedWidget.addWidget(self.personPage)
 
-        self.retranslateUi(ReportItemDialog)
-        self.stackedWidget.setCurrentIndex(1)
-        QtCore.QMetaObject.connectSlotsByName(ReportItemDialog)
+        self.retranslateUi(SurrenderItemDialog)
+        self.stackedWidget.setCurrentIndex(0)
+        QtCore.QMetaObject.connectSlotsByName(SurrenderItemDialog)
 
-    def retranslateUi(self, ReportItemDialog):
+    def retranslateUi(self, SurrenderItemDialog):
         _translate = QtCore.QCoreApplication.translate
-        ReportItemDialog.setWindowTitle(_translate("ReportItemDialog", "Dialog"))
-        self.label_2.setText(_translate("ReportItemDialog", "Item Details"))
-        self.label_3.setText(_translate("ReportItemDialog", "Name"))
-        self.label_4.setText(_translate("ReportItemDialog", "Description"))
-        self.label_5.setText(_translate("ReportItemDialog", "Date Lost"))
-        self.label_6.setText(_translate("ReportItemDialog", "Location Lost"))
-        self.label_7.setText(_translate("ReportItemDialog", "Description"))
-        self.nextButton.setText(_translate("ReportItemDialog", "Next"))
-        self.cancelButton.setText(_translate("ReportItemDialog", "Cancel"))
-        self.label_11.setText(_translate("ReportItemDialog", "Report an Item"))
-        self.label_8.setText(_translate("ReportItemDialog", "Proof ID"))
-        self.phoneNumberEdit.setPlaceholderText(_translate("ReportItemDialog", "e.g. 09123456789"))
-        self.cancelButton_2.setText(_translate("ReportItemDialog", "Cancel"))
-        self.label_9.setText(_translate("ReportItemDialog", "Name"))
-        self.label_10.setText(_translate("ReportItemDialog", "Phone Number"))
-        self.firstNameEdit.setPlaceholderText(_translate("ReportItemDialog", "First Name"))
-        self.confirmButton.setText(_translate("ReportItemDialog", "Confirm"))
-        self.label_12.setText(_translate("ReportItemDialog", "Department"))
-        self.departmentEdit.setPlaceholderText(_translate("ReportItemDialog", "e.g. BSCS"))
-        self.label_13.setText(_translate("ReportItemDialog", "Person Details"))
-        self.lastNameEdit.setPlaceholderText(_translate("ReportItemDialog", "Last Name"))
-        self.label.setText(_translate("ReportItemDialog", "Report an Item"))
-        self.backButton.setText(_translate("ReportItemDialog", "B"))
+        SurrenderItemDialog.setWindowTitle(_translate("SurrenderItemDialog", "Dialog"))
+        self.label_2.setText(_translate("SurrenderItemDialog", "Item Details"))
+        self.label_3.setText(_translate("SurrenderItemDialog", "Name"))
+        self.label_4.setText(_translate("SurrenderItemDialog", "Description"))
+        self.label_5.setText(_translate("SurrenderItemDialog", "Date Found"))
+        self.label_6.setText(_translate("SurrenderItemDialog", "Location Found"))
+        self.label_7.setText(_translate("SurrenderItemDialog", "Description"))
+        self.nextButton.setText(_translate("SurrenderItemDialog", "Next"))
+        self.cancelButton.setText(_translate("SurrenderItemDialog", "Cancel"))
+        self.label_11.setText(_translate("SurrenderItemDialog", "Surrender an Item"))
+        self.label_8.setText(_translate("SurrenderItemDialog", "Proof ID"))
+        self.phoneNumberEdit.setPlaceholderText(_translate("SurrenderItemDialog", "e.g. 09123456789"))
+        self.cancelButton_2.setText(_translate("SurrenderItemDialog", "Cancel"))
+        self.label_9.setText(_translate("SurrenderItemDialog", "Name"))
+        self.label_10.setText(_translate("SurrenderItemDialog", "Phone Number"))
+        self.firstNameEdit.setPlaceholderText(_translate("SurrenderItemDialog", "First Name"))
+        self.confirmButton.setText(_translate("SurrenderItemDialog", "Confirm"))
+        self.label_12.setText(_translate("SurrenderItemDialog", "Department"))
+        self.departmentEdit.setPlaceholderText(_translate("SurrenderItemDialog", "e.g. BSCS"))
+        self.label_13.setText(_translate("SurrenderItemDialog", "Person Details"))
+        self.lastNameEdit.setPlaceholderText(_translate("SurrenderItemDialog", "Last Name"))
+        self.label.setText(_translate("SurrenderItemDialog", "Surrender an Item"))
+        self.backButton.setText(_translate("SurrenderItemDialog", "B"))
 
 
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
-    ReportItemDialog = QtWidgets.QDialog()
-    ui = Ui_ReportItemDialog()
-    ui.setupUi(ReportItemDialog)
-    ReportItemDialog.show()
+    SurrenderItemDialog = QtWidgets.QDialog()
+    ui = Ui_SurrenderItemDialog()
+    ui.setupUi(SurrenderItemDialog)
+    SurrenderItemDialog.show()
     sys.exit(app.exec_())

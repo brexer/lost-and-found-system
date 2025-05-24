@@ -49,10 +49,10 @@ def load_claimed_items(table_widget):
         for col, value in enumerate(item):
             table.setItem(row_num, col, QtWidgets.QTableWidgetItem(str(value)))
 
-def load_persons(table_widget):
+def load_persons(personTable):
     persons = dbfunctions.get_all_persons()
 
-    table = table_widget # pa change to persons table widget pls
+    table = personTable # pa change to persons table widget pls
     table.setRowCount(0)
     table.setColumnCount(6)
     table.setHorizontalHeaderLabels([
