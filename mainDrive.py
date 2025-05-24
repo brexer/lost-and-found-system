@@ -2,9 +2,9 @@ import sys
 import traceback
 
 from PyQt5.QtWidgets import QApplication, QPushButton, QMainWindow, QDialog, QTableWidgetItem, QTableWidget
-from src.frontend.ui_update.mainWindow_ui import Ui_MainWindow
-from src.frontend.ui_update.reportItem import Ui_ReportItemDialog
-from src.frontend.ui_update.surrenderItem import Ui_SurrenderItemDialog
+from src.frontend.mainWindow_ui import Ui_MainWindow
+from src.frontend.reportItem import Ui_ReportItemDialog
+from src.frontend.surrenderItem import Ui_SurrenderItemDialog
 
 import mysql.connector
 from mysql.connector import Error

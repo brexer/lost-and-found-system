@@ -1,4 +1,4 @@
-import database
+from src.backend.database import database
 
 def add_person(person_id, first_name, last_name, person_contact, person_department, proof_id):
         conn = database.create_connection()
