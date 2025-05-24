@@ -101,53 +101,39 @@ def claim_item(item_id, date_claimed, person_id):
         return False
 
     try:
-        # get orig info from reported/surrendered items
+        # Check if item exists in ReportedItems
         cursor.execute("""
-            SELECT PersonID, DateLost, LocationLost
-            FROM ReportedItems
-            WHERE ItemID = %s
+            SELECT 1 FROM ReportedItems WHERE ItemID = %s
         """, (item_id,))
-        reported = cursor.fetchone()
+        reported_exists = cursor.fetchone() is not None
 
-        if reported:
-            source = "Reported"
-            original_person_id, original_date, original_location = reported
-        else:
-            cursor.execute("""
-                SELECT PersonID, DateFound, LocationFound
-                FROM SurrenderedItems
-                WHERE ItemID = %s
-            """, (item_id,))
-            surrendered = cursor.fetchone()
+        # Check if item exists in SurrenderedItems
+        cursor.execute("""
+            SELECT 1 FROM SurrenderedItems WHERE ItemID = %s
+        """, (item_id,))
+        surrendered_exists = cursor.fetchone() is not None
 
-            if not surrendered:
-                print("Error: Item not found in reported or surrendered.")
-                return False
+        if not reported_exists and not surrendered_exists:
+            print("Error: Item not found in reported or surrendered.")
+            return False
 
-            source = "Surrendered"
-            original_person_id, original_date, original_location = surrendered
-
+        # Insert into ClaimedItems (only allowed columns)
         cursor.execute("""
             INSERT INTO ClaimedItems (
-                ItemID, DateClaimed, PersonID,
-                Source, OriginalPersonID, OriginalDate, OriginalLocation
+                ItemID, DateClaimed, PersonID
             )
-            VALUES (%s, %s, %s, %s, %s, %s, %s)
-        """, (
-            item_id, date_claimed, person_id,
-            source, original_person_id, original_date, original_location
-        ))
+            VALUES (%s, %s, %s)
+        """, (item_id, date_claimed, person_id))
 
-        # Update status
+        # Update item status
         cursor.execute("""
             UPDATE Items
             SET Status = 'Claimed'
             WHERE ItemID = %s
         """, (item_id,))
 
-
         conn.commit()
-        print(f"Item {item_id} successfully claimed from {source}.")
+        print(f"Item {item_id} successfully claimed.")
         return True
 
     except Exception as e:
