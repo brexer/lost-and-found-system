@@ -1,15 +1,24 @@
 import sys
+import traceback
 
-from PyQt5.QtWidgets import QApplication, QPushButton, QMainWindow, QDialog
-from mainWindow import Ui_MainWindow
-from reportItem import Ui_ReportItemDialog
-from surrenderItem import Ui_SurrenderItemDialog
+from PyQt5.QtWidgets import QApplication, QPushButton, QMainWindow, QDialog, QTableWidgetItem, QTableWidget
+from src.frontend.ui_update.mainWindow_ui import Ui_MainWindow
+from src.frontend.ui_update.reportItem import Ui_ReportItemDialog
+from src.frontend.ui_update.surrenderItem import Ui_SurrenderItemDialog
+
+import mysql.connector
+from mysql.connector import Error
+import src.backend.database.database as db
+import src.backend.database.dbfunctions as dbf
+# import src.backend.database.dbfunctions as dbf
+
 
 class MainClass(QMainWindow, Ui_MainWindow):
     def __init__(self):
         super().__init__()
         self.setupUi(self)
         self.setWindowTitle("Lost and Found Management System")
+
 
         self.pageShown = 0
         self.homeButton.clicked.connect(self.goHomePage)
@@ -20,8 +29,7 @@ class MainClass(QMainWindow, Ui_MainWindow):
         self.surrenderItemButton.clicked.connect(self.goSurrenderedItemsPage)
 
         # Homepage Button connections
-        self.addReportItemButton.clicked.connect(self.addReportedItem)
-        self.addSurrenderItemButton.clicked.connect(self.addSurrenderedItem)
+        self.reportItem.clicked.connect(self.addReportedItem)
 
     # Connections to add and surrender item
     def addReportedItem(self):
@@ -43,6 +51,7 @@ class MainClass(QMainWindow, Ui_MainWindow):
     def goManagePersonsPage(self):
         self.pageShown = 1
         self.stackedWidget.setCurrentIndex(1)
+        self.loadPersonData()
 
     def goManageItemsPage(self):
         self.pageshown = 2
