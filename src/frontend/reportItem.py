@@ -57,14 +57,6 @@ class Ui_ReportItemDialog(object):
         font.setPointSize(12)
         self.label_4.setFont(font)
         self.label_4.setObjectName("label_4")
-        self.dateLostEdit = QtWidgets.QLineEdit(self.itemPage)
-        self.dateLostEdit.setGeometry(QtCore.QRect(20, 370, 271, 41))
-        self.dateLostEdit.setStyleSheet("QLineEdit {\n"
-"        border: 2px solid #ccc;\n"
-"        border-radius: 10px;\n"
-"        padding: 5px;\n"
-"    }")
-        self.dateLostEdit.setObjectName("dateLostEdit")
         self.locationLostEdit = QtWidgets.QLineEdit(self.itemPage)
         self.locationLostEdit.setGeometry(QtCore.QRect(310, 370, 271, 41))
         self.locationLostEdit.setStyleSheet("QLineEdit {\n"
@@ -150,6 +142,12 @@ class Ui_ReportItemDialog(object):
         self.label_11.setFont(font)
         self.label_11.setStyleSheet("color: rgb(255, 255, 255);")
         self.label_11.setObjectName("label_11")
+        self.dateTimeEdit = QtWidgets.QDateTimeEdit(self.itemPage)
+        self.dateTimeEdit.setGeometry(QtCore.QRect(20, 370, 271, 41))
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        self.dateTimeEdit.setFont(font)
+        self.dateTimeEdit.setObjectName("dateTimeEdit")
         self.stackedWidget.addWidget(self.itemPage)
         self.personPage = QtWidgets.QWidget()
         self.personPage.setObjectName("personPage")
@@ -294,7 +292,7 @@ class Ui_ReportItemDialog(object):
         self.stackedWidget.addWidget(self.personPage)
 
         self.retranslateUi(ReportItemDialog)
-        self.stackedWidget.setCurrentIndex(1)
+        self.stackedWidget.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(ReportItemDialog)
 
     def retranslateUi(self, ReportItemDialog):
