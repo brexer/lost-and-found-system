@@ -1,11 +1,13 @@
 import mysql.connector
 from mysql.connector import Error
+from dotenv import load_dotenv
+import os
 
 db_config = {
-    'host': 'localhost',
-    'user': 'root',
-    'password': 'admin',
-    'database': 'lafsystemdb',
+    'host': os.getenv('DB_HOST'),
+    'user': os.getenv('DB_USER'),
+    'password': os.getenv('DB_PASSWORD'),
+    'database': os.getenv('DB_NAME')
 }
 
 def create_connection():
@@ -18,9 +20,9 @@ def create_connection():
 
 def create_database():
     conn = mysql.connector.connect(
-        host="localhost",
-        user="root",
-        password="admin"
+        host= os.getenv('DB_HOST'),
+        user=os.getenv('DB_USER'),
+        password=os.getenv('DB_PASSWORD')
     )
     cursor = conn.cursor()
     cursor.execute("CREATE DATABASE IF NOT EXISTS lafsystemdb")
