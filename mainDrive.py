@@ -5,6 +5,7 @@ from PyQt5.QtWidgets import QApplication, QPushButton, QMainWindow, QDialog, QTa
 from src.frontend.mainWindow_ui import Ui_MainWindow
 from src.frontend.reportItem import Ui_ReportItemDialog
 from src.frontend.surrenderItem import Ui_SurrenderItemDialog
+from src.backend.utils import load_functions as load
 
 import mysql.connector
 from mysql.connector import Error
@@ -18,6 +19,8 @@ class MainClass(QMainWindow, Ui_MainWindow):
         super().__init__()
         self.setupUi(self)
         self.setWindowTitle("Lost and Found Management System")
+
+        db.initialize_database()
 
 
         self.pageShown = 0
@@ -51,7 +54,7 @@ class MainClass(QMainWindow, Ui_MainWindow):
     def goManagePersonsPage(self):
         self.pageShown = 1
         self.stackedWidget.setCurrentIndex(1)
-        self.loadPersonData()
+        load.load_persons(self.personTable)
 
     def goManageItemsPage(self):
         self.pageshown = 2
