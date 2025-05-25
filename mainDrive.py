@@ -33,10 +33,7 @@ class MainClass(QMainWindow, Ui_MainWindow):
         self.claimItemButton.clicked.connect(self.goClaimedItemsPage)
         self.reportItemButton.clicked.connect(self.goReportedItemsPage)
         self.surrenderItemButton.clicked.connect(self.goSurrenderedItemsPage)
-        
-        self.homeButton.setIcon(QIcon("assets/home.svg"))
-        self.managePersonsButton.setIcon(QIcon("assets/users.svg"))
-        
+
         # Homepage Button connections
         self.reportItem.clicked.connect(self.addReportedItem)
 
