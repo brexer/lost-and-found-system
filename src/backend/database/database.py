@@ -20,11 +20,7 @@ def create_connection():
         return None
 
 def create_database():
-    conn = mysql.connector.connect(
-        host= os.getenv('DB_HOST'),
-        user=os.getenv('DB_USER'),
-        password=os.getenv('DB_PASSWORD')
-    )
+    conn = create_connection()
     cursor = conn.cursor()
     cursor.execute("CREATE DATABASE IF NOT EXISTS lafsystemdb")
     print("Database created or already exists.")
