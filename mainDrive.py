@@ -24,7 +24,6 @@ class MainClass(QMainWindow, Ui_MainWindow):
 
         db.initialize_database()
 
-
         self.pageShown = 0
         self.homeButton.clicked.connect(self.goHomePage)
         self.managePersonsButton.clicked.connect(self.goManagePersonsPage)
