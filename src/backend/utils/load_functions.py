@@ -1,11 +1,11 @@
 from PyQt5 import QtWidgets
 from src.backend.database import dbfunctions
 
-def load_reported_items(table_widget):
-    all_items = dbfunctions.get_all_items()
-    reported_items = [item for item in all_items if item[4] == "Reported"]
+def load_reported_items(reportTable, reportNext, reportPrev, reportPageLabel, currentReportPage, page_size):
+    reported_items, total_records = dbfunctions.get_all_reported_items(currentReportPage, page_size)
+    total_pages = max(1, (total_records + page_size - 1) // page_size)
 
-    table = table_widget
+    table = reportTable
     table.setRowCount(0)
     table.setColumnCount(8)
     table.setHorizontalHeaderLabels([
@@ -17,11 +17,15 @@ def load_reported_items(table_widget):
         for col, value in enumerate(item):
             table.setItem(row_num, col, QtWidgets.QTableWidgetItem(str(value)))
 
-    
+    reportPageLabel.setText(f"Page {currentReportPage + 1} of {total_pages}")
+    reportPrev.setEnabled(currentReportPage > 0)
+    reportNext.setEnabled(currentReportPage < total_pages - 1)
 
-def load_surrendered_items(surrenderTable):
-    all_items = dbfunctions.get_all_items()
-    surrendered_items = [item for item in all_items if item[4] == "Surrendered"]
+def load_surrendered_items(surrenderTable, surrenderNext, surrenderPrev, surrenderPageLabel, currentSurrenderPage, page_size):
+    surrendered_items, total_records = dbfunctions.get_all_surrendered_items(currentSurrenderPage, page_size)
+    total_pages = max(1, (total_records + page_size - 1) // page_size)
+    # all_items = dbfunctions.get_all_items()
+    # surrendered_items = [item for item in all_items if item[4] == "Surrendered"]
 
     table = surrenderTable
     table.setRowCount(0)
@@ -34,6 +38,10 @@ def load_surrendered_items(surrenderTable):
         table.insertRow(row_num)
         for col, value in enumerate(item):
             table.setItem(row_num, col, QtWidgets.QTableWidgetItem(str(value)))
+
+    surrenderPageLabel.setText(f"Page {currentSurrenderPage + 1} of {total_pages}")
+    surrenderPrev.setEnabled(currentSurrenderPage > 0)
+    surrenderNext.setEnabled(currentSurrenderPage < total_pages - 1)
 
 def load_claimed_items(table_widget):
     all_items = dbfunctions.get_all_items()
