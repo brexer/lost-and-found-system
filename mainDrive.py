@@ -1,7 +1,8 @@
 import sys
 import traceback
 
-from PyQt5.QtWidgets import QApplication, QPushButton, QMainWindow, QDialog, QTableWidgetItem, QTableWidget
+from PyQt5.QtWidgets import QApplication,QPushButton, QMainWindow, QDialog, QTableWidgetItem, QTableWidget
+from PyQt5.QtGui import QIcon
 from src.frontend.mainWindow_ui import Ui_MainWindow
 from src.frontend.reportItem import Ui_ReportItemDialog
 from src.frontend.surrenderItem import Ui_SurrenderItemDialog
@@ -24,6 +25,7 @@ class MainClass(QMainWindow, Ui_MainWindow):
 
         db.initialize_database()
 
+
         self.pageShown = 0
         self.homeButton.clicked.connect(self.goHomePage)
         self.managePersonsButton.clicked.connect(self.goManagePersonsPage)
@@ -31,7 +33,10 @@ class MainClass(QMainWindow, Ui_MainWindow):
         self.claimItemButton.clicked.connect(self.goClaimedItemsPage)
         self.reportItemButton.clicked.connect(self.goReportedItemsPage)
         self.surrenderItemButton.clicked.connect(self.goSurrenderedItemsPage)
-
+        
+        self.homeButton.setIcon(QIcon("assets/home.svg"))
+        self.managePersonsButton.setIcon(QIcon("assets/users.svg"))
+        
         # Homepage Button connections
         self.reportItem.clicked.connect(self.addReportedItem)
 
