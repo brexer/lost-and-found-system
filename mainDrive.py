@@ -6,6 +6,7 @@ from src.frontend.mainWindow_ui import Ui_MainWindow
 from src.frontend.reportItem import Ui_ReportItemDialog
 from src.frontend.surrenderItem import Ui_SurrenderItemDialog
 from src.backend.utils import load_functions as load
+from styles import MAIN_WINDOW_STYLE
 
 import mysql.connector
 from mysql.connector import Error
@@ -21,6 +22,7 @@ class MainClass(QMainWindow, Ui_MainWindow):
         self.setupUi(self)
         self.setWindowTitle("Lost and Found Management System")
         self.stackedWidget.setCurrentIndex(0)
+        self.setStyleSheet(MAIN_WINDOW_STYLE)
 
         db.initialize_database()
 
