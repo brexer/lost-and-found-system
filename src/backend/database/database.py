@@ -32,14 +32,14 @@ def create_persons_table():
     cursor = conn.cursor()
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS Persons (
-            PersonID VARCHAR(9) NOT NULL,
+            PersonID INT(8) UNSIGNED NOT NULL AUTO_INCREMENT,
             FirstName VARCHAR(50) NOT NULL,
             LastName VARCHAR(50) NOT NULL,
             PhoneNumber VARCHAR(15) NOT NULL,
             Department VARCHAR(50) NOT NULL,
             ProofID VARCHAR(255) NOT NULL,
             PRIMARY KEY (PersonID)
-        )
+        );
     """)
     conn.commit()
     cursor.close()
@@ -50,7 +50,7 @@ def create_items_table():
     cursor = conn.cursor()
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS Items (
-            ItemID VARCHAR(9) NOT NULL,
+            ItemID INT(8) UNSIGNED NOT NULL AUTO_INCREMENT,
             Category VARCHAR(50) NOT NULL,
             Name VARCHAR(50) NOT NULL,
             Description VARCHAR(255) NOT NULL,
@@ -67,10 +67,10 @@ def create_surrendered_items_table():
     cursor = conn.cursor()
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS SurrenderedItems (
-            ItemID VARCHAR(9) NOT NULL,
+            ItemID INT(8) UNSIGNED NOT NULL,
             DateFound DATETIME NOT NULL,
             LocationFound VARCHAR(50) NOT NULL,
-            PersonID VARCHAR(9) NOT NULL,
+            PersonID INT(8) UNSIGNED NOT NULL,
             PRIMARY KEY (ItemID),
             FOREIGN KEY (ItemID) REFERENCES Items(ItemID),
             FOREIGN KEY (PersonID) REFERENCES Persons(PersonID)
@@ -85,10 +85,10 @@ def create_reported_items_table():
     cursor = conn.cursor()
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS ReportedItems (
-            ItemID VARCHAR(9) NOT NULL,
+            ItemID INT(8) UNSIGNED NOT NULL,
             DateLost DATETIME NOT NULL,
             LocationLost VARCHAR(50) NOT NULL,
-            PersonID VARCHAR(9) NOT NULL,
+            PersonID INT(8) UNSIGNED NOT NULL,
             PRIMARY KEY (ItemID),
             FOREIGN KEY (ItemID) REFERENCES Items(ItemID),
             FOREIGN KEY (PersonID) REFERENCES Persons(PersonID)
@@ -103,9 +103,9 @@ def create_claimed_items_table():
     cursor = conn.cursor()
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS ClaimedItems (
-            ItemID VARCHAR(9) NOT NULL,
+            ItemID INT(8) UNSIGNED NOT NULL,
             DateClaimed DATETIME NOT NULL,
-            PersonID VARCHAR(9) NOT NULL,
+            PersonID INT(8) UNSIGNED NOT NULL,
             PRIMARY KEY (ItemID),
             FOREIGN KEY (ItemID) REFERENCES Items(ItemID),
             FOREIGN KEY (PersonID) REFERENCES Persons(PersonID)
