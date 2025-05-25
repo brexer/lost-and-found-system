@@ -6,7 +6,6 @@ from src.frontend.mainWindow_ui import Ui_MainWindow
 from src.frontend.reportItem import Ui_ReportItemDialog
 from src.frontend.surrenderItem import Ui_SurrenderItemDialog
 from src.backend.utils import load_functions as load
-from styles import MAIN_WINDOW_STYLE
 
 import mysql.connector
 from mysql.connector import Error
@@ -14,7 +13,7 @@ import src.backend.database.database as db
 import src.backend.database.dbfunctions as dbfunctions
 # import src.backend.database.dbfunctions as dbf
 
-ROWS_PER_PAGE = 10 # change rani kung pila ka rows ang i-display per page
+ROWS_PER_PAGE = 1 # change rani kung pila ka rows ang i-display per page
 
 class MainClass(QMainWindow, Ui_MainWindow):
     def __init__(self):
@@ -22,7 +21,6 @@ class MainClass(QMainWindow, Ui_MainWindow):
         self.setupUi(self)
         self.setWindowTitle("Lost and Found Management System")
         self.stackedWidget.setCurrentIndex(0)
-        self.setStyleSheet(MAIN_WINDOW_STYLE)
 
         db.initialize_database()
 
@@ -37,13 +35,15 @@ class MainClass(QMainWindow, Ui_MainWindow):
 
         # Homepage Button connections
         self.reportItem.clicked.connect(self.addReportedItem)
-
+        self.surrenderItem.clicked.connect(self.addSurrenderedItem)
         # Pagination buttons
 
         self.personNext.clicked.connect(self.next_person_page)
         self.personPrev.clicked.connect(self.prev_person_page)
         self.itemNextButton.clicked.connect(self.next_item_page)
         self.itemPrevButton.clicked.connect(self.prev_item_page)
+        self.reportNext.clicked.connect(self.next_report_page)
+        self.reportPrev.clicked.connect(self.prev_report_page)
 
     # Connections to add and surrender item
     def addReportedItem(self):
@@ -78,6 +78,16 @@ class MainClass(QMainWindow, Ui_MainWindow):
             self.currentItemPage -= 1
             load.load_items(self.itemTable, self.itemNextButton, self.itemPrevButton, self.personPageLabel_2, self.currentItemPage, ROWS_PER_PAGE)
 
+    def next_report_page(self):
+        if (self.currentReportPage + 1) * ROWS_PER_PAGE < dbfunctions.get_total_reported_items():
+            self.currentReportPage += 1
+            load.load_reported_items(self.reportTable, self.reportNext, self.reportPrev, self.reportPageLabel, self.currentReportPage, ROWS_PER_PAGE)
+
+    def prev_report_page(self):
+        if self.currentReportPage > 0:
+            self.currentReportPage -= 1
+            load.load_reported_items(self.reportTable, self.reportNext, self.reportPrev, self.reportPageLabel, self.currentReportPage, ROWS_PER_PAGE)
+
     # connections of main pages
 
     def goHomePage(self):
@@ -107,11 +117,15 @@ class MainClass(QMainWindow, Ui_MainWindow):
 
     def goReportedItemsPage(self):
         self.pageShown = 4
+        self.currentReportPage = 0
         self.stackedWidget.setCurrentIndex(4)
+        load.load_reported_items(self.reportTable, self.reportNext, self.reportPrev, self.reportPageLabel, self.currentReportPage, ROWS_PER_PAGE)
 
     def goSurrenderedItemsPage(self):
         self.pageShown = 5
+        self.currentSurrenderPage = 0
         self.stackedWidget.setCurrentIndex(5)
+        load.load_surrendered_items(self.surrenderTable, self.surrenderNext, self.surrenderPrev, self.surrenederPageLabel, self.currentSurrenderPage, ROWS_PER_PAGE)
 
 class ReportItemDialog(QDialog, Ui_ReportItemDialog):
     def __init__(self, parent=None):
@@ -199,9 +213,9 @@ class SurrenderItemDialog(QDialog, Ui_SurrenderItemDialog):
         self.setupUi(self)
         self.stackedWidget.setCurrentIndex(0)
 
-        self.nextButton.clicked.connect(self.goToPerson)
-        self.confirmButton.clicked.connect(self.validateInput)
-        self.backButton.clicked.connect(self.goBack)
+        self.nextButton.clicked.connect(self.validateItemInput)
+        self.confirmButton.clicked.connect(self.validatePersonInput)
+        self.backButton.clicked.connect(lambda: self.stackedWidget.setCurrentIndex(0))
 
         self.cancelButton.clicked.connect(self.reject)
         self.cancelButton_2.clicked.connect(self.reject)
@@ -212,8 +226,66 @@ class SurrenderItemDialog(QDialog, Ui_SurrenderItemDialog):
     def goToPerson(self):
         self.stackedWidget.setCurrentIndex(1)
 
-    def validateInput(self):
-        pass
+    def itemDetailsComplete(self):
+        item_name = self.itemNameEdit.text().strip().title()
+        category = self.categoryEdit.text().strip().title()
+        date_found = self.dateFoundEdit.dateTime().toString("yyyy-MM-dd HH:mm:ss")
+        location_found = self.locationFoundEdit.text().strip()
+        item_desc = self.descriptionEdit.text().strip()
+        status = 'Surrendered'
+
+        if not (item_name and category and date_found and location_found and item_desc):
+            QMessageBox.warning(self, "Input Error", "All fields must be filled up.")
+            return False
+
+        self.item_data = {
+            "name": item_name,
+            "category": category,
+            "description": item_desc,
+            "status": status,
+            "date_found": date_found,
+            "location_found": location_found
+        }
+
+        self.stackedWidget.setCurrentIndex(1)
+        return True
+
+    def validateItemInput(self):
+        if self.itemDetailsComplete():
+            self.stackedWidget.setCurrentIndex(1)
+
+    def validatePersonInput(self):
+        first_name = self.firstNameEdit.text().strip().title()
+        last_name = self.lastNameEdit.text().strip().title()
+        phone_number = self.phoneNumberEdit.text().strip().replace(" ", "")
+        department = self.departmentEdit.text().strip().upper()
+        proof_id = self.proofIdEdit.text().strip()
+
+        if not (first_name and last_name and phone_number and department and proof_id):
+            QMessageBox.warning(self, "Input Error", "All fields must be filled up.")
+            return
+
+        try:
+            # Add person
+            person_id = dbfunctions.add_person(first_name, last_name, phone_number, department, proof_id)
+            if not person_id:
+                raise Exception("Failed to insert person.")
+
+            # Add item + report
+            item = self.item_data
+            item_id = dbfunctions.add_surrendered_item(
+                item["category"], item["name"], item["description"],
+                item["date_found"], item["location_found"], person_id
+            )
+
+            if not item_id:
+                raise Exception("Failed to insert surrendered item.")
+
+            QMessageBox.information(self, "Success", "Item surrendered successfully.")
+            self.accept()
+
+        except Exception as e:
+            QMessageBox.critical(self, "Error", str(e))
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
