@@ -25,7 +25,7 @@ class Ui_MainWindow(object):
         self.homePage = QtWidgets.QWidget()
         self.homePage.setObjectName("homePage")
         self.layoutWidget_6 = QtWidgets.QWidget(self.homePage)
-        self.layoutWidget_6.setGeometry(QtCore.QRect(0, 0, 587, 90))
+        self.layoutWidget_6.setGeometry(QtCore.QRect(0, 0, 807, 109))
         self.layoutWidget_6.setObjectName("layoutWidget_6")
         self.verticalLayout_8 = QtWidgets.QVBoxLayout(self.layoutWidget_6)
         self.verticalLayout_8.setContentsMargins(0, 0, 0, 0)
@@ -49,7 +49,7 @@ class Ui_MainWindow(object):
         self.label_8.setObjectName("label_8")
         self.verticalLayout_8.addWidget(self.label_8)
         self.layoutWidget_7 = QtWidgets.QWidget(self.homePage)
-        self.layoutWidget_7.setGeometry(QtCore.QRect(0, 90, 921, 39))
+        self.layoutWidget_7.setGeometry(QtCore.QRect(0, 90, 921, 48))
         self.layoutWidget_7.setObjectName("layoutWidget_7")
         self.horizontalLayout_6 = QtWidgets.QHBoxLayout(self.layoutWidget_7)
         self.horizontalLayout_6.setContentsMargins(0, 0, 0, 0)
@@ -138,16 +138,36 @@ class Ui_MainWindow(object):
         self.label_40.setObjectName("label_40")
         self.horizontalLayout_8.addWidget(self.recentFram5_2)
         self.reportItem = QtWidgets.QPushButton(self.homePage)
-        self.reportItem.setGeometry(QtCore.QRect(640, 40, 179, 23))
-        self.reportItem.setStyleSheet("background-color: rgb(170, 0, 0);\n"
-"color: rgb(255, 255, 255);")
-        self.reportItem.setCheckable(True)
+        self.reportItem.setGeometry(QtCore.QRect(830, 30, 121, 41))
+        self.reportItem.setStyleSheet("QPushButton {\n"
+"                background-color: maroon;\n"
+"                color: white;\n"
+"                border: none;\n"
+"                border-radius: 35px;\n"
+"                padding: 8px 16px;\n"
+"            }\n"
+"            QPushButton:hover {\n"
+"                background-color: #a00000;\n"
+"            }\n"
+"            QPushButton:pressed {\n"
+"                background-color: #700000;\n"
+"            }")
         self.reportItem.setObjectName("reportItem")
         self.surrenderItem = QtWidgets.QPushButton(self.homePage)
-        self.surrenderItem.setGeometry(QtCore.QRect(860, 40, 179, 23))
-        self.surrenderItem.setStyleSheet("background-color: rgb(170, 0, 0);\n"
-"color: rgb(255, 255, 255);")
-        self.surrenderItem.setCheckable(True)
+        self.surrenderItem.setGeometry(QtCore.QRect(960, 30, 131, 41))
+        self.surrenderItem.setStyleSheet("QPushButton {\n"
+"                background-color: maroon;\n"
+"                color: white;\n"
+"                border: none;\n"
+"                border-radius: 35px;\n"
+"                padding: 8px 16px;\n"
+"            }\n"
+"            QPushButton:hover {\n"
+"                background-color: #a00000;\n"
+"            }\n"
+"            QPushButton:pressed {\n"
+"                background-color: #700000;\n"
+"            }")
         self.surrenderItem.setObjectName("surrenderItem")
         self.stackedWidget.addWidget(self.homePage)
         self.managePersonsPage = QtWidgets.QWidget()
@@ -159,7 +179,7 @@ class Ui_MainWindow(object):
         self.label_3.setFont(font)
         self.label_3.setObjectName("label_3")
         self.personTable = QtWidgets.QTableWidget(self.managePersonsPage)
-        self.personTable.setGeometry(QtCore.QRect(10, 180, 1091, 661))
+        self.personTable.setGeometry(QtCore.QRect(10, 180, 1091, 671))
         self.personTable.setObjectName("personTable")
         self.personTable.setColumnCount(6)
         self.personTable.setRowCount(0)
@@ -235,7 +255,7 @@ class Ui_MainWindow(object):
         self.label_7.setFont(font)
         self.label_7.setObjectName("label_7")
         self.itemUpdateButton = QtWidgets.QPushButton(self.manageItemsPage)
-        self.itemUpdateButton.setGeometry(QtCore.QRect(990, 860, 112, 34))
+        self.itemUpdateButton.setGeometry(QtCore.QRect(990, 850, 112, 34))
         self.itemUpdateButton.setObjectName("itemUpdateButton")
         self.itemTable = QtWidgets.QTableWidget(self.manageItemsPage)
         self.itemTable.setGeometry(QtCore.QRect(10, 180, 1091, 661))
@@ -253,7 +273,7 @@ class Ui_MainWindow(object):
         item = QtWidgets.QTableWidgetItem()
         self.itemTable.setHorizontalHeaderItem(4, item)
         self.itemDeleteButton = QtWidgets.QPushButton(self.manageItemsPage)
-        self.itemDeleteButton.setGeometry(QtCore.QRect(10, 860, 112, 34))
+        self.itemDeleteButton.setGeometry(QtCore.QRect(10, 850, 112, 34))
         self.itemDeleteButton.setObjectName("itemDeleteButton")
         self.itemSearchButton = QtWidgets.QPushButton(self.manageItemsPage)
         self.itemSearchButton.setGeometry(QtCore.QRect(430, 130, 112, 41))
@@ -300,9 +320,9 @@ class Ui_MainWindow(object):
         self.itemNextButton.setObjectName("itemNextButton")
         self.horizontalLayout_5.addWidget(self.itemNextButton)
         self.stackedWidget.addWidget(self.manageItemsPage)
-        self.reportedItems = QtWidgets.QWidget()
-        self.reportedItems.setObjectName("reportedItems")
-        self.claimSearchEdit = QtWidgets.QLineEdit(self.reportedItems)
+        self.claimedItems = QtWidgets.QWidget()
+        self.claimedItems.setObjectName("claimedItems")
+        self.claimSearchEdit = QtWidgets.QLineEdit(self.claimedItems)
         self.claimSearchEdit.setGeometry(QtCore.QRect(10, 130, 401, 41))
         self.claimSearchEdit.setStyleSheet("QLineEdit {\n"
 "                border: 1px solid #ccc;\n"
@@ -315,10 +335,10 @@ class Ui_MainWindow(object):
 "                background-color: #ffffff;\n"
 "            }")
         self.claimSearchEdit.setObjectName("claimSearchEdit")
-        self.claimTable = QtWidgets.QTableWidget(self.reportedItems)
+        self.claimTable = QtWidgets.QTableWidget(self.claimedItems)
         self.claimTable.setGeometry(QtCore.QRect(10, 180, 1091, 661))
         self.claimTable.setObjectName("claimTable")
-        self.claimTable.setColumnCount(5)
+        self.claimTable.setColumnCount(4)
         self.claimTable.setRowCount(0)
         item = QtWidgets.QTableWidgetItem()
         self.claimTable.setHorizontalHeaderItem(0, item)
@@ -328,12 +348,10 @@ class Ui_MainWindow(object):
         self.claimTable.setHorizontalHeaderItem(2, item)
         item = QtWidgets.QTableWidgetItem()
         self.claimTable.setHorizontalHeaderItem(3, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.claimTable.setHorizontalHeaderItem(4, item)
-        self.deleteClaimButton = QtWidgets.QPushButton(self.reportedItems)
+        self.deleteClaimButton = QtWidgets.QPushButton(self.claimedItems)
         self.deleteClaimButton.setGeometry(QtCore.QRect(10, 860, 112, 34))
         self.deleteClaimButton.setObjectName("deleteClaimButton")
-        self.claimSearchButton = QtWidgets.QPushButton(self.reportedItems)
+        self.claimSearchButton = QtWidgets.QPushButton(self.claimedItems)
         self.claimSearchButton.setGeometry(QtCore.QRect(430, 130, 112, 41))
         self.claimSearchButton.setStyleSheet("QPushButton {\n"
 "                background-color: maroon;\n"
@@ -349,7 +367,7 @@ class Ui_MainWindow(object):
 "                background-color: #700000;\n"
 "            }")
         self.claimSearchButton.setObjectName("claimSearchButton")
-        self.layoutWidget_2 = QtWidgets.QWidget(self.reportedItems)
+        self.layoutWidget_2 = QtWidgets.QWidget(self.claimedItems)
         self.layoutWidget_2.setGeometry(QtCore.QRect(390, 850, 341, 51))
         self.layoutWidget_2.setObjectName("layoutWidget_2")
         self.horizontalLayout_2 = QtWidgets.QHBoxLayout(self.layoutWidget_2)
@@ -364,19 +382,19 @@ class Ui_MainWindow(object):
         self.claimNext = QtWidgets.QPushButton(self.layoutWidget_2)
         self.claimNext.setObjectName("claimNext")
         self.horizontalLayout_2.addWidget(self.claimNext)
-        self.updateClaimButton = QtWidgets.QPushButton(self.reportedItems)
+        self.updateClaimButton = QtWidgets.QPushButton(self.claimedItems)
         self.updateClaimButton.setGeometry(QtCore.QRect(990, 860, 112, 34))
         self.updateClaimButton.setObjectName("updateClaimButton")
-        self.label_9 = QtWidgets.QLabel(self.reportedItems)
+        self.label_9 = QtWidgets.QLabel(self.claimedItems)
         self.label_9.setGeometry(QtCore.QRect(10, 10, 401, 111))
         font = QtGui.QFont()
         font.setPointSize(20)
         self.label_9.setFont(font)
         self.label_9.setObjectName("label_9")
-        self.stackedWidget.addWidget(self.reportedItems)
-        self.claimedItems = QtWidgets.QWidget()
-        self.claimedItems.setObjectName("claimedItems")
-        self.reportSearchEdit = QtWidgets.QLineEdit(self.claimedItems)
+        self.stackedWidget.addWidget(self.claimedItems)
+        self.reportedItems = QtWidgets.QWidget()
+        self.reportedItems.setObjectName("reportedItems")
+        self.reportSearchEdit = QtWidgets.QLineEdit(self.reportedItems)
         self.reportSearchEdit.setGeometry(QtCore.QRect(10, 130, 401, 41))
         self.reportSearchEdit.setStyleSheet("QLineEdit {\n"
 "                border: 1px solid #ccc;\n"
@@ -389,7 +407,7 @@ class Ui_MainWindow(object):
 "                background-color: #ffffff;\n"
 "            }")
         self.reportSearchEdit.setObjectName("reportSearchEdit")
-        self.layoutWidget_3 = QtWidgets.QWidget(self.claimedItems)
+        self.layoutWidget_3 = QtWidgets.QWidget(self.reportedItems)
         self.layoutWidget_3.setGeometry(QtCore.QRect(390, 850, 341, 51))
         self.layoutWidget_3.setObjectName("layoutWidget_3")
         self.horizontalLayout_3 = QtWidgets.QHBoxLayout(self.layoutWidget_3)
@@ -404,13 +422,13 @@ class Ui_MainWindow(object):
         self.reportNext = QtWidgets.QPushButton(self.layoutWidget_3)
         self.reportNext.setObjectName("reportNext")
         self.horizontalLayout_3.addWidget(self.reportNext)
-        self.reportUpdateButton = QtWidgets.QPushButton(self.claimedItems)
+        self.reportUpdateButton = QtWidgets.QPushButton(self.reportedItems)
         self.reportUpdateButton.setGeometry(QtCore.QRect(990, 860, 112, 34))
         self.reportUpdateButton.setObjectName("reportUpdateButton")
-        self.deleteClaimButton_2 = QtWidgets.QPushButton(self.claimedItems)
-        self.deleteClaimButton_2.setGeometry(QtCore.QRect(10, 860, 112, 34))
-        self.deleteClaimButton_2.setObjectName("deleteClaimButton_2")
-        self.reportSearchButton = QtWidgets.QPushButton(self.claimedItems)
+        self.deleteReportButton = QtWidgets.QPushButton(self.reportedItems)
+        self.deleteReportButton.setGeometry(QtCore.QRect(10, 860, 112, 34))
+        self.deleteReportButton.setObjectName("deleteReportButton")
+        self.reportSearchButton = QtWidgets.QPushButton(self.reportedItems)
         self.reportSearchButton.setGeometry(QtCore.QRect(430, 130, 112, 41))
         self.reportSearchButton.setStyleSheet("QPushButton {\n"
 "                background-color: maroon;\n"
@@ -426,10 +444,10 @@ class Ui_MainWindow(object):
 "                background-color: #700000;\n"
 "            }")
         self.reportSearchButton.setObjectName("reportSearchButton")
-        self.reportTable = QtWidgets.QTableWidget(self.claimedItems)
+        self.reportTable = QtWidgets.QTableWidget(self.reportedItems)
         self.reportTable.setGeometry(QtCore.QRect(10, 180, 1091, 661))
         self.reportTable.setObjectName("reportTable")
-        self.reportTable.setColumnCount(4)
+        self.reportTable.setColumnCount(5)
         self.reportTable.setRowCount(0)
         item = QtWidgets.QTableWidgetItem()
         self.reportTable.setHorizontalHeaderItem(0, item)
@@ -439,13 +457,15 @@ class Ui_MainWindow(object):
         self.reportTable.setHorizontalHeaderItem(2, item)
         item = QtWidgets.QTableWidgetItem()
         self.reportTable.setHorizontalHeaderItem(3, item)
-        self.label_10 = QtWidgets.QLabel(self.claimedItems)
+        item = QtWidgets.QTableWidgetItem()
+        self.reportTable.setHorizontalHeaderItem(4, item)
+        self.label_10 = QtWidgets.QLabel(self.reportedItems)
         self.label_10.setGeometry(QtCore.QRect(20, 10, 401, 111))
         font = QtGui.QFont()
         font.setPointSize(20)
         self.label_10.setFont(font)
         self.label_10.setObjectName("label_10")
-        self.stackedWidget.addWidget(self.claimedItems)
+        self.stackedWidget.addWidget(self.reportedItems)
         self.surrenderedItems = QtWidgets.QWidget()
         self.surrenderedItems.setObjectName("surrenderedItems")
         self.surrenderUpdateButton = QtWidgets.QPushButton(self.surrenderedItems)
@@ -616,7 +636,7 @@ class Ui_MainWindow(object):
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
-        self.stackedWidget.setCurrentIndex(0)
+        self.stackedWidget.setCurrentIndex(4)
         self.itemHistoryButton.toggled['bool'].connect(self.item_dropdown.setHidden) # type: ignore
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
@@ -674,23 +694,21 @@ class Ui_MainWindow(object):
         item = self.claimTable.horizontalHeaderItem(1)
         item.setText(_translate("MainWindow", "Name"))
         item = self.claimTable.horizontalHeaderItem(2)
-        item.setText(_translate("MainWindow", "Date Lost"))
+        item.setText(_translate("MainWindow", "Date Claimed"))
         item = self.claimTable.horizontalHeaderItem(3)
-        item.setText(_translate("MainWindow", "Location Lost"))
-        item = self.claimTable.horizontalHeaderItem(4)
-        item.setText(_translate("MainWindow", "Reported By"))
+        item.setText(_translate("MainWindow", "Claimed By"))
         self.deleteClaimButton.setText(_translate("MainWindow", "Delete"))
         self.claimSearchButton.setText(_translate("MainWindow", "Search"))
         self.claimPrev.setText(_translate("MainWindow", "Prev"))
         self.claimPageLabel.setText(_translate("MainWindow", "Page"))
         self.claimNext.setText(_translate("MainWindow", "Next"))
         self.updateClaimButton.setText(_translate("MainWindow", "Update"))
-        self.label_9.setText(_translate("MainWindow", "Reported Items Page"))
+        self.label_9.setText(_translate("MainWindow", "Claimed Items Page"))
         self.reportPrev.setText(_translate("MainWindow", "Prev"))
         self.reportPageLabel.setText(_translate("MainWindow", "Page"))
         self.reportNext.setText(_translate("MainWindow", "Next"))
         self.reportUpdateButton.setText(_translate("MainWindow", "Update"))
-        self.deleteClaimButton_2.setText(_translate("MainWindow", "Delete"))
+        self.deleteReportButton.setText(_translate("MainWindow", "Delete"))
         self.reportSearchButton.setText(_translate("MainWindow", "Search"))
         item = self.reportTable.horizontalHeaderItem(0)
         item.setText(_translate("MainWindow", "ItemID"))
@@ -699,8 +717,10 @@ class Ui_MainWindow(object):
         item = self.reportTable.horizontalHeaderItem(2)
         item.setText(_translate("MainWindow", "Date Claimed"))
         item = self.reportTable.horizontalHeaderItem(3)
-        item.setText(_translate("MainWindow", "Claimed By"))
-        self.label_10.setText(_translate("MainWindow", "Claimed Items Page"))
+        item.setText(_translate("MainWindow", "Location Lost"))
+        item = self.reportTable.horizontalHeaderItem(4)
+        item.setText(_translate("MainWindow", "Reported By"))
+        self.label_10.setText(_translate("MainWindow", "Reported Items Page"))
         self.surrenderUpdateButton.setText(_translate("MainWindow", "Update"))
         self.surrenderSearchButton.setText(_translate("MainWindow", "Search"))
         self.surrenderPrev.setText(_translate("MainWindow", "Prev"))
@@ -715,7 +735,7 @@ class Ui_MainWindow(object):
         item = self.surrenderTable.horizontalHeaderItem(3)
         item.setText(_translate("MainWindow", "Location Found"))
         item = self.surrenderTable.horizontalHeaderItem(4)
-        item.setText(_translate("MainWindow", "Reported By"))
+        item.setText(_translate("MainWindow", "Surrendered By"))
         self.surrenderDeleteButton.setText(_translate("MainWindow", "Delete"))
         self.label_6.setText(_translate("MainWindow", "Surrendered Items Page"))
         self.label.setText(_translate("MainWindow", "     Lost and Found"))
@@ -726,3 +746,13 @@ class Ui_MainWindow(object):
         self.claimItemButton.setText(_translate("MainWindow", "Claimed"))
         self.reportItemButton.setText(_translate("MainWindow", "Reported"))
         self.surrenderItemButton.setText(_translate("MainWindow", "Surrendered"))
+
+
+if __name__ == "__main__":
+    import sys
+    app = QtWidgets.QApplication(sys.argv)
+    MainWindow = QtWidgets.QMainWindow()
+    ui = Ui_MainWindow()
+    ui.setupUi(MainWindow)
+    MainWindow.show()
+    sys.exit(app.exec_())

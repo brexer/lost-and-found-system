@@ -26,7 +26,7 @@
     <string notr="true">background-color: rgb(255, 255, 255);</string>
    </property>
    <property name="currentIndex">
-    <number>0</number>
+    <number>1</number>
    </property>
    <widget class="QWidget" name="itemPage">
     <widget class="QLabel" name="label_2">
@@ -116,27 +116,10 @@
       </font>
      </property>
      <property name="text">
-      <string>Description</string>
+      <string>Category</string>
      </property>
     </widget>
-    <widget class="QLineEdit" name="dateLostEdit">
-     <property name="geometry">
-      <rect>
-       <x>20</x>
-       <y>370</y>
-       <width>271</width>
-       <height>41</height>
-      </rect>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">QLineEdit {
-        border: 2px solid #ccc;
-        border-radius: 10px;
-        padding: 5px;
-    }</string>
-     </property>
-    </widget>
-    <widget class="QLineEdit" name="locationLostEdit">
+    <widget class="QLineEdit" name="locationFoundEdit">
      <property name="geometry">
       <rect>
        <x>310</x>
@@ -329,6 +312,21 @@
        <string>Surrender an Item</string>
       </property>
      </widget>
+    </widget>
+    <widget class="QDateTimeEdit" name="dateFoundEdit">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>370</y>
+       <width>271</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>12</pointsize>
+      </font>
+     </property>
     </widget>
    </widget>
    <widget class="QWidget" name="personPage">

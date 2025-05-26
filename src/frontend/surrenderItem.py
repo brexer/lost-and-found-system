@@ -57,14 +57,14 @@ class Ui_SurrenderItemDialog(object):
         font.setPointSize(12)
         self.label_4.setFont(font)
         self.label_4.setObjectName("label_4")
-        self.locationLostEdit = QtWidgets.QLineEdit(self.itemPage)
-        self.locationLostEdit.setGeometry(QtCore.QRect(310, 370, 271, 41))
-        self.locationLostEdit.setStyleSheet("QLineEdit {\n"
+        self.locationFoundEdit = QtWidgets.QLineEdit(self.itemPage)
+        self.locationFoundEdit.setGeometry(QtCore.QRect(310, 370, 271, 41))
+        self.locationFoundEdit.setStyleSheet("QLineEdit {\n"
 "        border: 2px solid #ccc;\n"
 "        border-radius: 10px;\n"
 "        padding: 5px;\n"
 "    }")
-        self.locationLostEdit.setObjectName("locationLostEdit")
+        self.locationFoundEdit.setObjectName("locationFoundEdit")
         self.label_5 = QtWidgets.QLabel(self.itemPage)
         self.label_5.setGeometry(QtCore.QRect(30, 340, 191, 23))
         font = QtGui.QFont()
@@ -142,12 +142,12 @@ class Ui_SurrenderItemDialog(object):
         self.label_11.setFont(font)
         self.label_11.setStyleSheet("color: rgb(255, 255, 255);")
         self.label_11.setObjectName("label_11")
-        self.dateTimeEdit = QtWidgets.QDateTimeEdit(self.itemPage)
-        self.dateTimeEdit.setGeometry(QtCore.QRect(20, 370, 271, 41))
+        self.dateFoundEdit = QtWidgets.QDateTimeEdit(self.itemPage)
+        self.dateFoundEdit.setGeometry(QtCore.QRect(20, 370, 271, 41))
         font = QtGui.QFont()
         font.setPointSize(12)
-        self.dateTimeEdit.setFont(font)
-        self.dateTimeEdit.setObjectName("dateTimeEdit")
+        self.dateFoundEdit.setFont(font)
+        self.dateFoundEdit.setObjectName("dateFoundEdit")
         self.stackedWidget.addWidget(self.itemPage)
         self.personPage = QtWidgets.QWidget()
         self.personPage.setObjectName("personPage")
@@ -292,7 +292,7 @@ class Ui_SurrenderItemDialog(object):
         self.stackedWidget.addWidget(self.personPage)
 
         self.retranslateUi(SurrenderItemDialog)
-        self.stackedWidget.setCurrentIndex(0)
+        self.stackedWidget.setCurrentIndex(1)
         QtCore.QMetaObject.connectSlotsByName(SurrenderItemDialog)
 
     def retranslateUi(self, SurrenderItemDialog):
@@ -300,7 +300,7 @@ class Ui_SurrenderItemDialog(object):
         SurrenderItemDialog.setWindowTitle(_translate("SurrenderItemDialog", "Dialog"))
         self.label_2.setText(_translate("SurrenderItemDialog", "Item Details"))
         self.label_3.setText(_translate("SurrenderItemDialog", "Name"))
-        self.label_4.setText(_translate("SurrenderItemDialog", "Description"))
+        self.label_4.setText(_translate("SurrenderItemDialog", "Category"))
         self.label_5.setText(_translate("SurrenderItemDialog", "Date Found"))
         self.label_6.setText(_translate("SurrenderItemDialog", "Location Found"))
         self.label_7.setText(_translate("SurrenderItemDialog", "Description"))

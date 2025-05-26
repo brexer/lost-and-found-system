@@ -78,7 +78,7 @@ def add_reported_item(item_category, item_name, item_description, date_lost, loc
     finally:
         cursor.close()
         conn.close()
-        
+
 # def add_reported_item(item_id, item_category, item_name, item_description, date_lost, location_lost, person_id):
 #         conn = database.create_connection()
 #         cursor = conn.cursor()
@@ -189,31 +189,62 @@ def claim_item(item_id, date_claimed, person_id):
         cursor.close()
         conn.close()
 
-def add_surrendered_item(item_id, item_category, item_name, item_description, date_found, location_found, person_id):
-        conn = database.create_connection()
-        cursor = conn.cursor()
+def add_surrendered_item(item_category, item_name, item_description, date_found, location_found, person_id):
+    conn = database.create_connection()
+    cursor = conn.cursor()
 
-        try:
-                cursor.execute("""
-                        INSERT INTO Items (ItemID, Category, Name, Description, Status)
-                        VALUES (%s, %s, %s, %s, 'Surrendered')
-                """, (item_id, item_category, item_name, item_description))
+    try:
+        # Add item
+        cursor.execute("""
+            INSERT INTO Items (Category, Name, Description, Status)
+            VALUES (%s, %s, %s, 'Surrendered')
+        """, (item_category, item_name, item_description))
+        item_id = cursor.lastrowid
 
-                cursor.execute("""
-                        INSERT INTO SurrenderedItems (ItemID, DateFound, LocationFound, PersonID)
-                        VALUES (%s, %s, %s, %s)
-                """, (item_id, date_found, location_found, person_id))
+        # Add reported item
+        cursor.execute("""
+            INSERT INTO SurrenderedItems (ItemID, DateFound, LocationFound, PersonID)
+            VALUES (%s, %s, %s, %s)
+        """, (item_id, date_found, location_found, person_id))
 
-                conn.commit()
-                print("Claimed item added succesfully.") # dialog
+        conn.commit()
+        print("Surrendered item added successfully.")  # Replace with dialog later
+        return item_id
 
-        except Exception as e:
-                print("Error:", e)
-                conn.rollback()
+    except Exception as e:
+        print("Error:", e)
+        conn.rollback()
+        return None
 
-        finally:
-                cursor.close()
-                conn.close()
+    finally:
+        cursor.close()
+        conn.close()
+
+# def add_surrendered_item(item_id, item_category, item_name, item_description, date_found, location_found, person_id):
+#         conn = database.create_connection()
+#         cursor = conn.cursor()
+
+#         try:
+#                 cursor.execute("""
+#                         INSERT INTO Items (ItemID, Category, Name, Description, Status)
+#                         VALUES (%s, %s, %s, %s, 'Surrendered')
+#                 """, (item_id, item_category, item_name, item_description))
+
+#                 cursor.execute("""
+#                         INSERT INTO SurrenderedItems (ItemID, DateFound, LocationFound, PersonID)
+#                         VALUES (%s, %s, %s, %s)
+#                 """, (item_id, date_found, location_found, person_id))
+
+#                 conn.commit()
+#                 print("Claimed item added succesfully.") # dialog
+
+#         except Exception as e:
+#                 print("Error:", e)
+#                 conn.rollback()
+
+#         finally:
+#                 cursor.close()
+#                 conn.close()
 
 def update_surrendered_item(item_category, item_name, item_description, date_found, location_found, item_id):
         conn = database.create_connection()
@@ -357,6 +388,102 @@ def get_total_items():
         cursor = conn.cursor()
         
         cursor.execute("SELECT COUNT(*) FROM items")
+        total_records = cursor.fetchone()[0]
+
+        cursor.close()
+        conn.close()
+        return total_records
+
+def get_all_reported_items(current_page, page_size):
+    conn = database.create_connection()
+    cursor = conn.cursor()
+
+    offset = current_page * page_size
+
+    query = """
+        SELECT 
+            i.ItemID,
+            i.Category,
+            i.Name,
+            i.Description,
+            i.Status,
+            r.LocationLost,
+            r.DateLost,
+            CONCAT(p.FirstName, ' ', p.LastName) AS ReportedBy
+        FROM 
+            Items i
+        JOIN 
+            ReportedItems r ON i.ItemID = r.ItemID
+        JOIN 
+            Persons p ON r.PersonID = p.PersonID
+        ORDER BY 
+            r.DateLost DESC
+        LIMIT %s OFFSET %s
+    """
+    cursor.execute(query, (page_size, offset))
+    results = cursor.fetchall()
+
+    cursor.execute("SELECT COUNT(*) FROM ReportedItems")
+    total_records = cursor.fetchone()[0]
+
+    cursor.close()
+    conn.close()
+
+    return results, total_records
+
+def get_total_reported_items():
+        conn = database.create_connection()
+        cursor = conn.cursor()
+
+        cursor.execute("SELECT COUNT(*) FROM ReportedItems")
+        total_records = cursor.fetchone()[0]
+
+        cursor.close()
+        conn.close()
+        return total_records
+
+def get_all_surrendered_items(current_page, page_size):
+    conn = database.create_connection()
+    cursor = conn.cursor()
+
+    offset = current_page * page_size
+
+    query = """
+        SELECT 
+            i.ItemID,
+            i.Category,
+            i.Name,
+            i.Description,
+            i.Status,
+            r.LocationFound,
+            r.DateFound,
+            CONCAT(p.FirstName, ' ', p.LastName) AS SurrenderedBy
+        FROM 
+            Items i
+        JOIN 
+            SurrenderedItems r ON i.ItemID = r.ItemID
+        JOIN 
+            Persons p ON r.PersonID = p.PersonID
+        ORDER BY 
+            r.DateFound DESC
+        LIMIT %s OFFSET %s
+    """
+    cursor.execute(query, (page_size, offset))
+    results = cursor.fetchall()
+
+    cursor.execute("SELECT COUNT(*) FROM SurrenderedItems")
+    total_records = cursor.fetchone()[0]
+
+    cursor.close()
+    conn.close()
+
+    return results, total_records
+
+def get_total_surrendered_items():
+        conn = database.create_connection()
+        cursor = conn.cursor()
+
+        cursor.execute("SELECT COUNT(*) FROM SurrenderedItems")
         total_records = cursor.fetchone()[0]
 
         cursor.close()

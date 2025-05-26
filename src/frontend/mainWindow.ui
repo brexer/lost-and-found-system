@@ -28,7 +28,7 @@
 </string>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>4</number>
     </property>
     <widget class="QWidget" name="homePage">
      <widget class="QWidget" name="layoutWidget_6">
@@ -36,8 +36,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>587</width>
-        <height>90</height>
+        <width>807</width>
+        <height>109</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_8">
@@ -79,7 +79,7 @@
         <x>0</x>
         <y>90</y>
         <width>921</width>
-        <height>39</height>
+        <height>48</height>
        </rect>
       </property>
       <layout class="QHBoxLayout" name="horizontalLayout_6">
@@ -326,41 +326,57 @@
      <widget class="QPushButton" name="reportItem">
       <property name="geometry">
        <rect>
-        <x>640</x>
-        <y>40</y>
-        <width>179</width>
-        <height>23</height>
+        <x>830</x>
+        <y>30</y>
+        <width>121</width>
+        <height>41</height>
        </rect>
       </property>
       <property name="styleSheet">
-       <string notr="true">background-color: rgb(170, 0, 0);
-color: rgb(255, 255, 255);</string>
+       <string notr="true">QPushButton {
+                background-color: maroon;
+                color: white;
+                border: none;
+                border-radius: 35px;
+                padding: 8px 16px;
+            }
+            QPushButton:hover {
+                background-color: #a00000;
+            }
+            QPushButton:pressed {
+                background-color: #700000;
+            }</string>
       </property>
       <property name="text">
        <string>Report Item</string>
-      </property>
-      <property name="checkable">
-       <bool>true</bool>
       </property>
      </widget>
      <widget class="QPushButton" name="surrenderItem">
       <property name="geometry">
        <rect>
-        <x>860</x>
-        <y>40</y>
-        <width>179</width>
-        <height>23</height>
+        <x>960</x>
+        <y>30</y>
+        <width>131</width>
+        <height>41</height>
        </rect>
       </property>
       <property name="styleSheet">
-       <string notr="true">background-color: rgb(170, 0, 0);
-color: rgb(255, 255, 255);</string>
+       <string notr="true">QPushButton {
+                background-color: maroon;
+                color: white;
+                border: none;
+                border-radius: 35px;
+                padding: 8px 16px;
+            }
+            QPushButton:hover {
+                background-color: #a00000;
+            }
+            QPushButton:pressed {
+                background-color: #700000;
+            }</string>
       </property>
       <property name="text">
        <string>Surrender Item</string>
-      </property>
-      <property name="checkable">
-       <bool>true</bool>
       </property>
      </widget>
     </widget>
@@ -389,7 +405,7 @@ color: rgb(255, 255, 255);</string>
         <x>10</x>
         <y>180</y>
         <width>1091</width>
-        <height>661</height>
+        <height>671</height>
        </rect>
       </property>
       <column>
@@ -556,7 +572,7 @@ color: rgb(255, 255, 255);</string>
       <property name="geometry">
        <rect>
         <x>990</x>
-        <y>860</y>
+        <y>850</y>
         <width>112</width>
         <height>34</height>
        </rect>
@@ -604,7 +620,7 @@ color: rgb(255, 255, 255);</string>
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>860</y>
+        <y>850</y>
         <width>112</width>
         <height>34</height>
        </rect>
@@ -697,7 +713,7 @@ color: rgb(255, 255, 255);</string>
       </layout>
      </widget>
     </widget>
-    <widget class="QWidget" name="reportedItems">
+    <widget class="QWidget" name="claimedItems">
      <widget class="QLineEdit" name="claimSearchEdit">
       <property name="geometry">
        <rect>
@@ -741,17 +757,12 @@ color: rgb(255, 255, 255);</string>
       </column>
       <column>
        <property name="text">
-        <string>Date Lost</string>
+        <string>Date Claimed</string>
        </property>
       </column>
       <column>
        <property name="text">
-        <string>Location Lost</string>
-       </property>
-      </column>
-      <column>
-       <property name="text">
-        <string>Reported By</string>
+        <string>Claimed By</string>
        </property>
       </column>
      </widget>
@@ -857,11 +868,11 @@ color: rgb(255, 255, 255);</string>
        </font>
       </property>
       <property name="text">
-       <string>Reported Items Page</string>
+       <string>Claimed Items Page</string>
       </property>
      </widget>
     </widget>
-    <widget class="QWidget" name="claimedItems">
+    <widget class="QWidget" name="reportedItems">
      <widget class="QLineEdit" name="reportSearchEdit">
       <property name="geometry">
        <rect>
@@ -930,7 +941,7 @@ color: rgb(255, 255, 255);</string>
        <string>Update</string>
       </property>
      </widget>
-     <widget class="QPushButton" name="deleteClaimButton_2">
+     <widget class="QPushButton" name="deleteReportButton">
       <property name="geometry">
        <rect>
         <x>10</x>
@@ -997,7 +1008,12 @@ color: rgb(255, 255, 255);</string>
       </column>
       <column>
        <property name="text">
-        <string>Claimed By</string>
+        <string>Location Lost</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Reported By</string>
        </property>
       </column>
      </widget>
@@ -1016,7 +1032,7 @@ color: rgb(255, 255, 255);</string>
        </font>
       </property>
       <property name="text">
-       <string>Claimed Items Page</string>
+       <string>Reported Items Page</string>
       </property>
      </widget>
     </widget>
@@ -1148,7 +1164,7 @@ color: rgb(255, 255, 255);</string>
       </column>
       <column>
        <property name="text">
-        <string>Reported By</string>
+        <string>Surrendered By</string>
        </property>
       </column>
      </widget>
