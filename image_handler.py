@@ -21,7 +21,7 @@ def display_image(self, image_path):
         Qt.KeepAspectRatio,
         Qt.SmoothTransformation
     )
-    self.labelImagePreview.setPixmap(pixmap)
+    self.labelImagePreview.setPixmap(pixmap) # change to QLabel sa kung asa ang preview
 
 def save_uploaded_image(source_path, item_id):
     rel_path = f"assets/itemimg/{item_id}.png"

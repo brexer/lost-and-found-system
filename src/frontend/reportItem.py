@@ -14,7 +14,9 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_ReportItemDialog(object):
     def setupUi(self, ReportItemDialog):
         ReportItemDialog.setObjectName("ReportItemDialog")
-        ReportItemDialog.resize(599, 682)
+        ReportItemDialog.resize(602, 682)
+        ReportItemDialog.setMinimumSize(QtCore.QSize(602, 682))
+        ReportItemDialog.setMaximumSize(QtCore.QSize(602, 682))
         self.stackedWidget = QtWidgets.QStackedWidget(ReportItemDialog)
         self.stackedWidget.setGeometry(QtCore.QRect(0, 0, 601, 681))
         self.stackedWidget.setStyleSheet("background-color: rgb(255, 255, 255);")
@@ -26,11 +28,10 @@ class Ui_ReportItemDialog(object):
         font = QtGui.QFont()
         font.setPointSize(14)
         font.setBold(True)
-        font.setWeight(75)
         self.label_2.setFont(font)
         self.label_2.setObjectName("label_2")
         self.itemNameEdit = QtWidgets.QLineEdit(self.itemPage)
-        self.itemNameEdit.setGeometry(QtCore.QRect(20, 190, 561, 41))
+        self.itemNameEdit.setGeometry(QtCore.QRect(20, 180, 561, 41))
         self.itemNameEdit.setStyleSheet("QLineEdit {\n"
 "        border: 2px solid #ccc;\n"
 "        border-radius: 10px;\n"
@@ -38,7 +39,7 @@ class Ui_ReportItemDialog(object):
 "    }")
         self.itemNameEdit.setObjectName("itemNameEdit")
         self.label_3 = QtWidgets.QLabel(self.itemPage)
-        self.label_3.setGeometry(QtCore.QRect(30, 160, 80, 23))
+        self.label_3.setGeometry(QtCore.QRect(30, 150, 80, 23))
         font = QtGui.QFont()
         font.setPointSize(12)
         self.label_3.setFont(font)
@@ -57,6 +58,14 @@ class Ui_ReportItemDialog(object):
         font.setPointSize(12)
         self.label_4.setFont(font)
         self.label_4.setObjectName("label_4")
+        self.dateLostEdit = QtWidgets.QLineEdit(self.itemPage)
+        self.dateLostEdit.setGeometry(QtCore.QRect(20, 370, 271, 41))
+        self.dateLostEdit.setStyleSheet("QLineEdit {\n"
+"        border: 2px solid #ccc;\n"
+"        border-radius: 10px;\n"
+"        padding: 5px;\n"
+"    }")
+        self.dateLostEdit.setObjectName("dateLostEdit")
         self.locationLostEdit = QtWidgets.QLineEdit(self.itemPage)
         self.locationLostEdit.setGeometry(QtCore.QRect(310, 370, 271, 41))
         self.locationLostEdit.setStyleSheet("QLineEdit {\n"
@@ -134,31 +143,24 @@ class Ui_ReportItemDialog(object):
         self.frame_2.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame_2.setObjectName("frame_2")
         self.label_11 = QtWidgets.QLabel(self.frame_2)
-        self.label_11.setGeometry(QtCore.QRect(160, 0, 291, 81))
+        self.label_11.setGeometry(QtCore.QRect(220, 0, 171, 81))
         font = QtGui.QFont()
         font.setPointSize(18)
         font.setBold(True)
-        font.setWeight(75)
         self.label_11.setFont(font)
         self.label_11.setStyleSheet("color: rgb(255, 255, 255);")
         self.label_11.setObjectName("label_11")
-        self.dateTimeEdit = QtWidgets.QDateTimeEdit(self.itemPage)
-        self.dateTimeEdit.setGeometry(QtCore.QRect(20, 370, 271, 41))
-        font = QtGui.QFont()
-        font.setPointSize(12)
-        self.dateTimeEdit.setFont(font)
-        self.dateTimeEdit.setObjectName("dateTimeEdit")
         self.stackedWidget.addWidget(self.itemPage)
         self.personPage = QtWidgets.QWidget()
         self.personPage.setObjectName("personPage")
         self.label_8 = QtWidgets.QLabel(self.personPage)
-        self.label_8.setGeometry(QtCore.QRect(31, 430, 191, 23))
+        self.label_8.setGeometry(QtCore.QRect(30, 340, 81, 23))
         font = QtGui.QFont()
         font.setPointSize(12)
         self.label_8.setFont(font)
         self.label_8.setObjectName("label_8")
         self.phoneNumberEdit = QtWidgets.QLineEdit(self.personPage)
-        self.phoneNumberEdit.setGeometry(QtCore.QRect(21, 280, 561, 41))
+        self.phoneNumberEdit.setGeometry(QtCore.QRect(30, 270, 271, 41))
         self.phoneNumberEdit.setStyleSheet("QLineEdit {\n"
 "        border: 2px solid #ccc;\n"
 "        border-radius: 10px;\n"
@@ -183,19 +185,19 @@ class Ui_ReportItemDialog(object):
 "    }")
         self.cancelButton_2.setObjectName("cancelButton_2")
         self.label_9 = QtWidgets.QLabel(self.personPage)
-        self.label_9.setGeometry(QtCore.QRect(31, 160, 80, 23))
+        self.label_9.setGeometry(QtCore.QRect(30, 150, 80, 23))
         font = QtGui.QFont()
         font.setPointSize(12)
         self.label_9.setFont(font)
         self.label_9.setObjectName("label_9")
         self.label_10 = QtWidgets.QLabel(self.personPage)
-        self.label_10.setGeometry(QtCore.QRect(31, 250, 191, 23))
+        self.label_10.setGeometry(QtCore.QRect(30, 240, 191, 23))
         font = QtGui.QFont()
         font.setPointSize(12)
         self.label_10.setFont(font)
         self.label_10.setObjectName("label_10")
         self.firstNameEdit = QtWidgets.QLineEdit(self.personPage)
-        self.firstNameEdit.setGeometry(QtCore.QRect(21, 190, 271, 41))
+        self.firstNameEdit.setGeometry(QtCore.QRect(30, 180, 271, 41))
         self.firstNameEdit.setStyleSheet("QLineEdit {\n"
 "        border: 2px solid #ccc;\n"
 "        border-radius: 10px;\n"
@@ -221,38 +223,23 @@ class Ui_ReportItemDialog(object):
 "        background-color: #4d0000;\n"
 "    }")
         self.confirmButton.setObjectName("confirmButton")
-        self.label_12 = QtWidgets.QLabel(self.personPage)
-        self.label_12.setGeometry(QtCore.QRect(31, 340, 191, 23))
-        font = QtGui.QFont()
-        font.setPointSize(12)
-        self.label_12.setFont(font)
-        self.label_12.setObjectName("label_12")
         self.departmentEdit = QtWidgets.QLineEdit(self.personPage)
-        self.departmentEdit.setGeometry(QtCore.QRect(21, 370, 561, 41))
+        self.departmentEdit.setGeometry(QtCore.QRect(310, 270, 271, 41))
         self.departmentEdit.setStyleSheet("QLineEdit {\n"
 "        border: 2px solid #ccc;\n"
 "        border-radius: 10px;\n"
 "        padding: 5px;\n"
 "    }")
         self.departmentEdit.setObjectName("departmentEdit")
-        self.proofIdEdit = QtWidgets.QLineEdit(self.personPage)
-        self.proofIdEdit.setGeometry(QtCore.QRect(21, 460, 561, 120))
-        self.proofIdEdit.setStyleSheet("QLineEdit {\n"
-"        border: 2px solid #ccc;\n"
-"        border-radius: 10px;\n"
-"        padding: 5px;\n"
-"    }")
-        self.proofIdEdit.setObjectName("proofIdEdit")
         self.label_13 = QtWidgets.QLabel(self.personPage)
         self.label_13.setGeometry(QtCore.QRect(21, 90, 251, 41))
         font = QtGui.QFont()
         font.setPointSize(14)
         font.setBold(True)
-        font.setWeight(75)
         self.label_13.setFont(font)
         self.label_13.setObjectName("label_13")
         self.lastNameEdit = QtWidgets.QLineEdit(self.personPage)
-        self.lastNameEdit.setGeometry(QtCore.QRect(311, 190, 271, 41))
+        self.lastNameEdit.setGeometry(QtCore.QRect(310, 180, 271, 41))
         self.lastNameEdit.setStyleSheet("QLineEdit {\n"
 "        border: 2px solid #ccc;\n"
 "        border-radius: 10px;\n"
@@ -265,15 +252,6 @@ class Ui_ReportItemDialog(object):
         self.frame.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.frame.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame.setObjectName("frame")
-        self.label = QtWidgets.QLabel(self.frame)
-        self.label.setGeometry(QtCore.QRect(160, 0, 291, 81))
-        font = QtGui.QFont()
-        font.setPointSize(18)
-        font.setBold(True)
-        font.setWeight(75)
-        self.label.setFont(font)
-        self.label.setStyleSheet("color: rgb(255, 255, 255);")
-        self.label.setObjectName("label")
         self.backButton = QtWidgets.QPushButton(self.frame)
         self.backButton.setGeometry(QtCore.QRect(20, 10, 60, 60))
         self.backButton.setStyleSheet("QPushButton {\n"
@@ -289,10 +267,30 @@ class Ui_ReportItemDialog(object):
 "        background-color: gray;\n"
 "    }")
         self.backButton.setObjectName("backButton")
+        self.label = QtWidgets.QLabel(self.frame)
+        self.label.setGeometry(QtCore.QRect(220, 0, 171, 81))
+        font = QtGui.QFont()
+        font.setPointSize(18)
+        font.setBold(True)
+        self.label.setFont(font)
+        self.label.setStyleSheet("color: rgb(255, 255, 255);")
+        self.label.setObjectName("label")
+        self.label_12 = QtWidgets.QLabel(self.personPage)
+        self.label_12.setGeometry(QtCore.QRect(310, 240, 191, 23))
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        self.label_12.setFont(font)
+        self.label_12.setObjectName("label_12")
+        self.labelImagePreview = QtWidgets.QLabel(self.personPage)
+        self.labelImagePreview.setGeometry(QtCore.QRect(110, 370, 291, 201))
+        self.labelImagePreview.setObjectName("labelImagePreview")
+        self.uploadImageButton = QtWidgets.QPushButton(self.personPage)
+        self.uploadImageButton.setGeometry(QtCore.QRect(450, 450, 75, 31))
+        self.uploadImageButton.setObjectName("uploadImageButton")
         self.stackedWidget.addWidget(self.personPage)
 
         self.retranslateUi(ReportItemDialog)
-        self.stackedWidget.setCurrentIndex(0)
+        self.stackedWidget.setCurrentIndex(1)
         QtCore.QMetaObject.connectSlotsByName(ReportItemDialog)
 
     def retranslateUi(self, ReportItemDialog):
@@ -300,7 +298,7 @@ class Ui_ReportItemDialog(object):
         ReportItemDialog.setWindowTitle(_translate("ReportItemDialog", "Dialog"))
         self.label_2.setText(_translate("ReportItemDialog", "Item Details"))
         self.label_3.setText(_translate("ReportItemDialog", "Name"))
-        self.label_4.setText(_translate("ReportItemDialog", "Description"))
+        self.label_4.setText(_translate("ReportItemDialog", "Category"))
         self.label_5.setText(_translate("ReportItemDialog", "Date Lost"))
         self.label_6.setText(_translate("ReportItemDialog", "Location Lost"))
         self.label_7.setText(_translate("ReportItemDialog", "Description"))
@@ -314,19 +312,11 @@ class Ui_ReportItemDialog(object):
         self.label_10.setText(_translate("ReportItemDialog", "Phone Number"))
         self.firstNameEdit.setPlaceholderText(_translate("ReportItemDialog", "First Name"))
         self.confirmButton.setText(_translate("ReportItemDialog", "Confirm"))
-        self.label_12.setText(_translate("ReportItemDialog", "Department"))
         self.departmentEdit.setPlaceholderText(_translate("ReportItemDialog", "e.g. BSCS"))
         self.label_13.setText(_translate("ReportItemDialog", "Person Details"))
         self.lastNameEdit.setPlaceholderText(_translate("ReportItemDialog", "Last Name"))
-        self.label.setText(_translate("ReportItemDialog", "Report an Item"))
         self.backButton.setText(_translate("ReportItemDialog", "B"))
-
-
-if __name__ == "__main__":
-    import sys
-    app = QtWidgets.QApplication(sys.argv)
-    ReportItemDialog = QtWidgets.QDialog()
-    ui = Ui_ReportItemDialog()
-    ui.setupUi(ReportItemDialog)
-    ReportItemDialog.show()
-    sys.exit(app.exec_())
+        self.label.setText(_translate("ReportItemDialog", "Report an Item"))
+        self.label_12.setText(_translate("ReportItemDialog", "Department"))
+        self.labelImagePreview.setText(_translate("ReportItemDialog", "TextLabel"))
+        self.uploadImageButton.setText(_translate("ReportItemDialog", "Upload"))
