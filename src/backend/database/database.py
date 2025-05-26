@@ -54,49 +54,58 @@ def create_items_table():
             Category VARCHAR(50) NOT NULL,
             Name VARCHAR(50) NOT NULL,
             Description VARCHAR(255) NOT NULL,
-            Status VARCHAR(50) NOT NULL,
-            PRIMARY KEY (ItemID)
+            Status ENUM('Reported', 'Surrendered', 'Claimed') NOT NULL,
+            ImagePath VARCHAR(255),
+            ReportedBy VARCHAR(9),
+            DateLost DATETIME,
+            LocationLost VARCHAR(100),
+            SurrenderedBy VARCHAR(9),
+            DateFound DATETIME,
+            LocationFound VARCHAR(100),
+            PRIMARY KEY (ItemID),
+            FOREIGN KEY (ReportedBy) REFERENCES Persons(PersonID),
+            FOREIGN KEY (SurrenderedBy) REFERENCES Persons(PersonID)
         )
     """)
     conn.commit()
     cursor.close()
     conn.close()
 
-def create_surrendered_items_table():
-    conn = create_connection()
-    cursor = conn.cursor()
-    cursor.execute("""
-        CREATE TABLE IF NOT EXISTS SurrenderedItems (
-            ItemID INT(8) UNSIGNED NOT NULL,
-            DateFound DATETIME NOT NULL,
-            LocationFound VARCHAR(50) NOT NULL,
-            PersonID INT(8) UNSIGNED NOT NULL,
-            PRIMARY KEY (ItemID),
-            FOREIGN KEY (ItemID) REFERENCES Items(ItemID),
-            FOREIGN KEY (PersonID) REFERENCES Persons(PersonID)
-        )
-    """)
-    conn.commit()
-    cursor.close()
-    conn.close()
+#def create_surrendered_items_table():
+#    conn = create_connection()
+#    cursor = conn.cursor()
+#    cursor.execute("""
+#        CREATE TABLE IF NOT EXISTS SurrenderedItems (
+#            ItemID INT(8) UNSIGNED NOT NULL,
+#            DateFound DATETIME NOT NULL,
+#            LocationFound VARCHAR(50) NOT NULL,
+#            PersonID INT(8) UNSIGNED NOT NULL,
+#            PRIMARY KEY (ItemID),
+#            FOREIGN KEY (ItemID) REFERENCES Items(ItemID),
+#            FOREIGN KEY (PersonID) REFERENCES Persons(PersonID)
+#        )
+#    """)
+#    conn.commit()
+#    cursor.close()
+#    conn.close()
 
-def create_reported_items_table():
-    conn = create_connection()
-    cursor = conn.cursor()
-    cursor.execute("""
-        CREATE TABLE IF NOT EXISTS ReportedItems (
-            ItemID INT(8) UNSIGNED NOT NULL,
-            DateLost DATETIME NOT NULL,
-            LocationLost VARCHAR(50) NOT NULL,
-            PersonID INT(8) UNSIGNED NOT NULL,
-            PRIMARY KEY (ItemID),
-            FOREIGN KEY (ItemID) REFERENCES Items(ItemID),
-            FOREIGN KEY (PersonID) REFERENCES Persons(PersonID)
-        )
-    """)
-    conn.commit()
-    cursor.close()
-    conn.close()
+#def create_reported_items_table():
+#    conn = create_connection()
+#    cursor = conn.cursor()
+#    cursor.execute("""
+#        CREATE TABLE IF NOT EXISTS ReportedItems (
+#            ItemID INT(8) UNSIGNED NOT NULL,
+#            DateLost DATETIME NOT NULL,
+#            LocationLost VARCHAR(50) NOT NULL,
+#            PersonID INT(8) UNSIGNED NOT NULL,
+#            PRIMARY KEY (ItemID),
+#            FOREIGN KEY (ItemID) REFERENCES Items(ItemID),
+#            FOREIGN KEY (PersonID) REFERENCES Persons(PersonID)
+#        )
+#    """)
+#    conn.commit()
+#    cursor.close()
+#    conn.close()
 
 def create_claimed_items_table():
     conn = create_connection()
@@ -123,7 +132,5 @@ def initialize_database():
 
     create_persons_table()
     create_items_table()
-    create_reported_items_table()
-    create_surrendered_items_table()
     create_claimed_items_table()
 

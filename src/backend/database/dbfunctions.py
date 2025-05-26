@@ -48,33 +48,52 @@ def update_person(person_id, first_name, last_name, person_contact, person_depar
                 cursor.close()
                 conn.close()
 
-def add_reported_item(item_category, item_name, item_description, date_lost, location_lost, person_id):
+# def add_reported_item(item_category, item_name, item_description, date_lost, location_lost, person_id):
+#     conn = database.create_connection()
+#     cursor = conn.cursor()
+
+#     try:
+#         # Add item
+#         cursor.execute("""
+#             INSERT INTO Items (Category, Name, Description, Status)
+#             VALUES (%s, %s, %s, 'Reported')
+#         """, (item_category, item_name, item_description))
+#         item_id = cursor.lastrowid
+
+#         # Add reported item
+#         cursor.execute("""
+#             INSERT INTO ReportedItems (ItemID, DateLost, LocationLost, PersonID)
+#             VALUES (%s, %s, %s, %s)
+#         """, (item_id, date_lost, location_lost, person_id))
+
+#         conn.commit()
+#         print("Reported item added successfully.")  # Replace with dialog later
+#         return item_id
+
+#     except Exception as e:
+#         print("Error:", e)
+#         conn.rollback()
+#         return None
+
+#     finally:
+#         cursor.close()
+#         conn.close()
+
+def add_reported_item(category, name, description, date_lost, location_lost, person_id):
     conn = database.create_connection()
     cursor = conn.cursor()
-
     try:
-        # Add item
         cursor.execute("""
-            INSERT INTO Items (Category, Name, Description, Status)
-            VALUES (%s, %s, %s, 'Reported')
-        """, (item_category, item_name, item_description))
+            INSERT INTO Items (Category, Name, Description, Status, ReportedBy, DateLost, LocationLost)
+            VALUES (%s, %s, %s, 'Reported', %s, %s, %s)
+        """, (category, name, description, person_id, date_lost, location_lost))
         item_id = cursor.lastrowid
-
-        # Add reported item
-        cursor.execute("""
-            INSERT INTO ReportedItems (ItemID, DateLost, LocationLost, PersonID)
-            VALUES (%s, %s, %s, %s)
-        """, (item_id, date_lost, location_lost, person_id))
-
         conn.commit()
-        print("Reported item added successfully.")  # Replace with dialog later
         return item_id
-
     except Exception as e:
         print("Error:", e)
         conn.rollback()
         return None
-
     finally:
         cursor.close()
         conn.close()
@@ -189,33 +208,52 @@ def claim_item(item_id, date_claimed, person_id):
         cursor.close()
         conn.close()
 
-def add_surrendered_item(item_category, item_name, item_description, date_found, location_found, person_id):
+# def add_surrendered_item(item_category, item_name, item_description, date_found, location_found, person_id):
+#     conn = database.create_connection()
+#     cursor = conn.cursor()
+
+#     try:
+#         # Add item
+#         cursor.execute("""
+#             INSERT INTO Items (Category, Name, Description, Status)
+#             VALUES (%s, %s, %s, 'Surrendered')
+#         """, (item_category, item_name, item_description))
+#         item_id = cursor.lastrowid
+
+#         # Add reported item
+#         cursor.execute("""
+#             INSERT INTO SurrenderedItems (ItemID, DateFound, LocationFound, PersonID)
+#             VALUES (%s, %s, %s, %s)
+#         """, (item_id, date_found, location_found, person_id))
+
+#         conn.commit()
+#         print("Surrendered item added successfully.")  # Replace with dialog later
+#         return item_id
+
+#     except Exception as e:
+#         print("Error:", e)
+#         conn.rollback()
+#         return None
+
+#     finally:
+#         cursor.close()
+#         conn.close()
+
+def add_surrendered_item(category, name, description, date_found, location_found, person_id):
     conn = database.create_connection()
     cursor = conn.cursor()
-
     try:
-        # Add item
         cursor.execute("""
-            INSERT INTO Items (Category, Name, Description, Status)
-            VALUES (%s, %s, %s, 'Surrendered')
-        """, (item_category, item_name, item_description))
+            INSERT INTO Items (Category, Name, Description, Status, SurrenderedBy, DateFound, LocationFound)
+            VALUES (%s, %s, %s, 'Surrendered', %s, %s, %s)
+        """, (category, name, description, person_id, date_found, location_found))
         item_id = cursor.lastrowid
-
-        # Add reported item
-        cursor.execute("""
-            INSERT INTO SurrenderedItems (ItemID, DateFound, LocationFound, PersonID)
-            VALUES (%s, %s, %s, %s)
-        """, (item_id, date_found, location_found, person_id))
-
         conn.commit()
-        print("Surrendered item added successfully.")  # Replace with dialog later
         return item_id
-
     except Exception as e:
         print("Error:", e)
         conn.rollback()
         return None
-
     finally:
         cursor.close()
         conn.close()
@@ -572,6 +610,32 @@ def merge_items(source_item_id, target_item_id):
     except Exception as e:
         print("Error during merge:", e)
         conn.rollback()
+    finally:
+        cursor.close()
+        conn.close()
+
+def add_item_with_image(category, name, description, status, image_path):
+    conn = database.create_connection()
+    cursor = conn.cursor()
+    try:
+        cursor.execute("""
+            INSERT INTO Items (Category, Name, Description, Status)
+            VALUES (%s, %s, %s, %s)
+        """, (category, name, description, status))
+        item_id = cursor.lastrowid
+
+        rel_image_path = save_uploaded_image(image_path, item_id)
+
+        cursor.execute("""
+            UPDATE Items SET ImagePath = %s WHERE ItemID = %s
+        """, (rel_image_path, item_id))
+
+        conn.commit()
+        return item_id, rel_image_path
+    except Exception as e:
+        print("Database error:", e)
+        conn.rollback()
+        return None, None
     finally:
         cursor.close()
         conn.close()
