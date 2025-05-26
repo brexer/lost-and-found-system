@@ -1,0 +1,452 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>SurrenderItemDialog</class>
+ <widget class="QDialog" name="SurrenderItemDialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>600</width>
+    <height>682</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Dialog</string>
+  </property>
+  <widget class="QStackedWidget" name="stackedWidget">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>601</width>
+     <height>681</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(255, 255, 255);</string>
+   </property>
+   <property name="currentIndex">
+    <number>0</number>
+   </property>
+   <widget class="QWidget" name="itemPage">
+    <widget class="QLabel" name="label_2">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>80</y>
+       <width>191</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>14</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>Item Details</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="itemNameEdit">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>140</y>
+       <width>301</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QLineEdit {
+        border: 2px solid #ccc;
+        border-radius: 10px;
+        padding: 5px;
+    }</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_3">
+     <property name="geometry">
+      <rect>
+       <x>30</x>
+       <y>110</y>
+       <width>80</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>12</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>Name</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="locationFoundEdit">
+     <property name="geometry">
+      <rect>
+       <x>320</x>
+       <y>220</y>
+       <width>271</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QLineEdit {
+        border: 2px solid #ccc;
+        border-radius: 10px;
+        padding: 5px;
+    }</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_5">
+     <property name="geometry">
+      <rect>
+       <x>30</x>
+       <y>190</y>
+       <width>191</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>12</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>Date Found</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_6">
+     <property name="geometry">
+      <rect>
+       <x>330</x>
+       <y>190</y>
+       <width>211</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>12</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>Update Location</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="descriptionEdit">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>300</y>
+       <width>561</width>
+       <height>61</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QLineEdit {
+        border: 2px solid #ccc;
+        border-radius: 10px;
+        padding: 5px;
+    }</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_7">
+     <property name="geometry">
+      <rect>
+       <x>30</x>
+       <y>270</y>
+       <width>191</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>12</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>Description</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="nextButton">
+     <property name="geometry">
+      <rect>
+       <x>369</x>
+       <y>610</y>
+       <width>211</width>
+       <height>51</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>14</pointsize>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton {
+        background-color: rgb(170, 0, 0);
+        color: white;
+        border: none;
+        border-radius: 20px;
+        padding: 8px 16px;
+    }
+    QPushButton:hover {
+        background-color: #800000;
+    }
+    QPushButton:pressed {
+        background-color: #4d0000;
+    }</string>
+     </property>
+     <property name="text">
+      <string>Next</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="cancelButton">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>610</y>
+       <width>211</width>
+       <height>51</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>14</pointsize>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton {
+        border: 1px solid;
+        border-radius: 20px;
+        padding: 8px 16px;
+    }
+    QPushButton:hover {
+        background-color: lightgray;
+    }
+    QPushButton:pressed {
+        background-color: gray;
+    }</string>
+     </property>
+     <property name="text">
+      <string>Cancel</string>
+     </property>
+    </widget>
+    <widget class="QFrame" name="frame_2">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>611</width>
+       <height>80</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: rgb(170, 0, 0);</string>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::StyledPanel</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Raised</enum>
+     </property>
+     <widget class="QLabel" name="label_11">
+      <property name="geometry">
+       <rect>
+        <x>180</x>
+        <y>0</y>
+        <width>231</width>
+        <height>81</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>18</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color: rgb(255, 255, 255);</string>
+      </property>
+      <property name="text">
+       <string>Update an Item</string>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QDateTimeEdit" name="dateFoundEdit">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>220</y>
+       <width>271</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>12</pointsize>
+      </font>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_14">
+     <property name="geometry">
+      <rect>
+       <x>380</x>
+       <y>110</y>
+       <width>191</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>12</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>Category</string>
+     </property>
+    </widget>
+    <widget class="QComboBox" name="comboBox_2">
+     <property name="geometry">
+      <rect>
+       <x>370</x>
+       <y>140</y>
+       <width>201</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>11</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QComboBox {
+        border: 2px solid #ccc;
+        border-radius: 10px;
+        padding: 5px;
+    }</string>
+     </property>
+     <item>
+      <property name="text">
+       <string>Electronics</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>School Supplies</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Clothing and Accessories</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>I.D Cards</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Wallets </string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Keys</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Personal Items</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Others</string>
+      </property>
+     </item>
+    </widget>
+    <widget class="QPushButton" name="pushButton">
+     <property name="geometry">
+      <rect>
+       <x>470</x>
+       <y>470</y>
+       <width>101</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton {
+        background-color: rgb(170, 0, 0);
+        color: white;
+        border: none;
+        border-radius: 20px;
+        padding: 8px 16px;
+    }
+    QPushButton:hover {
+        background-color: #800000;
+    }
+    QPushButton:pressed {
+        background-color: #4d0000;
+    }</string>
+     </property>
+     <property name="text">
+      <string>Upload </string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="itemImagePreview">
+     <property name="geometry">
+      <rect>
+       <x>30</x>
+       <y>400</y>
+       <width>431</width>
+       <height>191</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>No Image Selected</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_15">
+     <property name="geometry">
+      <rect>
+       <x>30</x>
+       <y>370</y>
+       <width>111</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>12</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>Item Image</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="personPage"/>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>599</width>
+    <width>602</width>
     <height>682</height>
    </rect>
   </property>
@@ -33,7 +33,7 @@
      <property name="geometry">
       <rect>
        <x>20</x>
-       <y>90</y>
+       <y>80</y>
        <width>191</width>
        <height>41</height>
       </rect>
@@ -53,8 +53,8 @@
      <property name="geometry">
       <rect>
        <x>20</x>
-       <y>190</y>
-       <width>561</width>
+       <y>140</y>
+       <width>301</width>
        <height>41</height>
       </rect>
      </property>
@@ -65,12 +65,15 @@
         padding: 5px;
     }</string>
      </property>
+     <property name="text">
+      <string/>
+     </property>
     </widget>
     <widget class="QLabel" name="label_3">
      <property name="geometry">
       <rect>
        <x>30</x>
-       <y>160</y>
+       <y>110</y>
        <width>80</width>
        <height>23</height>
       </rect>
@@ -84,46 +87,11 @@
       <string>Name</string>
      </property>
     </widget>
-    <widget class="QLineEdit" name="categoryEdit">
-     <property name="geometry">
-      <rect>
-       <x>20</x>
-       <y>280</y>
-       <width>561</width>
-       <height>41</height>
-      </rect>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">QLineEdit {
-        border: 2px solid #ccc;
-        border-radius: 10px;
-        padding: 5px;
-    }</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_4">
-     <property name="geometry">
-      <rect>
-       <x>30</x>
-       <y>250</y>
-       <width>191</width>
-       <height>23</height>
-      </rect>
-     </property>
-     <property name="font">
-      <font>
-       <pointsize>12</pointsize>
-      </font>
-     </property>
-     <property name="text">
-      <string>Category</string>
-     </property>
-    </widget>
     <widget class="QLineEdit" name="locationFoundEdit">
      <property name="geometry">
       <rect>
-       <x>310</x>
-       <y>370</y>
+       <x>320</x>
+       <y>220</y>
        <width>271</width>
        <height>41</height>
       </rect>
@@ -140,7 +108,7 @@
      <property name="geometry">
       <rect>
        <x>30</x>
-       <y>340</y>
+       <y>190</y>
        <width>191</width>
        <height>23</height>
       </rect>
@@ -157,8 +125,8 @@
     <widget class="QLabel" name="label_6">
      <property name="geometry">
       <rect>
-       <x>320</x>
-       <y>340</y>
+       <x>330</x>
+       <y>190</y>
        <width>211</width>
        <height>23</height>
       </rect>
@@ -176,9 +144,9 @@
      <property name="geometry">
       <rect>
        <x>20</x>
-       <y>460</y>
+       <y>300</y>
        <width>561</width>
-       <height>120</height>
+       <height>61</height>
       </rect>
      </property>
      <property name="styleSheet">
@@ -188,12 +156,15 @@
         padding: 5px;
     }</string>
      </property>
+     <property name="text">
+      <string/>
+     </property>
     </widget>
     <widget class="QLabel" name="label_7">
      <property name="geometry">
       <rect>
        <x>30</x>
-       <y>430</y>
+       <y>270</y>
        <width>191</width>
        <height>23</height>
       </rect>
@@ -292,9 +263,9 @@
      <widget class="QLabel" name="label_11">
       <property name="geometry">
        <rect>
-        <x>130</x>
+        <x>180</x>
         <y>0</y>
-        <width>351</width>
+        <width>231</width>
         <height>81</height>
        </rect>
       </property>
@@ -317,7 +288,7 @@
      <property name="geometry">
       <rect>
        <x>20</x>
-       <y>370</y>
+       <y>220</y>
        <width>271</width>
        <height>41</height>
       </rect>
@@ -328,13 +299,157 @@
       </font>
      </property>
     </widget>
+    <widget class="QLabel" name="label_14">
+     <property name="geometry">
+      <rect>
+       <x>380</x>
+       <y>110</y>
+       <width>191</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>12</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>Category</string>
+     </property>
+    </widget>
+    <widget class="QComboBox" name="comboBox_2">
+     <property name="geometry">
+      <rect>
+       <x>370</x>
+       <y>140</y>
+       <width>201</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>11</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QComboBox {
+        border: 2px solid #ccc;
+        border-radius: 10px;
+        padding: 5px;
+    }</string>
+     </property>
+     <item>
+      <property name="text">
+       <string>Electronics</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>School Supplies</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Clothing and Accessories</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>I.D Cards</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Wallets </string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Keys</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Personal Items</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Others</string>
+      </property>
+     </item>
+    </widget>
+    <widget class="QPushButton" name="pushButton">
+     <property name="geometry">
+      <rect>
+       <x>470</x>
+       <y>470</y>
+       <width>101</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton {
+        background-color: rgb(170, 0, 0);
+        color: white;
+        border: none;
+        border-radius: 20px;
+        padding: 8px 16px;
+    }
+    QPushButton:hover {
+        background-color: #800000;
+    }
+    QPushButton:pressed {
+        background-color: #4d0000;
+    }</string>
+     </property>
+     <property name="text">
+      <string>Upload </string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="itemImagePreview">
+     <property name="geometry">
+      <rect>
+       <x>30</x>
+       <y>400</y>
+       <width>431</width>
+       <height>191</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>No Image Selected</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_15">
+     <property name="geometry">
+      <rect>
+       <x>30</x>
+       <y>370</y>
+       <width>111</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>12</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>Item Image</string>
+     </property>
+    </widget>
    </widget>
    <widget class="QWidget" name="personPage">
     <widget class="QLabel" name="label_8">
      <property name="geometry">
       <rect>
-       <x>31</x>
-       <y>430</y>
+       <x>20</x>
+       <y>330</y>
        <width>191</width>
        <height>23</height>
       </rect>
@@ -353,7 +468,7 @@
       <rect>
        <x>21</x>
        <y>280</y>
-       <width>561</width>
+       <width>261</width>
        <height>41</height>
       </rect>
      </property>
@@ -438,7 +553,7 @@
     <widget class="QLineEdit" name="firstNameEdit">
      <property name="geometry">
       <rect>
-       <x>21</x>
+       <x>20</x>
        <y>190</y>
        <width>271</width>
        <height>41</height>
@@ -491,8 +606,8 @@
     <widget class="QLabel" name="label_12">
      <property name="geometry">
       <rect>
-       <x>31</x>
-       <y>340</y>
+       <x>320</x>
+       <y>250</y>
        <width>191</width>
        <height>23</height>
       </rect>
@@ -504,43 +619,6 @@
      </property>
      <property name="text">
       <string>Department</string>
-     </property>
-    </widget>
-    <widget class="QLineEdit" name="departmentEdit">
-     <property name="geometry">
-      <rect>
-       <x>21</x>
-       <y>370</y>
-       <width>561</width>
-       <height>41</height>
-      </rect>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">QLineEdit {
-        border: 2px solid #ccc;
-        border-radius: 10px;
-        padding: 5px;
-    }</string>
-     </property>
-     <property name="placeholderText">
-      <string>e.g. BSCS</string>
-     </property>
-    </widget>
-    <widget class="QLineEdit" name="proofIdEdit">
-     <property name="geometry">
-      <rect>
-       <x>21</x>
-       <y>460</y>
-       <width>561</width>
-       <height>120</height>
-      </rect>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">QLineEdit {
-        border: 2px solid #ccc;
-        border-radius: 10px;
-        padding: 5px;
-    }</string>
      </property>
     </widget>
     <widget class="QLabel" name="label_13">
@@ -560,13 +638,13 @@
       </font>
      </property>
      <property name="text">
-      <string>Person Details</string>
+      <string>Personal Details</string>
      </property>
     </widget>
     <widget class="QLineEdit" name="lastNameEdit">
      <property name="geometry">
       <rect>
-       <x>311</x>
+       <x>320</x>
        <y>190</y>
        <width>271</width>
        <height>41</height>
@@ -604,9 +682,9 @@
      <widget class="QLabel" name="label">
       <property name="geometry">
        <rect>
-        <x>130</x>
+        <x>190</x>
         <y>0</y>
-        <width>341</width>
+        <width>221</width>
         <height>81</height>
        </rect>
       </property>
@@ -651,6 +729,70 @@
        <string>B</string>
       </property>
      </widget>
+    </widget>
+    <widget class="QLineEdit" name="departmentEdit_2">
+     <property name="geometry">
+      <rect>
+       <x>310</x>
+       <y>280</y>
+       <width>271</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QLineEdit {
+        border: 2px solid #ccc;
+        border-radius: 10px;
+        padding: 5px;
+    }</string>
+     </property>
+     <property name="placeholderText">
+      <string>e.g. BSCS</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="proofImagePreview">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>360</y>
+       <width>441</width>
+       <height>231</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>No Image Selected</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="uploadImageButton">
+     <property name="geometry">
+      <rect>
+       <x>470</x>
+       <y>450</y>
+       <width>75</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton {
+        background-color: rgb(170, 0, 0);
+        color: white;
+        border: none;
+        border-radius: 20px;
+        padding: 8px 16px;
+    }
+    QPushButton:hover {
+        background-color: #800000;
+    }
+    QPushButton:pressed {
+        background-color: #4d0000;
+    }</string>
+     </property>
+     <property name="text">
+      <string>Upload</string>
+     </property>
     </widget>
    </widget>
   </widget>
