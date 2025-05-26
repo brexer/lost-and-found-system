@@ -14,7 +14,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_SurrenderItemDialog(object):
     def setupUi(self, SurrenderItemDialog):
         SurrenderItemDialog.setObjectName("SurrenderItemDialog")
-        SurrenderItemDialog.resize(599, 682)
+        SurrenderItemDialog.resize(602, 682)
         self.stackedWidget = QtWidgets.QStackedWidget(SurrenderItemDialog)
         self.stackedWidget.setGeometry(QtCore.QRect(0, 0, 601, 681))
         self.stackedWidget.setStyleSheet("background-color: rgb(255, 255, 255);")
@@ -22,7 +22,7 @@ class Ui_SurrenderItemDialog(object):
         self.itemPage = QtWidgets.QWidget()
         self.itemPage.setObjectName("itemPage")
         self.label_2 = QtWidgets.QLabel(self.itemPage)
-        self.label_2.setGeometry(QtCore.QRect(20, 90, 191, 41))
+        self.label_2.setGeometry(QtCore.QRect(20, 80, 191, 41))
         font = QtGui.QFont()
         font.setPointSize(14)
         font.setBold(True)
@@ -30,35 +30,22 @@ class Ui_SurrenderItemDialog(object):
         self.label_2.setFont(font)
         self.label_2.setObjectName("label_2")
         self.itemNameEdit = QtWidgets.QLineEdit(self.itemPage)
-        self.itemNameEdit.setGeometry(QtCore.QRect(20, 190, 561, 41))
+        self.itemNameEdit.setGeometry(QtCore.QRect(20, 140, 301, 41))
         self.itemNameEdit.setStyleSheet("QLineEdit {\n"
 "        border: 2px solid #ccc;\n"
 "        border-radius: 10px;\n"
 "        padding: 5px;\n"
 "    }")
+        self.itemNameEdit.setText("")
         self.itemNameEdit.setObjectName("itemNameEdit")
         self.label_3 = QtWidgets.QLabel(self.itemPage)
-        self.label_3.setGeometry(QtCore.QRect(30, 160, 80, 23))
+        self.label_3.setGeometry(QtCore.QRect(30, 110, 80, 23))
         font = QtGui.QFont()
         font.setPointSize(12)
         self.label_3.setFont(font)
         self.label_3.setObjectName("label_3")
-        self.categoryEdit = QtWidgets.QLineEdit(self.itemPage)
-        self.categoryEdit.setGeometry(QtCore.QRect(20, 280, 561, 41))
-        self.categoryEdit.setStyleSheet("QLineEdit {\n"
-"        border: 2px solid #ccc;\n"
-"        border-radius: 10px;\n"
-"        padding: 5px;\n"
-"    }")
-        self.categoryEdit.setObjectName("categoryEdit")
-        self.label_4 = QtWidgets.QLabel(self.itemPage)
-        self.label_4.setGeometry(QtCore.QRect(30, 250, 191, 23))
-        font = QtGui.QFont()
-        font.setPointSize(12)
-        self.label_4.setFont(font)
-        self.label_4.setObjectName("label_4")
         self.locationFoundEdit = QtWidgets.QLineEdit(self.itemPage)
-        self.locationFoundEdit.setGeometry(QtCore.QRect(310, 370, 271, 41))
+        self.locationFoundEdit.setGeometry(QtCore.QRect(320, 220, 271, 41))
         self.locationFoundEdit.setStyleSheet("QLineEdit {\n"
 "        border: 2px solid #ccc;\n"
 "        border-radius: 10px;\n"
@@ -66,27 +53,28 @@ class Ui_SurrenderItemDialog(object):
 "    }")
         self.locationFoundEdit.setObjectName("locationFoundEdit")
         self.label_5 = QtWidgets.QLabel(self.itemPage)
-        self.label_5.setGeometry(QtCore.QRect(30, 340, 191, 23))
+        self.label_5.setGeometry(QtCore.QRect(30, 190, 191, 23))
         font = QtGui.QFont()
         font.setPointSize(12)
         self.label_5.setFont(font)
         self.label_5.setObjectName("label_5")
         self.label_6 = QtWidgets.QLabel(self.itemPage)
-        self.label_6.setGeometry(QtCore.QRect(320, 340, 211, 23))
+        self.label_6.setGeometry(QtCore.QRect(330, 190, 211, 23))
         font = QtGui.QFont()
         font.setPointSize(12)
         self.label_6.setFont(font)
         self.label_6.setObjectName("label_6")
         self.descriptionEdit = QtWidgets.QLineEdit(self.itemPage)
-        self.descriptionEdit.setGeometry(QtCore.QRect(20, 460, 561, 120))
+        self.descriptionEdit.setGeometry(QtCore.QRect(20, 300, 561, 61))
         self.descriptionEdit.setStyleSheet("QLineEdit {\n"
 "        border: 2px solid #ccc;\n"
 "        border-radius: 10px;\n"
 "        padding: 5px;\n"
 "    }")
+        self.descriptionEdit.setText("")
         self.descriptionEdit.setObjectName("descriptionEdit")
         self.label_7 = QtWidgets.QLabel(self.itemPage)
-        self.label_7.setGeometry(QtCore.QRect(30, 430, 191, 23))
+        self.label_7.setGeometry(QtCore.QRect(30, 270, 191, 23))
         font = QtGui.QFont()
         font.setPointSize(12)
         self.label_7.setFont(font)
@@ -134,7 +122,7 @@ class Ui_SurrenderItemDialog(object):
         self.frame_2.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame_2.setObjectName("frame_2")
         self.label_11 = QtWidgets.QLabel(self.frame_2)
-        self.label_11.setGeometry(QtCore.QRect(130, 0, 351, 81))
+        self.label_11.setGeometry(QtCore.QRect(180, 0, 231, 81))
         font = QtGui.QFont()
         font.setPointSize(18)
         font.setBold(True)
@@ -143,22 +131,74 @@ class Ui_SurrenderItemDialog(object):
         self.label_11.setStyleSheet("color: rgb(255, 255, 255);")
         self.label_11.setObjectName("label_11")
         self.dateFoundEdit = QtWidgets.QDateTimeEdit(self.itemPage)
-        self.dateFoundEdit.setGeometry(QtCore.QRect(20, 370, 271, 41))
+        self.dateFoundEdit.setGeometry(QtCore.QRect(20, 220, 271, 41))
         font = QtGui.QFont()
         font.setPointSize(12)
         self.dateFoundEdit.setFont(font)
         self.dateFoundEdit.setObjectName("dateFoundEdit")
+        self.label_14 = QtWidgets.QLabel(self.itemPage)
+        self.label_14.setGeometry(QtCore.QRect(380, 110, 191, 23))
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        self.label_14.setFont(font)
+        self.label_14.setObjectName("label_14")
+        self.comboBox_2 = QtWidgets.QComboBox(self.itemPage)
+        self.comboBox_2.setGeometry(QtCore.QRect(370, 140, 201, 41))
+        font = QtGui.QFont()
+        font.setPointSize(11)
+        font.setBold(True)
+        font.setWeight(75)
+        self.comboBox_2.setFont(font)
+        self.comboBox_2.setStyleSheet("QComboBox {\n"
+"        border: 2px solid #ccc;\n"
+"        border-radius: 10px;\n"
+"        padding: 5px;\n"
+"    }")
+        self.comboBox_2.setObjectName("comboBox_2")
+        self.comboBox_2.addItem("")
+        self.comboBox_2.addItem("")
+        self.comboBox_2.addItem("")
+        self.comboBox_2.addItem("")
+        self.comboBox_2.addItem("")
+        self.comboBox_2.addItem("")
+        self.comboBox_2.addItem("")
+        self.comboBox_2.addItem("")
+        self.pushButton = QtWidgets.QPushButton(self.itemPage)
+        self.pushButton.setGeometry(QtCore.QRect(470, 470, 101, 31))
+        self.pushButton.setStyleSheet("QPushButton {\n"
+"        background-color: rgb(170, 0, 0);\n"
+"        color: white;\n"
+"        border: none;\n"
+"        border-radius: 20px;\n"
+"        padding: 8px 16px;\n"
+"    }\n"
+"    QPushButton:hover {\n"
+"        background-color: #800000;\n"
+"    }\n"
+"    QPushButton:pressed {\n"
+"        background-color: #4d0000;\n"
+"    }")
+        self.pushButton.setObjectName("pushButton")
+        self.itemImagePreview = QtWidgets.QLabel(self.itemPage)
+        self.itemImagePreview.setGeometry(QtCore.QRect(30, 400, 431, 191))
+        self.itemImagePreview.setObjectName("itemImagePreview")
+        self.label_15 = QtWidgets.QLabel(self.itemPage)
+        self.label_15.setGeometry(QtCore.QRect(30, 370, 111, 23))
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        self.label_15.setFont(font)
+        self.label_15.setObjectName("label_15")
         self.stackedWidget.addWidget(self.itemPage)
         self.personPage = QtWidgets.QWidget()
         self.personPage.setObjectName("personPage")
         self.label_8 = QtWidgets.QLabel(self.personPage)
-        self.label_8.setGeometry(QtCore.QRect(31, 430, 191, 23))
+        self.label_8.setGeometry(QtCore.QRect(20, 330, 191, 23))
         font = QtGui.QFont()
         font.setPointSize(12)
         self.label_8.setFont(font)
         self.label_8.setObjectName("label_8")
         self.phoneNumberEdit = QtWidgets.QLineEdit(self.personPage)
-        self.phoneNumberEdit.setGeometry(QtCore.QRect(21, 280, 561, 41))
+        self.phoneNumberEdit.setGeometry(QtCore.QRect(21, 280, 261, 41))
         self.phoneNumberEdit.setStyleSheet("QLineEdit {\n"
 "        border: 2px solid #ccc;\n"
 "        border-radius: 10px;\n"
@@ -195,7 +235,7 @@ class Ui_SurrenderItemDialog(object):
         self.label_10.setFont(font)
         self.label_10.setObjectName("label_10")
         self.firstNameEdit = QtWidgets.QLineEdit(self.personPage)
-        self.firstNameEdit.setGeometry(QtCore.QRect(21, 190, 271, 41))
+        self.firstNameEdit.setGeometry(QtCore.QRect(20, 190, 271, 41))
         self.firstNameEdit.setStyleSheet("QLineEdit {\n"
 "        border: 2px solid #ccc;\n"
 "        border-radius: 10px;\n"
@@ -222,27 +262,11 @@ class Ui_SurrenderItemDialog(object):
 "    }")
         self.confirmButton.setObjectName("confirmButton")
         self.label_12 = QtWidgets.QLabel(self.personPage)
-        self.label_12.setGeometry(QtCore.QRect(31, 340, 191, 23))
+        self.label_12.setGeometry(QtCore.QRect(320, 250, 191, 23))
         font = QtGui.QFont()
         font.setPointSize(12)
         self.label_12.setFont(font)
         self.label_12.setObjectName("label_12")
-        self.departmentEdit = QtWidgets.QLineEdit(self.personPage)
-        self.departmentEdit.setGeometry(QtCore.QRect(21, 370, 561, 41))
-        self.departmentEdit.setStyleSheet("QLineEdit {\n"
-"        border: 2px solid #ccc;\n"
-"        border-radius: 10px;\n"
-"        padding: 5px;\n"
-"    }")
-        self.departmentEdit.setObjectName("departmentEdit")
-        self.proofIdEdit = QtWidgets.QLineEdit(self.personPage)
-        self.proofIdEdit.setGeometry(QtCore.QRect(21, 460, 561, 120))
-        self.proofIdEdit.setStyleSheet("QLineEdit {\n"
-"        border: 2px solid #ccc;\n"
-"        border-radius: 10px;\n"
-"        padding: 5px;\n"
-"    }")
-        self.proofIdEdit.setObjectName("proofIdEdit")
         self.label_13 = QtWidgets.QLabel(self.personPage)
         self.label_13.setGeometry(QtCore.QRect(21, 90, 251, 41))
         font = QtGui.QFont()
@@ -252,7 +276,7 @@ class Ui_SurrenderItemDialog(object):
         self.label_13.setFont(font)
         self.label_13.setObjectName("label_13")
         self.lastNameEdit = QtWidgets.QLineEdit(self.personPage)
-        self.lastNameEdit.setGeometry(QtCore.QRect(311, 190, 271, 41))
+        self.lastNameEdit.setGeometry(QtCore.QRect(320, 190, 271, 41))
         self.lastNameEdit.setStyleSheet("QLineEdit {\n"
 "        border: 2px solid #ccc;\n"
 "        border-radius: 10px;\n"
@@ -266,7 +290,7 @@ class Ui_SurrenderItemDialog(object):
         self.frame.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame.setObjectName("frame")
         self.label = QtWidgets.QLabel(self.frame)
-        self.label.setGeometry(QtCore.QRect(130, 0, 341, 81))
+        self.label.setGeometry(QtCore.QRect(190, 0, 221, 81))
         font = QtGui.QFont()
         font.setPointSize(18)
         font.setBold(True)
@@ -289,10 +313,37 @@ class Ui_SurrenderItemDialog(object):
 "        background-color: gray;\n"
 "    }")
         self.backButton.setObjectName("backButton")
+        self.departmentEdit_2 = QtWidgets.QLineEdit(self.personPage)
+        self.departmentEdit_2.setGeometry(QtCore.QRect(310, 280, 271, 41))
+        self.departmentEdit_2.setStyleSheet("QLineEdit {\n"
+"        border: 2px solid #ccc;\n"
+"        border-radius: 10px;\n"
+"        padding: 5px;\n"
+"    }")
+        self.departmentEdit_2.setObjectName("departmentEdit_2")
+        self.proofImagePreview = QtWidgets.QLabel(self.personPage)
+        self.proofImagePreview.setGeometry(QtCore.QRect(20, 360, 441, 231))
+        self.proofImagePreview.setObjectName("proofImagePreview")
+        self.uploadImageButton = QtWidgets.QPushButton(self.personPage)
+        self.uploadImageButton.setGeometry(QtCore.QRect(470, 450, 75, 31))
+        self.uploadImageButton.setStyleSheet("QPushButton {\n"
+"        background-color: rgb(170, 0, 0);\n"
+"        color: white;\n"
+"        border: none;\n"
+"        border-radius: 20px;\n"
+"        padding: 8px 16px;\n"
+"    }\n"
+"    QPushButton:hover {\n"
+"        background-color: #800000;\n"
+"    }\n"
+"    QPushButton:pressed {\n"
+"        background-color: #4d0000;\n"
+"    }")
+        self.uploadImageButton.setObjectName("uploadImageButton")
         self.stackedWidget.addWidget(self.personPage)
 
         self.retranslateUi(SurrenderItemDialog)
-        self.stackedWidget.setCurrentIndex(1)
+        self.stackedWidget.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(SurrenderItemDialog)
 
     def retranslateUi(self, SurrenderItemDialog):
@@ -300,13 +351,24 @@ class Ui_SurrenderItemDialog(object):
         SurrenderItemDialog.setWindowTitle(_translate("SurrenderItemDialog", "Dialog"))
         self.label_2.setText(_translate("SurrenderItemDialog", "Item Details"))
         self.label_3.setText(_translate("SurrenderItemDialog", "Name"))
-        self.label_4.setText(_translate("SurrenderItemDialog", "Category"))
         self.label_5.setText(_translate("SurrenderItemDialog", "Date Found"))
         self.label_6.setText(_translate("SurrenderItemDialog", "Location Found"))
         self.label_7.setText(_translate("SurrenderItemDialog", "Description"))
         self.nextButton.setText(_translate("SurrenderItemDialog", "Next"))
         self.cancelButton.setText(_translate("SurrenderItemDialog", "Cancel"))
         self.label_11.setText(_translate("SurrenderItemDialog", "Surrender an Item"))
+        self.label_14.setText(_translate("SurrenderItemDialog", "Category"))
+        self.comboBox_2.setItemText(0, _translate("SurrenderItemDialog", "Electronics"))
+        self.comboBox_2.setItemText(1, _translate("SurrenderItemDialog", "School Supplies"))
+        self.comboBox_2.setItemText(2, _translate("SurrenderItemDialog", "Clothing and Accessories"))
+        self.comboBox_2.setItemText(3, _translate("SurrenderItemDialog", "I.D Cards"))
+        self.comboBox_2.setItemText(4, _translate("SurrenderItemDialog", "Wallets "))
+        self.comboBox_2.setItemText(5, _translate("SurrenderItemDialog", "Keys"))
+        self.comboBox_2.setItemText(6, _translate("SurrenderItemDialog", "Personal Items"))
+        self.comboBox_2.setItemText(7, _translate("SurrenderItemDialog", "Others"))
+        self.pushButton.setText(_translate("SurrenderItemDialog", "Upload "))
+        self.itemImagePreview.setText(_translate("SurrenderItemDialog", "No Image Selected"))
+        self.label_15.setText(_translate("SurrenderItemDialog", "Item Image"))
         self.label_8.setText(_translate("SurrenderItemDialog", "Proof ID"))
         self.phoneNumberEdit.setPlaceholderText(_translate("SurrenderItemDialog", "e.g. 09123456789"))
         self.cancelButton_2.setText(_translate("SurrenderItemDialog", "Cancel"))
@@ -315,18 +377,10 @@ class Ui_SurrenderItemDialog(object):
         self.firstNameEdit.setPlaceholderText(_translate("SurrenderItemDialog", "First Name"))
         self.confirmButton.setText(_translate("SurrenderItemDialog", "Confirm"))
         self.label_12.setText(_translate("SurrenderItemDialog", "Department"))
-        self.departmentEdit.setPlaceholderText(_translate("SurrenderItemDialog", "e.g. BSCS"))
-        self.label_13.setText(_translate("SurrenderItemDialog", "Person Details"))
+        self.label_13.setText(_translate("SurrenderItemDialog", "Personal Details"))
         self.lastNameEdit.setPlaceholderText(_translate("SurrenderItemDialog", "Last Name"))
         self.label.setText(_translate("SurrenderItemDialog", "Surrender an Item"))
         self.backButton.setText(_translate("SurrenderItemDialog", "B"))
-
-
-if __name__ == "__main__":
-    import sys
-    app = QtWidgets.QApplication(sys.argv)
-    SurrenderItemDialog = QtWidgets.QDialog()
-    ui = Ui_SurrenderItemDialog()
-    ui.setupUi(SurrenderItemDialog)
-    SurrenderItemDialog.show()
-    sys.exit(app.exec_())
+        self.departmentEdit_2.setPlaceholderText(_translate("SurrenderItemDialog", "e.g. BSCS"))
+        self.proofImagePreview.setText(_translate("SurrenderItemDialog", "No Image Selected"))
+        self.uploadImageButton.setText(_translate("SurrenderItemDialog", "Upload"))

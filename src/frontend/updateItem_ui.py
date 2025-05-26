@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'surrenderItem.ui'
+## Form generated from reading UI file 'updateItem.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.9.0
 ##
@@ -23,7 +23,7 @@ class Ui_SurrenderItemDialog(object):
     def setupUi(self, SurrenderItemDialog):
         if not SurrenderItemDialog.objectName():
             SurrenderItemDialog.setObjectName(u"SurrenderItemDialog")
-        SurrenderItemDialog.resize(602, 682)
+        SurrenderItemDialog.resize(600, 682)
         self.stackedWidget = QStackedWidget(SurrenderItemDialog)
         self.stackedWidget.setObjectName(u"stackedWidget")
         self.stackedWidget.setGeometry(QRect(0, 0, 601, 681))
@@ -182,141 +182,11 @@ class Ui_SurrenderItemDialog(object):
         self.stackedWidget.addWidget(self.itemPage)
         self.personPage = QWidget()
         self.personPage.setObjectName(u"personPage")
-        self.label_8 = QLabel(self.personPage)
-        self.label_8.setObjectName(u"label_8")
-        self.label_8.setGeometry(QRect(20, 330, 191, 23))
-        self.label_8.setFont(font1)
-        self.phoneNumberEdit = QLineEdit(self.personPage)
-        self.phoneNumberEdit.setObjectName(u"phoneNumberEdit")
-        self.phoneNumberEdit.setGeometry(QRect(21, 280, 261, 41))
-        self.phoneNumberEdit.setStyleSheet(u"QLineEdit {\n"
-"        border: 2px solid #ccc;\n"
-"        border-radius: 10px;\n"
-"        padding: 5px;\n"
-"    }")
-        self.cancelButton_2 = QPushButton(self.personPage)
-        self.cancelButton_2.setObjectName(u"cancelButton_2")
-        self.cancelButton_2.setGeometry(QRect(21, 610, 211, 51))
-        self.cancelButton_2.setFont(font2)
-        self.cancelButton_2.setStyleSheet(u"QPushButton {\n"
-"        border: 1px solid;\n"
-"        border-radius: 20px;\n"
-"        padding: 8px 16px;\n"
-"    }\n"
-"    QPushButton:hover {\n"
-"        background-color: lightgray;\n"
-"    }\n"
-"    QPushButton:pressed {\n"
-"        background-color: gray;\n"
-"    }")
-        self.label_9 = QLabel(self.personPage)
-        self.label_9.setObjectName(u"label_9")
-        self.label_9.setGeometry(QRect(31, 160, 80, 23))
-        self.label_9.setFont(font1)
-        self.label_10 = QLabel(self.personPage)
-        self.label_10.setObjectName(u"label_10")
-        self.label_10.setGeometry(QRect(31, 250, 191, 23))
-        self.label_10.setFont(font1)
-        self.firstNameEdit = QLineEdit(self.personPage)
-        self.firstNameEdit.setObjectName(u"firstNameEdit")
-        self.firstNameEdit.setGeometry(QRect(20, 190, 271, 41))
-        self.firstNameEdit.setStyleSheet(u"QLineEdit {\n"
-"        border: 2px solid #ccc;\n"
-"        border-radius: 10px;\n"
-"        padding: 5px;\n"
-"    }")
-        self.confirmButton = QPushButton(self.personPage)
-        self.confirmButton.setObjectName(u"confirmButton")
-        self.confirmButton.setGeometry(QRect(370, 610, 211, 51))
-        self.confirmButton.setFont(font2)
-        self.confirmButton.setStyleSheet(u"QPushButton {\n"
-"        background-color: rgb(170, 0, 0);\n"
-"        color: white;\n"
-"        border: none;\n"
-"        border-radius: 20px;\n"
-"        padding: 8px 16px;\n"
-"    }\n"
-"    QPushButton:hover {\n"
-"        background-color: #800000;\n"
-"    }\n"
-"    QPushButton:pressed {\n"
-"        background-color: #4d0000;\n"
-"    }")
-        self.label_12 = QLabel(self.personPage)
-        self.label_12.setObjectName(u"label_12")
-        self.label_12.setGeometry(QRect(320, 250, 191, 23))
-        self.label_12.setFont(font1)
-        self.label_13 = QLabel(self.personPage)
-        self.label_13.setObjectName(u"label_13")
-        self.label_13.setGeometry(QRect(21, 90, 251, 41))
-        self.label_13.setFont(font)
-        self.lastNameEdit = QLineEdit(self.personPage)
-        self.lastNameEdit.setObjectName(u"lastNameEdit")
-        self.lastNameEdit.setGeometry(QRect(320, 190, 271, 41))
-        self.lastNameEdit.setStyleSheet(u"QLineEdit {\n"
-"        border: 2px solid #ccc;\n"
-"        border-radius: 10px;\n"
-"        padding: 5px;\n"
-"    }")
-        self.frame = QFrame(self.personPage)
-        self.frame.setObjectName(u"frame")
-        self.frame.setGeometry(QRect(0, 0, 611, 80))
-        self.frame.setStyleSheet(u"background-color: rgb(170, 0, 0);")
-        self.frame.setFrameShape(QFrame.StyledPanel)
-        self.frame.setFrameShadow(QFrame.Raised)
-        self.label = QLabel(self.frame)
-        self.label.setObjectName(u"label")
-        self.label.setGeometry(QRect(190, 0, 221, 81))
-        self.label.setFont(font3)
-        self.label.setStyleSheet(u"color: rgb(255, 255, 255);")
-        self.backButton = QPushButton(self.frame)
-        self.backButton.setObjectName(u"backButton")
-        self.backButton.setGeometry(QRect(20, 10, 60, 60))
-        self.backButton.setStyleSheet(u"QPushButton {\n"
-"		background-color: white;\n"
-"        border: 1px solid;\n"
-"        border-radius: 20px;\n"
-"        padding: 8px 16px;\n"
-"    }\n"
-"    QPushButton:hover {\n"
-"        background-color: lightgray;\n"
-"    }\n"
-"    QPushButton:pressed {\n"
-"        background-color: gray;\n"
-"    }")
-        self.departmentEdit_2 = QLineEdit(self.personPage)
-        self.departmentEdit_2.setObjectName(u"departmentEdit_2")
-        self.departmentEdit_2.setGeometry(QRect(310, 280, 271, 41))
-        self.departmentEdit_2.setStyleSheet(u"QLineEdit {\n"
-"        border: 2px solid #ccc;\n"
-"        border-radius: 10px;\n"
-"        padding: 5px;\n"
-"    }")
-        self.proofImagePreview = QLabel(self.personPage)
-        self.proofImagePreview.setObjectName(u"proofImagePreview")
-        self.proofImagePreview.setGeometry(QRect(20, 360, 441, 231))
-        self.proofImagePreview.setAlignment(Qt.AlignCenter)
-        self.uploadImageButton = QPushButton(self.personPage)
-        self.uploadImageButton.setObjectName(u"uploadImageButton")
-        self.uploadImageButton.setGeometry(QRect(470, 450, 75, 31))
-        self.uploadImageButton.setStyleSheet(u"QPushButton {\n"
-"        background-color: rgb(170, 0, 0);\n"
-"        color: white;\n"
-"        border: none;\n"
-"        border-radius: 20px;\n"
-"        padding: 8px 16px;\n"
-"    }\n"
-"    QPushButton:hover {\n"
-"        background-color: #800000;\n"
-"    }\n"
-"    QPushButton:pressed {\n"
-"        background-color: #4d0000;\n"
-"    }")
         self.stackedWidget.addWidget(self.personPage)
 
         self.retranslateUi(SurrenderItemDialog)
 
-        self.stackedWidget.setCurrentIndex(1)
+        self.stackedWidget.setCurrentIndex(0)
 
 
         QMetaObject.connectSlotsByName(SurrenderItemDialog)
@@ -328,12 +198,12 @@ class Ui_SurrenderItemDialog(object):
         self.itemNameEdit.setText("")
         self.label_3.setText(QCoreApplication.translate("SurrenderItemDialog", u"Name", None))
         self.label_5.setText(QCoreApplication.translate("SurrenderItemDialog", u"Date Found", None))
-        self.label_6.setText(QCoreApplication.translate("SurrenderItemDialog", u"Location Found", None))
+        self.label_6.setText(QCoreApplication.translate("SurrenderItemDialog", u"Update Location", None))
         self.descriptionEdit.setText("")
         self.label_7.setText(QCoreApplication.translate("SurrenderItemDialog", u"Description", None))
         self.nextButton.setText(QCoreApplication.translate("SurrenderItemDialog", u"Next", None))
         self.cancelButton.setText(QCoreApplication.translate("SurrenderItemDialog", u"Cancel", None))
-        self.label_11.setText(QCoreApplication.translate("SurrenderItemDialog", u"Surrender an Item", None))
+        self.label_11.setText(QCoreApplication.translate("SurrenderItemDialog", u"Update an Item", None))
         self.label_14.setText(QCoreApplication.translate("SurrenderItemDialog", u"Category", None))
         self.comboBox_2.setItemText(0, QCoreApplication.translate("SurrenderItemDialog", u"Electronics", None))
         self.comboBox_2.setItemText(1, QCoreApplication.translate("SurrenderItemDialog", u"School Supplies", None))
@@ -347,20 +217,5 @@ class Ui_SurrenderItemDialog(object):
         self.pushButton.setText(QCoreApplication.translate("SurrenderItemDialog", u"Upload ", None))
         self.itemImagePreview.setText(QCoreApplication.translate("SurrenderItemDialog", u"No Image Selected", None))
         self.label_15.setText(QCoreApplication.translate("SurrenderItemDialog", u"Item Image", None))
-        self.label_8.setText(QCoreApplication.translate("SurrenderItemDialog", u"Proof ID", None))
-        self.phoneNumberEdit.setPlaceholderText(QCoreApplication.translate("SurrenderItemDialog", u"e.g. 09123456789", None))
-        self.cancelButton_2.setText(QCoreApplication.translate("SurrenderItemDialog", u"Cancel", None))
-        self.label_9.setText(QCoreApplication.translate("SurrenderItemDialog", u"Name", None))
-        self.label_10.setText(QCoreApplication.translate("SurrenderItemDialog", u"Phone Number", None))
-        self.firstNameEdit.setPlaceholderText(QCoreApplication.translate("SurrenderItemDialog", u"First Name", None))
-        self.confirmButton.setText(QCoreApplication.translate("SurrenderItemDialog", u"Confirm", None))
-        self.label_12.setText(QCoreApplication.translate("SurrenderItemDialog", u"Department", None))
-        self.label_13.setText(QCoreApplication.translate("SurrenderItemDialog", u"Personal Details", None))
-        self.lastNameEdit.setPlaceholderText(QCoreApplication.translate("SurrenderItemDialog", u"Last Name", None))
-        self.label.setText(QCoreApplication.translate("SurrenderItemDialog", u"Surrender an Item", None))
-        self.backButton.setText(QCoreApplication.translate("SurrenderItemDialog", u"B", None))
-        self.departmentEdit_2.setPlaceholderText(QCoreApplication.translate("SurrenderItemDialog", u"e.g. BSCS", None))
-        self.proofImagePreview.setText(QCoreApplication.translate("SurrenderItemDialog", u"No Image Selected", None))
-        self.uploadImageButton.setText(QCoreApplication.translate("SurrenderItemDialog", u"Upload", None))
     # retranslateUi
 
