@@ -2,6 +2,7 @@ import sys
 import traceback
 
 from PyQt5.QtWidgets import QApplication, QPushButton, QMainWindow, QDialog, QTableWidgetItem, QTableWidget, QMessageBox
+from PyQt5.QtGui import QIcon
 from src.frontend.mainWindow_ui import Ui_MainWindow
 from src.frontend.reportItem import Ui_ReportItemDialog
 from src.frontend.surrenderItem import Ui_SurrenderItemDialog
@@ -22,11 +23,14 @@ class MainClass(QMainWindow, Ui_MainWindow):
         self.setupUi(self)
         self.setWindowTitle("Lost and Found Management System")
         self.setStyleSheet(MAIN_WINDOW_STYLE)
+        self.setFixedHeight(900)
+        self.setFixedWidth(1300)
         
         self.stackedWidget.setCurrentIndex(0)
         db.initialize_database()
 
-
+        self.homeButton
+        
         self.pageShown = 0
         self.homeButton.clicked.connect(self.goHomePage)
         self.managePersonsButton.clicked.connect(self.goManagePersonsPage)
@@ -35,6 +39,13 @@ class MainClass(QMainWindow, Ui_MainWindow):
         self.reportItemButton.clicked.connect(self.goReportedItemsPage)
         self.surrenderItemButton.clicked.connect(self.goSurrenderedItemsPage)
 
+        self.homeButton.setIcon(QIcon("assets/home.svg"))
+        self.managePersonsButton.setIcon(QIcon("assets/persons.svg"))
+        self.manageItemsButton.setIcon(QIcon("assets/items2.svg"))
+        self.itemHistoryButton.setIcon(QIcon("assets/history.svg"))
+        self.reportItem.setIcon(QIcon("assets/report.svg"))
+        self.surrenderItem.setIcon(QIcon("assets/surrender.svg"))
+        
         # Homepage Button connections
         self.reportItem.clicked.connect(self.addReportedItem)
         self.surrenderItem.clicked.connect(self.addSurrenderedItem)
@@ -46,7 +57,7 @@ class MainClass(QMainWindow, Ui_MainWindow):
         self.itemPrevButton.clicked.connect(self.prev_item_page)
         self.reportNext.clicked.connect(self.next_report_page)
         self.reportPrev.clicked.connect(self.prev_report_page)
-
+        
     # Connections to add and surrender item
     def addReportedItem(self):
         reportItem = ReportItemDialog(self)
