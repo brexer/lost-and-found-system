@@ -7,7 +7,6 @@ from src.frontend.mainWindow_ui import Ui_MainWindow
 from src.frontend.reportItem import Ui_ReportItemDialog
 from src.frontend.surrenderItem import Ui_SurrenderItemDialog
 from src.backend.utils import load_functions as load
-from src.backend.utils.image_utils import ImageHandler
 from styles import MAIN_WINDOW_STYLE
 
 import mysql.connector
@@ -60,6 +59,8 @@ class MainClass(QMainWindow, Ui_MainWindow):
         self.reportPrev.clicked.connect(self.prev_report_page)
         self.surrenderNext.clicked.connect(self.next_surrender_page)
         self.surrenderPrev.clicked.connect(self.prev_surrender_page)
+        self.claimNext.clicked.connect(self.next_claim_page)
+        self.claimPrev.clicked.connect(self.prev_claim_page)
         
     # Connections to add and surrender item
     def addReportedItem(self):
@@ -114,6 +115,16 @@ class MainClass(QMainWindow, Ui_MainWindow):
             self.currentSurrenderPage -= 1
             load.load_surrendered_items(self.surrenderTable, self.surrenderNext, self.surrenderPrev, self.surrenederPageLabel, self.currentSurrenderPage, ROWS_PER_PAGE)
 
+    def next_claim_page(self):
+        if (self.currentClaimPage + 1) * ROWS_PER_PAGE < dbfunctions.get_total_surrendered_items():
+            self.currentClaimPage += 1
+            load.load_claimed_items(self.claimTable, self.claimNext, self.claimPrev, self.claimPageLabel, self.currentClaimPage, ROWS_PER_PAGE)
+
+    def prev_claim_page(self):
+        if self.currentClaimPage > 0:
+            self.currentClaimPage -= 1
+            load.load_claimed_items(self.claimTable, self.claimNext, self.claimPrev, self.claimPageLabel, self.currentClaimPage, ROWS_PER_PAGE)
+
     # connections of main pages
 
     def goHomePage(self):
@@ -139,7 +150,9 @@ class MainClass(QMainWindow, Ui_MainWindow):
 
     def goClaimedItemsPage(self):
         self.pageShown = 3
+        self.currentClaimPage = 0
         self.stackedWidget.setCurrentIndex(3)
+        load.load_claimed_items(self.claimTable, self.claimNext, self.claimPrev, self.claimPageLabel, self.currentClaimPage, ROWS_PER_PAGE)
 
     def goReportedItemsPage(self):
         self.pageShown = 4
@@ -158,11 +171,6 @@ class ReportItemDialog(QDialog, Ui_ReportItemDialog):
         super().__init__(parent)
         self.setupUi(self)
         self.stackedWidget.setCurrentIndex(0)
-
-        self.proof_id_handler = ImageHandler(self.proofImagePreview)
-        self.item_image_handler = ImageHandler(self.itemImagePreview)
-        self.uploadProofImageButton.clicked.connect(lambda: self.proof_id_handler.upload_image(self))
-        self.uploadItemImageButton.clicked.connect(lambda: self.item_image_handler.upload_image(self))
 
         self.nextButton.clicked.connect(self.validateInputItem)
         self.confirmButton.clicked.connect(self.validateInputPerson)
@@ -228,14 +236,6 @@ class ReportItemDialog(QDialog, Ui_ReportItemDialog):
 
             if not item_id:
                 raise Exception("Failed to insert reported item.")
-            
-            if self.item_image_handler.current_image_path:
-                image_path = ImageHandler.save_uploaded_item_image(self.item_image_handler.current_image_path, item_id)
-                dbfunctions.update_item_image_path(item_id, image_path)
-
-            if self.proof_id_handler.current_image_path:
-                proof_id_path = ImageHandler.save_uploaded_proof_id(self.proof_id_handler.current_image_path, person_id)
-                dbfunctions.update_person_proof_id(person_id, proof_id_path)
 
             QMessageBox.information(self, "Success", "Item reported successfully.")
             self.accept()

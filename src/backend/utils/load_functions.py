@@ -43,11 +43,13 @@ def load_surrendered_items(surrenderTable, surrenderNext, surrenderPrev, surrend
     surrenderPrev.setEnabled(currentSurrenderPage > 0)
     surrenderNext.setEnabled(currentSurrenderPage < total_pages - 1)
 
-def load_claimed_items(table_widget):
-    all_items = dbfunctions.get_all_items()
-    claimed_items = [item for item in all_items if item[4] == "Claimed"]
+def load_claimed_items(claimTable, claimNext, claimPrev, claimPageLabel, currentClaimPage, page_size):
+    claimed_items, total_records = dbfunctions.get_all_claimed_items(currentClaimPage, page_size)
+    total_pages = max(1, (total_records + page_size - 1) // page_size)
+    # all_items = dbfunctions.get_all_items()
+    # claimed_items = [item for item in all_items if item[4] == "Claimed"]
 
-    table = table_widget # pa change to claimed table widget pls
+    table = claimTable
     table.setRowCount(0)
     table.setColumnCount(8)
     table.setHorizontalHeaderLabels([
@@ -58,6 +60,10 @@ def load_claimed_items(table_widget):
         table.insertRow(row_num)
         for col, value in enumerate(item):
             table.setItem(row_num, col, QtWidgets.QTableWidgetItem(str(value)))
+
+    claimPageLabel.setText(f"Page {currentClaimPage + 1} of {total_pages}")
+    claimPrev.setEnabled(currentClaimPage > 0)
+    claimNext.setEnabled(currentClaimPage < total_pages - 1)
 
 def load_persons(personTable, personNext, personPrev, personPageLabel, currentPersonPage, page_size):
     persons, total_records = dbfunctions.get_all_persons(currentPersonPage, page_size)

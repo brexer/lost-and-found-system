@@ -528,6 +528,55 @@ def get_total_surrendered_items():
     conn.close()
     return total_records
 
+def get_all_claimed_items(current_page, page_size):
+    conn = database.create_connection()
+    cursor = conn.cursor()
+
+    offset = current_page * page_size
+
+    query = """
+        SELECT 
+            i.ItemID,
+            i.Category,
+            i.Name,
+            i.Description,
+            i.Status,
+            i.LocationFound,
+            i.DateFound,
+            c.DateClaimed,
+            CONCAT(p.FirstName, ' ', p.LastName) AS ClaimedBy
+        FROM 
+            ClaimedItems c
+        JOIN 
+            Items i ON c.ItemID = i.ItemID
+        JOIN 
+            Persons p ON c.PersonID = p.PersonID
+        ORDER BY 
+            c.DateClaimed DESC
+        LIMIT %s OFFSET %s
+    """
+    cursor.execute(query, (page_size, offset))
+    results = cursor.fetchall()
+
+    total_records = get_total_claimed_items()
+
+    cursor.close()
+    conn.close()
+
+    return results, total_records
+
+
+def get_total_claimed_items():
+    conn = database.create_connection()
+    cursor = conn.cursor()
+
+    cursor.execute("SELECT COUNT(*) FROM ClaimedItems")
+    total_records = cursor.fetchone()[0]
+
+    cursor.close()
+    conn.close()
+    return total_records
+
 # def get_all_items():
 #         conn = database.create_connection()
 #         cursor = conn.cursor()
@@ -614,48 +663,28 @@ def merge_items(source_item_id, target_item_id):
         cursor.close()
         conn.close()
 
-# def add_item_with_image(category, name, description, status, image_path):
-#     conn = database.create_connection()
-#     cursor = conn.cursor()
-#     try:
-#         cursor.execute("""
-#             INSERT INTO Items (Category, Name, Description, Status)
-#             VALUES (%s, %s, %s, %s)
-#         """, (category, name, description, status))
-#         item_id = cursor.lastrowid
-
-#         rel_image_path = save_uploaded_image(image_path, item_id)
-
-#         cursor.execute("""
-#             UPDATE Items SET ImagePath = %s WHERE ItemID = %s
-#         """, (rel_image_path, item_id))
-
-#         conn.commit()
-#         return item_id, rel_image_path
-#     except Exception as e:
-#         print("Database error:", e)
-#         conn.rollback()
-#         return None, None
-#     finally:
-#         cursor.close()
-#         conn.close()
-
-def update_item_image_path(item_id, image_path):
-    conn = database.create_connection()
-    cursor = conn.cursor()
-    cursor.execute("UPDATE items SET imagePath = ? WHERE id = ?", (image_path, item_id))
-    conn.commit()
-    conn.close()
-
-def update_person_proof_id(person_id, proof_id_path):
+def add_item_with_image(category, name, description, status, image_path):
     conn = database.create_connection()
     cursor = conn.cursor()
     try:
-        cursor.execute("UPDATE Persons SET ProofID = %s WHERE PersonID = %s", (proof_id_path, person_id))
+        cursor.execute("""
+            INSERT INTO Items (Category, Name, Description, Status)
+            VALUES (%s, %s, %s, %s)
+        """, (category, name, description, status))
+        item_id = cursor.lastrowid
+
+        rel_image_path = save_uploaded_image(image_path, item_id)
+
+        cursor.execute("""
+            UPDATE Items SET ImagePath = %s WHERE ItemID = %s
+        """, (rel_image_path, item_id))
+
         conn.commit()
+        return item_id, rel_image_path
     except Exception as e:
-        print("Error updating proof ID:", e)
+        print("Database error:", e)
         conn.rollback()
+        return None, None
     finally:
         cursor.close()
         conn.close()
