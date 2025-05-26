@@ -639,3 +639,23 @@ def add_item_with_image(category, name, description, status, image_path):
     finally:
         cursor.close()
         conn.close()
+
+def update_item_image_path(item_id, image_path):
+    conn = database.create_connection()
+    cursor = conn.cursor()
+    cursor.execute("UPDATE items SET imagePath = ? WHERE id = ?", (image_path, item_id))
+    conn.commit()
+    conn.close()
+
+def update_person_proof_id(person_id, proof_id_path):
+    conn = database.create_connection()
+    cursor = conn.cursor()
+    try:
+        cursor.execute("UPDATE Persons SET ProofID = %s WHERE PersonID = %s", (proof_id_path, person_id))
+        conn.commit()
+    except Exception as e:
+        print("Error updating proof ID:", e)
+        conn.rollback()
+    finally:
+        cursor.close()
+        conn.close()

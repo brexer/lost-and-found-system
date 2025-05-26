@@ -7,6 +7,7 @@ from src.frontend.mainWindow_ui import Ui_MainWindow
 from src.frontend.reportItem import Ui_ReportItemDialog
 from src.frontend.surrenderItem import Ui_SurrenderItemDialog
 from src.backend.utils import load_functions as load
+from src.backend.utils.image_utils import ImageHandler
 from styles import MAIN_WINDOW_STYLE
 
 import mysql.connector
@@ -146,6 +147,11 @@ class ReportItemDialog(QDialog, Ui_ReportItemDialog):
         self.setupUi(self)
         self.stackedWidget.setCurrentIndex(0)
 
+        self.proof_id_handler = ImageHandler(self.labelImagePreview)
+        self.item_image_handler = ImageHandler(self.itemImagePreview)
+        self.uploadImageButton.clicked.connect(lambda: self.proof_id_handler.upload_image(self))
+        self.uploadItemImageButton.clicked.connect(lambda: self.item_image_handler.upload_image(self))
+
         self.nextButton.clicked.connect(self.validateInputItem)
         self.confirmButton.clicked.connect(self.validateInputPerson)
         self.backButton.clicked.connect(lambda: self.stackedWidget.setCurrentIndex(0))
@@ -210,6 +216,14 @@ class ReportItemDialog(QDialog, Ui_ReportItemDialog):
 
             if not item_id:
                 raise Exception("Failed to insert reported item.")
+            
+            if self.item_image_handler.current_image_path:
+                image_path = ImageHandler.save_uploaded_item_image(self.item_image_handler.current_image_path, item_id)
+                dbfunctions.update_item_image_path(item_id, image_path)
+
+            if self.proof_id_handler.current_image_path:
+                proof_id_path = ImageHandler.save_uploaded_proof_id(self.proof_id_handler.current_image_path, person_id)
+                dbfunctions.update_person_proof_id(person_id, proof_id_path)
 
             QMessageBox.information(self, "Success", "Item reported successfully.")
             self.accept()
