@@ -1,5 +1,7 @@
 from PyQt5 import QtWidgets
+from PyQt5.QtWidgets import QTableWidgetItem
 from src.backend.database import dbfunctions
+from src.backend.utils import match_checker as match
 
 def load_reported_items(reportTable, reportNext, reportPrev, reportPageLabel, currentReportPage, page_size):
     reported_items, total_records = dbfunctions.get_all_reported_items(currentReportPage, page_size)
@@ -116,3 +118,19 @@ def load_items(itemTable, itemNext, itemPrev, itemPageLabel, currentItemPage, pa
 #         table.insertRow(row_num)
 #         for col, value in enumerate(person):
 #             table.setItem(row_num, col, QtWidgets.QTableWidgetItem(str(value)))
+
+def load_match_table(matchTable, matches):
+    matchTable.setRowCount(0)
+    matchTable.setColumnCount(6)
+    matchTable.setHorizontalHeaderLabels([
+        "Item ID", "Name", "Category", "Date Lost", "Location", "Reported By"
+    ])
+
+    for row, item in enumerate(matches):
+        matchTable.insertRow(row)
+        matchTable.setItem(row, 0, QTableWidgetItem(str(item["ItemID"])))
+        matchTable.setItem(row, 1, QTableWidgetItem(item["Name"]))
+        matchTable.setItem(row, 2, QTableWidgetItem(item["Category"]))
+        matchTable.setItem(row, 3, QTableWidgetItem(item["DateLost"]))
+        matchTable.setItem(row, 4, QTableWidgetItem(item["LocationLost"]))
+        matchTable.setItem(row, 5, QTableWidgetItem(item["ReportedBy"]))
