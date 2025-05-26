@@ -159,9 +159,9 @@ class ReportItemDialog(QDialog, Ui_ReportItemDialog):
         self.setupUi(self)
         self.stackedWidget.setCurrentIndex(0)
 
-        self.proof_id_handler = ImageHandler(self.labelImagePreview)
+        self.proof_id_handler = ImageHandler(self.proofImagePreview)
         self.item_image_handler = ImageHandler(self.itemImagePreview)
-        self.uploadImageButton.clicked.connect(lambda: self.proof_id_handler.upload_image(self))
+        self.uploadProofImageButton.clicked.connect(lambda: self.proof_id_handler.upload_image(self))
         self.uploadItemImageButton.clicked.connect(lambda: self.item_image_handler.upload_image(self))
 
         self.nextButton.clicked.connect(self.validateInputItem)
