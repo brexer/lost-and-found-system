@@ -38,7 +38,7 @@
     <string notr="true">background-color: rgb(255, 255, 255);</string>
    </property>
    <property name="currentIndex">
-    <number>1</number>
+    <number>0</number>
    </property>
    <widget class="QWidget" name="itemPage">
     <widget class="QLabel" name="label_2">
@@ -128,23 +128,6 @@
      </property>
      <property name="text">
       <string>Category</string>
-     </property>
-    </widget>
-    <widget class="QLineEdit" name="dateLostEdit">
-     <property name="geometry">
-      <rect>
-       <x>20</x>
-       <y>370</y>
-       <width>271</width>
-       <height>41</height>
-      </rect>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">QLineEdit {
-        border: 2px solid #ccc;
-        border-radius: 10px;
-        padding: 5px;
-    }</string>
      </property>
     </widget>
     <widget class="QLineEdit" name="locationLostEdit">
@@ -339,6 +322,16 @@
        <string>Report an Item</string>
       </property>
      </widget>
+    </widget>
+    <widget class="QDateTimeEdit" name="dateTimeEdit">
+     <property name="geometry">
+      <rect>
+       <x>40</x>
+       <y>370</y>
+       <width>194</width>
+       <height>22</height>
+      </rect>
+     </property>
     </widget>
    </widget>
    <widget class="QWidget" name="personPage">
