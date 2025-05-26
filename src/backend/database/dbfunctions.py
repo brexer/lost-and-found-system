@@ -445,40 +445,40 @@ def get_all_reported_items(current_page, page_size):
             i.Name,
             i.Description,
             i.Status,
-            r.LocationLost,
-            r.DateLost,
+            i.LocationLost,
+            i.DateLost,
             CONCAT(p.FirstName, ' ', p.LastName) AS ReportedBy
         FROM 
             Items i
         JOIN 
-            ReportedItems r ON i.ItemID = r.ItemID
-        JOIN 
-            Persons p ON r.PersonID = p.PersonID
+            Persons p ON i.ReportedBy = p.PersonID
+        WHERE 
+            i.Status = 'Reported'
         ORDER BY 
-            r.DateLost DESC
+            i.DateLost DESC
         LIMIT %s OFFSET %s
     """
     cursor.execute(query, (page_size, offset))
     results = cursor.fetchall()
 
-    cursor.execute("SELECT COUNT(*) FROM ReportedItems")
-    total_records = cursor.fetchone()[0]
+    total_records = get_total_reported_items()
 
     cursor.close()
     conn.close()
 
     return results, total_records
 
+
 def get_total_reported_items():
-        conn = database.create_connection()
-        cursor = conn.cursor()
+    conn = database.create_connection()
+    cursor = conn.cursor()
 
-        cursor.execute("SELECT COUNT(*) FROM ReportedItems")
-        total_records = cursor.fetchone()[0]
+    cursor.execute("SELECT COUNT(*) FROM Items WHERE Status = 'Reported'")
+    total_records = cursor.fetchone()[0]
 
-        cursor.close()
-        conn.close()
-        return total_records
+    cursor.close()
+    conn.close()
+    return total_records
 
 def get_all_surrendered_items(current_page, page_size):
     conn = database.create_connection()
@@ -493,40 +493,40 @@ def get_all_surrendered_items(current_page, page_size):
             i.Name,
             i.Description,
             i.Status,
-            r.LocationFound,
-            r.DateFound,
+            i.LocationFound,
+            i.DateFound,
             CONCAT(p.FirstName, ' ', p.LastName) AS SurrenderedBy
         FROM 
             Items i
         JOIN 
-            SurrenderedItems r ON i.ItemID = r.ItemID
-        JOIN 
-            Persons p ON r.PersonID = p.PersonID
+            Persons p ON i.SurrenderedBy = p.PersonID
+        WHERE 
+            i.Status = 'Surrendered'
         ORDER BY 
-            r.DateFound DESC
+            i.DateFound DESC
         LIMIT %s OFFSET %s
     """
     cursor.execute(query, (page_size, offset))
     results = cursor.fetchall()
 
-    cursor.execute("SELECT COUNT(*) FROM SurrenderedItems")
-    total_records = cursor.fetchone()[0]
+    total_records = get_total_surrendered_items()
 
     cursor.close()
     conn.close()
 
     return results, total_records
 
+
 def get_total_surrendered_items():
-        conn = database.create_connection()
-        cursor = conn.cursor()
+    conn = database.create_connection()
+    cursor = conn.cursor()
 
-        cursor.execute("SELECT COUNT(*) FROM SurrenderedItems")
-        total_records = cursor.fetchone()[0]
+    cursor.execute("SELECT COUNT(*) FROM Items WHERE Status = 'Surrendered'")
+    total_records = cursor.fetchone()[0]
 
-        cursor.close()
-        conn.close()
-        return total_records
+    cursor.close()
+    conn.close()
+    return total_records
 
 # def get_all_items():
 #         conn = database.create_connection()

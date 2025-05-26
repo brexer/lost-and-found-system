@@ -57,6 +57,8 @@ class MainClass(QMainWindow, Ui_MainWindow):
         self.itemPrevButton.clicked.connect(self.prev_item_page)
         self.reportNext.clicked.connect(self.next_report_page)
         self.reportPrev.clicked.connect(self.prev_report_page)
+        self.surrenderNext.clicked.connect(self.next_surrender_page)
+        self.surrenderPrev.clicked.connect(self.prev_surrender_page)
         
     # Connections to add and surrender item
     def addReportedItem(self):
@@ -100,6 +102,16 @@ class MainClass(QMainWindow, Ui_MainWindow):
         if self.currentReportPage > 0:
             self.currentReportPage -= 1
             load.load_reported_items(self.reportTable, self.reportNext, self.reportPrev, self.reportPageLabel, self.currentReportPage, ROWS_PER_PAGE)
+
+    def next_surrender_page(self):
+        if (self.currentSurrenderPage + 1) * ROWS_PER_PAGE < dbfunctions.get_total_surrendered_items():
+            self.currentSurrenderPage += 1
+            load.load_surrendered_items(self.surrenderTable, self.surrenderNext, self.surrenderPrev, self.surrenederPageLabel, self.currentSurrenderPage, ROWS_PER_PAGE)
+
+    def prev_surrender_page(self):
+        if self.currentSurrenderPage > 0:
+            self.currentSurrenderPage -= 1
+            load.load_surrendered_items(self.surrenderTable, self.surrenderNext, self.surrenderPrev, self.surrenederPageLabel, self.currentSurrenderPage, ROWS_PER_PAGE)
 
     # connections of main pages
 
