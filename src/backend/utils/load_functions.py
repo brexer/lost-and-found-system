@@ -117,18 +117,30 @@ def load_items(itemTable, itemNext, itemPrev, itemPageLabel, currentItemPage, pa
 #         for col, value in enumerate(person):
 #             table.setItem(row_num, col, QtWidgets.QTableWidgetItem(str(value)))
 
-def load_match_table(matchTable, matches):
+def load_match_table(matchTable, matchNext, matchPrev, matchPageLabel, currentMatchPage, page_size, matches):
+    total_records = len(matches)
+    total_pages = max(1, (total_records + page_size - 1) // page_size)
+
+    # Calculate start and end indices for the current page
+    start = currentMatchPage * page_size
+    end = start + page_size
+    page_matches = matches[start:end]
+
     matchTable.setRowCount(0)
     matchTable.setColumnCount(6)
     matchTable.setHorizontalHeaderLabels([
         "Item ID", "Name", "Category", "Date Lost", "Location", "Reported By"
     ])
 
-    for row, item in enumerate(matches):
+    for row, item in enumerate(page_matches):
         matchTable.insertRow(row)
-        matchTable.setItem(row, 0, QTableWidgetItem(str(item["ItemID"])))
-        matchTable.setItem(row, 1, QTableWidgetItem(item["Name"]))
-        matchTable.setItem(row, 2, QTableWidgetItem(item["Category"]))
-        matchTable.setItem(row, 3, QTableWidgetItem(item["DateLost"]))
-        matchTable.setItem(row, 4, QTableWidgetItem(item["LocationLost"]))
-        matchTable.setItem(row, 5, QTableWidgetItem(item["ReportedBy"]))
+        matchTable.setItem(row, 0, QTableWidgetItem(str(item.get("ItemID", ""))))
+        matchTable.setItem(row, 1, QTableWidgetItem(item.get("Name", "")))
+        matchTable.setItem(row, 2, QTableWidgetItem(item.get("Category", "")))
+        matchTable.setItem(row, 3, QTableWidgetItem(item.get("DateLost", "")))
+        matchTable.setItem(row, 4, QTableWidgetItem(item.get("LocationLost", "")))
+        matchTable.setItem(row, 5, QTableWidgetItem(item.get("ReportedBy", "")))
+
+    matchPageLabel.setText(f"Page {currentMatchPage + 1} of {total_pages}")
+    matchPrev.setEnabled(currentMatchPage > 0)
+    matchNext.setEnabled(currentMatchPage < total_pages - 1)

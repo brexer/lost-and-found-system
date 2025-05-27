@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'mainWindow.ui'
+# Form implementation generated from reading ui file '.\mainWindow.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.11
 #
@@ -248,21 +248,21 @@ class Ui_MainWindow(object):
         self.itemUpdateButton = QtWidgets.QPushButton(self.manageItemsPage)
         self.itemUpdateButton.setGeometry(QtCore.QRect(990, 850, 112, 34))
         self.itemUpdateButton.setObjectName("itemUpdateButton")
-        self.itemTable = QtWidgets.QTableWidget(self.manageItemsPage)
-        self.itemTable.setGeometry(QtCore.QRect(10, 180, 1091, 661))
-        self.itemTable.setObjectName("itemTable")
-        self.itemTable.setColumnCount(5)
-        self.itemTable.setRowCount(0)
+        self.matchTable = QtWidgets.QTableWidget(self.manageItemsPage)
+        self.matchTable.setGeometry(QtCore.QRect(10, 180, 1091, 661))
+        self.matchTable.setObjectName("matchTable")
+        self.matchTable.setColumnCount(5)
+        self.matchTable.setRowCount(0)
         item = QtWidgets.QTableWidgetItem()
-        self.itemTable.setHorizontalHeaderItem(0, item)
+        self.matchTable.setHorizontalHeaderItem(0, item)
         item = QtWidgets.QTableWidgetItem()
-        self.itemTable.setHorizontalHeaderItem(1, item)
+        self.matchTable.setHorizontalHeaderItem(1, item)
         item = QtWidgets.QTableWidgetItem()
-        self.itemTable.setHorizontalHeaderItem(2, item)
+        self.matchTable.setHorizontalHeaderItem(2, item)
         item = QtWidgets.QTableWidgetItem()
-        self.itemTable.setHorizontalHeaderItem(3, item)
+        self.matchTable.setHorizontalHeaderItem(3, item)
         item = QtWidgets.QTableWidgetItem()
-        self.itemTable.setHorizontalHeaderItem(4, item)
+        self.matchTable.setHorizontalHeaderItem(4, item)
         self.itemDeleteButton = QtWidgets.QPushButton(self.manageItemsPage)
         self.itemDeleteButton.setGeometry(QtCore.QRect(10, 850, 112, 34))
         self.itemDeleteButton.setObjectName("itemDeleteButton")
@@ -543,7 +543,6 @@ class Ui_MainWindow(object):
         font = QtGui.QFont()
         font.setPointSize(14)
         font.setBold(True)
-        font.setWeight(75)
         self.label.setFont(font)
         self.label.setStyleSheet("color: rgb(255, 255, 255);")
         self.label.setObjectName("label")
@@ -560,10 +559,15 @@ class Ui_MainWindow(object):
         self.managePersonsButton.setStyleSheet("color: rgb(255, 255, 255);")
         self.managePersonsButton.setObjectName("managePersonsButton")
         self.verticalLayout_3.addWidget(self.managePersonsButton)
-        self.manageItemsButton = QtWidgets.QPushButton(self.sidebar)
-        self.manageItemsButton.setStyleSheet("color: rgb(255, 255, 255);")
-        self.manageItemsButton.setObjectName("manageItemsButton")
-        self.verticalLayout_3.addWidget(self.manageItemsButton)
+        self.reviewItemsButton = QtWidgets.QPushButton(self.sidebar)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(1)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.reviewItemsButton.sizePolicy().hasHeightForWidth())
+        self.reviewItemsButton.setSizePolicy(sizePolicy)
+        self.reviewItemsButton.setStyleSheet("color: rgb(255, 255, 255);")
+        self.reviewItemsButton.setObjectName("reviewItemsButton")
+        self.verticalLayout_3.addWidget(self.reviewItemsButton)
         self.manage_items = QtWidgets.QFrame(self.sidebar)
         self.manage_items.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.manage_items.setFrameShadow(QtWidgets.QFrame.Raised)
@@ -627,7 +631,7 @@ class Ui_MainWindow(object):
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
-        self.stackedWidget.setCurrentIndex(0)
+        self.stackedWidget.setCurrentIndex(2)
         self.itemHistoryButton.toggled['bool'].connect(self.item_dropdown.setHidden) # type: ignore
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
@@ -643,14 +647,20 @@ class Ui_MainWindow(object):
         self.reportItem.setText(_translate("MainWindow", "Report Item"))
         self.surrenderItem.setText(_translate("MainWindow", "Surrender Item"))
         self.textEdit.setHtml(_translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
-"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><meta charset=\"utf-8\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:8.25pt; font-weight:400; font-style:normal;\">\n"
+"hr { height: 1px; border-width: 0; }\n"
+"li.unchecked::marker { content: \"\\2610\"; }\n"
+"li.checked::marker { content: \"\\2612\"; }\n"
+"</style></head><body style=\" font-family:\'Segoe UI\'; font-size:9pt; font-weight:400; font-style:normal;\">\n"
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'Century Gothic\'; font-size:28pt; font-weight:600;\">Welcome to the </span><span style=\" font-family:\'Century Gothic\'; font-size:28pt; font-weight:600; color:#aa0000;\">Lost</span><span style=\" font-family:\'Century Gothic\'; font-size:28pt; font-weight:600;\"> and <br /></span><span style=\" font-family:\'Century Gothic\'; font-size:28pt; font-weight:600; color:#ffca40;\">Found</span><span style=\" font-family:\'Century Gothic\'; font-size:28pt; font-weight:600;\"> System</span></p></body></html>"))
         self.textEdit_2.setHtml(_translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
-"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><meta charset=\"utf-8\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:8.25pt; font-weight:400; font-style:normal;\">\n"
+"hr { height: 1px; border-width: 0; }\n"
+"li.unchecked::marker { content: \"\\2610\"; }\n"
+"li.checked::marker { content: \"\\2612\"; }\n"
+"</style></head><body style=\" font-family:\'Segoe UI\'; font-size:9pt; font-weight:400; font-style:normal;\">\n"
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'Century Gothic\'; font-size:12pt; font-weight:600;\">Let us help you find what you are looking for or return something you found</span></p></body></html>"))
         self.label_3.setText(_translate("MainWindow", "Person Management Page"))
         item = self.personTable.horizontalHeaderItem(0)
@@ -671,17 +681,17 @@ class Ui_MainWindow(object):
         self.personPrev.setText(_translate("MainWindow", "Prev"))
         self.personPageLabel.setText(_translate("MainWindow", "Page"))
         self.personNext.setText(_translate("MainWindow", "Next"))
-        self.label_7.setText(_translate("MainWindow", "Manage Items Page"))
+        self.label_7.setText(_translate("MainWindow", "Review Items Page"))
         self.itemUpdateButton.setText(_translate("MainWindow", "Update"))
-        item = self.itemTable.horizontalHeaderItem(0)
+        item = self.matchTable.horizontalHeaderItem(0)
         item.setText(_translate("MainWindow", "ItemID"))
-        item = self.itemTable.horizontalHeaderItem(1)
+        item = self.matchTable.horizontalHeaderItem(1)
         item.setText(_translate("MainWindow", "Category"))
-        item = self.itemTable.horizontalHeaderItem(2)
+        item = self.matchTable.horizontalHeaderItem(2)
         item.setText(_translate("MainWindow", "Name"))
-        item = self.itemTable.horizontalHeaderItem(3)
+        item = self.matchTable.horizontalHeaderItem(3)
         item.setText(_translate("MainWindow", "Description"))
-        item = self.itemTable.horizontalHeaderItem(4)
+        item = self.matchTable.horizontalHeaderItem(4)
         item.setText(_translate("MainWindow", "Status"))
         self.itemDeleteButton.setText(_translate("MainWindow", "Delete"))
         self.itemSearchButton.setText(_translate("MainWindow", "Search"))
@@ -740,7 +750,7 @@ class Ui_MainWindow(object):
         self.label.setText(_translate("MainWindow", "     Lost and Found"))
         self.homeButton.setText(_translate("MainWindow", "Home"))
         self.managePersonsButton.setText(_translate("MainWindow", "Manage Persons"))
-        self.manageItemsButton.setText(_translate("MainWindow", "Manage Items"))
+        self.reviewItemsButton.setText(_translate("MainWindow", "Review Items"))
         self.itemHistoryButton.setText(_translate("MainWindow", "Item History"))
         self.claimItemButton.setText(_translate("MainWindow", "Claimed"))
         self.reportItemButton.setText(_translate("MainWindow", "Reported"))

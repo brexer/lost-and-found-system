@@ -36,14 +36,15 @@ class MainClass(QMainWindow, Ui_MainWindow):
         self.pageShown = 0
         self.homeButton.clicked.connect(self.goHomePage)
         self.managePersonsButton.clicked.connect(self.goManagePersonsPage)
-        # self.reviewItemsButton.clicked.connect(self.goReviewItemPage)
+        self.reviewItemsButton.setVisible(False)
+        self.reviewItemsButton.clicked.connect(self.goReviewPage)
         self.claimItemButton.clicked.connect(self.goClaimedItemsPage)
         self.reportItemButton.clicked.connect(self.goReportedItemsPage)
         self.surrenderItemButton.clicked.connect(self.goSurrenderedItemsPage)
 
         self.homeButton.setIcon(QIcon("assets/home.svg"))
         self.managePersonsButton.setIcon(QIcon("assets/persons.svg"))
-        self.manageItemsButton.setIcon(QIcon("assets/items2.svg"))
+        self.reviewItemsButton.setIcon(QIcon("assets/items2.svg"))
         self.itemHistoryButton.setIcon(QIcon("assets/history.svg"))
         self.reportItem.setIcon(QIcon("assets/report.svg"))
         self.surrenderItem.setIcon(QIcon("assets/surrender.svg"))
@@ -146,15 +147,17 @@ class MainClass(QMainWindow, Ui_MainWindow):
             self.currentPersonPage -= 1
             self.update_person_page()
 
-    # def next_item_page(self):
-    #     if (self.currentItemPage + 1) * ROWS_PER_PAGE < dbfunctions.get_total_items():
-    #         self.currentItemPage += 1
-    #         load.load_items(self.itemTable, self.itemNextButton, self.itemPrevButton, self.personPageLabel_2, self.currentItemPage, ROWS_PER_PAGE)
+    def next_item_page(self):
+        if (self.currentItemPage + 1) * ROWS_PER_PAGE < dbfunctions.get_total_items():
+            self.currentItemPage += 1
+            matches = getattr(self, 'match_data', [])
+            load.load_match_table(self.matchTable, self.itemNextButton, self.itemPrevButton, self.personPageLabel_2, self.currentItemPage, ROWS_PER_PAGE, matches)
 
-    # def prev_item_page(self):
-    #     if self.currentItemPage > 0:
-    #         self.currentItemPage -= 1
-    #         load.load_items(self.itemTable, self.itemNextButton, self.itemPrevButton, self.personPageLabel_2, self.currentItemPage, ROWS_PER_PAGE)
+    def prev_item_page(self):
+        if self.currentItemPage > 0:
+            self.currentItemPage -= 1
+            matches = getattr(self, 'match_data', [])
+            load.load_match_table(self.matchTable, self.itemNextButton, self.itemPrevButton, self.personPageLabel_2, self.currentItemPage, ROWS_PER_PAGE, matches)
 
     def next_report_page(self):
         search_text = self.searchText if hasattr(self, 'searchText') and self.searchText is not None else ""
@@ -215,11 +218,10 @@ class MainClass(QMainWindow, Ui_MainWindow):
 
     def goReviewPage(self):
         matches = self.match_data
-        match.load_match_table(self.matchTable, matches)
+        load.load_match_tableload_match_table(self.matchTable, self.itemNextButton, self.itemPrevButton, self.personPageLabel_2, self.currentItemPage, ROWS_PER_PAGE, matches)
         self.pageshown = 2
         self.currentItemPage = 0
         self.stackedWidget.setCurrentIndex(2)
-        load.load_items(self.itemTable, self.itemNextButton, self.itemPrevButton, self.personPageLabel_2, self.currentItemPage, ROWS_PER_PAGE)
 
     def goClaimedItemsPage(self):
         self.pageShown = 3
@@ -340,6 +342,11 @@ class SurrenderItemDialog(QDialog, Ui_SurrenderItemDialog):
         self.setupUi(self)
         self.stackedWidget.setCurrentIndex(0)
 
+        self.proof_id_handler = ImageHandler(self.proofImagePreview)
+        self.item_image_handler = ImageHandler(self.itemImagePreview)
+        self.proofImageButton.clicked.connect(lambda: self.proof_id_handler.upload_image(self))
+        self.itemImageButton.clicked.connect(lambda: self.item_image_handler.upload_image(self))
+
         self.nextButton.clicked.connect(self.validateItemInput)
         self.confirmButton.clicked.connect(self.validatePersonInput)
         self.backButton.clicked.connect(lambda: self.stackedWidget.setCurrentIndex(0))
@@ -355,7 +362,7 @@ class SurrenderItemDialog(QDialog, Ui_SurrenderItemDialog):
 
     def itemDetailsComplete(self):
         item_name = self.itemNameEdit.text().strip().title()
-        category = self.categoryEdit.text().strip().title()
+        category = self.comboBox_2.currentText().strip().title()
         date_found = self.dateFoundEdit.dateTime().toString("yyyy-MM-dd HH:mm:ss")
         location_found = self.locationFoundEdit.text().strip()
         item_desc = self.descriptionEdit.text().strip()
@@ -385,7 +392,7 @@ class SurrenderItemDialog(QDialog, Ui_SurrenderItemDialog):
         first_name = self.firstNameEdit.text().strip().title()
         last_name = self.lastNameEdit.text().strip().title()
         phone_number = self.phoneNumberEdit.text().strip().replace(" ", "")
-        department = self.departmentEdit.text().strip().upper()
+        department = self.departmentEdit_2.text().strip().upper()
 
 
         item = self.item_data
@@ -413,6 +420,14 @@ class SurrenderItemDialog(QDialog, Ui_SurrenderItemDialog):
 
             if not item_id:
                 raise Exception("Failed to insert surrendered item.")
+            
+            if self.item_image_handler.current_image_path:
+                image_path = ImageHandler.save_uploaded_item_image(self.item_image_handler.current_image_path, item_id)
+                dbfunctions.update_item_image_path(item_id, image_path)
+
+            if self.proof_id_handler.current_image_path:
+                proof_id_path = ImageHandler.save_uploaded_proof_id(self.proof_id_handler.current_image_path, person_id)
+                dbfunctions.update_person_proof_id(person_id, proof_id_path)
             
             if matches:
                 self.match_data = matches

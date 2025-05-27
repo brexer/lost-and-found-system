@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'surrenderItem.ui'
+# Form implementation generated from reading ui file '.\surrenderItem.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.11
 #
@@ -26,7 +26,6 @@ class Ui_SurrenderItemDialog(object):
         font = QtGui.QFont()
         font.setPointSize(14)
         font.setBold(True)
-        font.setWeight(75)
         self.label_2.setFont(font)
         self.label_2.setObjectName("label_2")
         self.itemNameEdit = QtWidgets.QLineEdit(self.itemPage)
@@ -122,11 +121,10 @@ class Ui_SurrenderItemDialog(object):
         self.frame_2.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame_2.setObjectName("frame_2")
         self.label_11 = QtWidgets.QLabel(self.frame_2)
-        self.label_11.setGeometry(QtCore.QRect(180, 0, 231, 81))
+        self.label_11.setGeometry(QtCore.QRect(190, 0, 231, 81))
         font = QtGui.QFont()
         font.setPointSize(18)
         font.setBold(True)
-        font.setWeight(75)
         self.label_11.setFont(font)
         self.label_11.setStyleSheet("color: rgb(255, 255, 255);")
         self.label_11.setObjectName("label_11")
@@ -147,7 +145,6 @@ class Ui_SurrenderItemDialog(object):
         font = QtGui.QFont()
         font.setPointSize(11)
         font.setBold(True)
-        font.setWeight(75)
         self.comboBox_2.setFont(font)
         self.comboBox_2.setStyleSheet("QComboBox {\n"
 "        border: 2px solid #ccc;\n"
@@ -163,9 +160,9 @@ class Ui_SurrenderItemDialog(object):
         self.comboBox_2.addItem("")
         self.comboBox_2.addItem("")
         self.comboBox_2.addItem("")
-        self.pushButton = QtWidgets.QPushButton(self.itemPage)
-        self.pushButton.setGeometry(QtCore.QRect(470, 470, 101, 31))
-        self.pushButton.setStyleSheet("QPushButton {\n"
+        self.itemImageButton = QtWidgets.QPushButton(self.itemPage)
+        self.itemImageButton.setGeometry(QtCore.QRect(470, 470, 101, 31))
+        self.itemImageButton.setStyleSheet("QPushButton {\n"
 "        background-color: rgb(170, 0, 0);\n"
 "        color: white;\n"
 "        border: none;\n"
@@ -178,9 +175,10 @@ class Ui_SurrenderItemDialog(object):
 "    QPushButton:pressed {\n"
 "        background-color: #4d0000;\n"
 "    }")
-        self.pushButton.setObjectName("pushButton")
+        self.itemImageButton.setObjectName("itemImageButton")
         self.itemImagePreview = QtWidgets.QLabel(self.itemPage)
         self.itemImagePreview.setGeometry(QtCore.QRect(30, 400, 431, 191))
+        self.itemImagePreview.setAlignment(QtCore.Qt.AlignCenter)
         self.itemImagePreview.setObjectName("itemImagePreview")
         self.label_15 = QtWidgets.QLabel(self.itemPage)
         self.label_15.setGeometry(QtCore.QRect(30, 370, 111, 23))
@@ -198,7 +196,7 @@ class Ui_SurrenderItemDialog(object):
         self.label_8.setFont(font)
         self.label_8.setObjectName("label_8")
         self.phoneNumberEdit = QtWidgets.QLineEdit(self.personPage)
-        self.phoneNumberEdit.setGeometry(QtCore.QRect(21, 280, 261, 41))
+        self.phoneNumberEdit.setGeometry(QtCore.QRect(21, 280, 271, 41))
         self.phoneNumberEdit.setStyleSheet("QLineEdit {\n"
 "        border: 2px solid #ccc;\n"
 "        border-radius: 10px;\n"
@@ -272,11 +270,10 @@ class Ui_SurrenderItemDialog(object):
         font = QtGui.QFont()
         font.setPointSize(14)
         font.setBold(True)
-        font.setWeight(75)
         self.label_13.setFont(font)
         self.label_13.setObjectName("label_13")
         self.lastNameEdit = QtWidgets.QLineEdit(self.personPage)
-        self.lastNameEdit.setGeometry(QtCore.QRect(320, 190, 271, 41))
+        self.lastNameEdit.setGeometry(QtCore.QRect(310, 190, 271, 41))
         self.lastNameEdit.setStyleSheet("QLineEdit {\n"
 "        border: 2px solid #ccc;\n"
 "        border-radius: 10px;\n"
@@ -294,7 +291,6 @@ class Ui_SurrenderItemDialog(object):
         font = QtGui.QFont()
         font.setPointSize(18)
         font.setBold(True)
-        font.setWeight(75)
         self.label.setFont(font)
         self.label.setStyleSheet("color: rgb(255, 255, 255);")
         self.label.setObjectName("label")
@@ -323,10 +319,11 @@ class Ui_SurrenderItemDialog(object):
         self.departmentEdit_2.setObjectName("departmentEdit_2")
         self.proofImagePreview = QtWidgets.QLabel(self.personPage)
         self.proofImagePreview.setGeometry(QtCore.QRect(20, 360, 441, 231))
+        self.proofImagePreview.setAlignment(QtCore.Qt.AlignCenter)
         self.proofImagePreview.setObjectName("proofImagePreview")
-        self.uploadImageButton = QtWidgets.QPushButton(self.personPage)
-        self.uploadImageButton.setGeometry(QtCore.QRect(470, 450, 75, 31))
-        self.uploadImageButton.setStyleSheet("QPushButton {\n"
+        self.proofImageButton = QtWidgets.QPushButton(self.personPage)
+        self.proofImageButton.setGeometry(QtCore.QRect(470, 470, 101, 31))
+        self.proofImageButton.setStyleSheet("QPushButton {\n"
 "        background-color: rgb(170, 0, 0);\n"
 "        color: white;\n"
 "        border: none;\n"
@@ -339,7 +336,7 @@ class Ui_SurrenderItemDialog(object):
 "    QPushButton:pressed {\n"
 "        background-color: #4d0000;\n"
 "    }")
-        self.uploadImageButton.setObjectName("uploadImageButton")
+        self.proofImageButton.setObjectName("proofImageButton")
         self.stackedWidget.addWidget(self.personPage)
 
         self.retranslateUi(SurrenderItemDialog)
@@ -366,7 +363,7 @@ class Ui_SurrenderItemDialog(object):
         self.comboBox_2.setItemText(5, _translate("SurrenderItemDialog", "Keys"))
         self.comboBox_2.setItemText(6, _translate("SurrenderItemDialog", "Personal Items"))
         self.comboBox_2.setItemText(7, _translate("SurrenderItemDialog", "Others"))
-        self.pushButton.setText(_translate("SurrenderItemDialog", "Upload "))
+        self.itemImageButton.setText(_translate("SurrenderItemDialog", "Upload "))
         self.itemImagePreview.setText(_translate("SurrenderItemDialog", "No Image Selected"))
         self.label_15.setText(_translate("SurrenderItemDialog", "Item Image"))
         self.label_8.setText(_translate("SurrenderItemDialog", "Proof ID"))
@@ -383,4 +380,4 @@ class Ui_SurrenderItemDialog(object):
         self.backButton.setText(_translate("SurrenderItemDialog", "B"))
         self.departmentEdit_2.setPlaceholderText(_translate("SurrenderItemDialog", "e.g. BSCS"))
         self.proofImagePreview.setText(_translate("SurrenderItemDialog", "No Image Selected"))
-        self.uploadImageButton.setText(_translate("SurrenderItemDialog", "Upload"))
+        self.proofImageButton.setText(_translate("SurrenderItemDialog", "Upload"))
