@@ -21,7 +21,7 @@ import src.backend.database.database as db
 from src.backend.database import dbfunctions
 # import src.backend.database.dbfunctions as dbf
 
-ROWS_PER_PAGE = 1 # change rani kung pila ka rows ang i-display per page
+ROWS_PER_PAGE = 10 # change rani kung pila ka rows ang i-display per page
 
 class MainClass(QMainWindow, Ui_MainWindow):
     def __init__(self):
@@ -36,6 +36,7 @@ class MainClass(QMainWindow, Ui_MainWindow):
         db.initialize_database()
 
         self.match_data = []
+        self.currentItemPage = 0
         
         self.pageShown = 0
         self.homeButton.clicked.connect(self.goHomePage)
@@ -71,8 +72,8 @@ class MainClass(QMainWindow, Ui_MainWindow):
 
         self.personNext.clicked.connect(self.next_person_page)
         self.personPrev.clicked.connect(self.prev_person_page)
-        #self.itemNextButton.clicked.connect(self.next_item_page)
-        #self.itemPrevButton.clicked.connect(self.prev_item_page)
+        self.itemNextButton.clicked.connect(self.next_item_page)
+        self.itemPrevButton.clicked.connect(self.prev_item_page)
         self.reportNext.clicked.connect(self.next_report_page)
         self.reportPrev.clicked.connect(self.prev_report_page)
         self.surrenderNext.clicked.connect(self.next_surrender_page)
@@ -188,15 +189,36 @@ class MainClass(QMainWindow, Ui_MainWindow):
 
     def next_item_page(self):
         if (self.currentItemPage + 1) * ROWS_PER_PAGE < dbfunctions.get_total_items():
+            total_records = len(self.match_data)
+            total_pages = max(1, (total_records + ROWS_PER_PAGE - 1) // ROWS_PER_PAGE)
+        if self.currentItemPage < total_pages - 1:
             self.currentItemPage += 1
             matches = getattr(self, 'match_data', [])
             load.load_match_table(self.matchTable, self.itemNextButton, self.itemPrevButton, self.personPageLabel_2, self.currentItemPage, ROWS_PER_PAGE, matches)
+            load.load_match_table(
+                self.matchTable,
+                self.itemNextButton,
+                self.itemPrevButton,
+                self.personPageLabel_2,
+                self.currentItemPage,
+                ROWS_PER_PAGE,
+                self.match_data
+            )
 
     def prev_item_page(self):
         if self.currentItemPage > 0:
             self.currentItemPage -= 1
             matches = getattr(self, 'match_data', [])
             load.load_match_table(self.matchTable, self.itemNextButton, self.itemPrevButton, self.personPageLabel_2, self.currentItemPage, ROWS_PER_PAGE, matches)
+            load.load_match_table(
+                self.matchTable,
+                self.itemNextButton,
+                self.itemPrevButton,
+                self.personPageLabel_2,
+                self.currentItemPage,
+                ROWS_PER_PAGE,
+                self.match_data
+            )
 
     def next_report_page(self):
         search_text = self.searchText if hasattr(self, 'searchText') and self.searchText is not None else ""
@@ -257,8 +279,18 @@ class MainClass(QMainWindow, Ui_MainWindow):
     #     load.load_persons(self.personTable, self.personNext, self.personPrev, self.personPageLabel, self.currentPersonPage)
 
     def goReviewPage(self):
+        self.currentItemPage = 0
         matches = self.match_data
         load.load_match_table(self.matchTable, self.itemNextButton, self.itemPrevButton, self.personPageLabel_2, self.currentItemPage, ROWS_PER_PAGE, matches)
+        load.load_match_table(
+            self.matchTable,
+            self.itemNextButton,
+            self.itemPrevButton,
+            self.personPageLabel_2,
+            self.currentItemPage,
+            ROWS_PER_PAGE,
+            matches
+        )
         self.pageshown = 2
         self.currentItemPage = 0
         self.stackedWidget.setCurrentIndex(2)
@@ -479,11 +511,11 @@ class SurrenderItemDialog(QDialog, Ui_SurrenderItemDialog):
                 dbfunctions.update_person_proof_id(person_id, proof_id_path)
             
             if matches:
-                self.match_data = matches
+                self.parent().match_data = matches
                 self.parent().reviewItemsButton.setVisible(True)
                 QMessageBox.information(self, "Match Found", "Possible match(es) found. Click 'Review Matches' to view.")
             else:
-                self.match_data = []
+                self.parent().match_data = []
                 self.parent().reviewItemsButton.setVisible(False)
 
             QMessageBox.information(self, "Success", "Item surrendered successfully.")
