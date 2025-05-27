@@ -1,11 +1,13 @@
 import sys
 import traceback
 import os
+import re
 from datetime import datetime
 
 from PyQt5.QtWidgets import QApplication, QPushButton, QMainWindow, QDialog, QTableWidgetItem, QTableWidget, QMessageBox
 from PyQt5.QtGui import QIcon, QPixmap
 from PyQt5.QtCore import QDateTime, QSize, Qt
+from PyQt5 import QtWidgets
 
 from src.frontend.mainWindow_ui import Ui_MainWindow
 from src.frontend.reportItem import Ui_ReportItemDialog
@@ -42,7 +44,7 @@ class MainClass(QMainWindow, Ui_MainWindow):
         self.match_data = []
         self.currentItemPage = 0
 
-        self.surrenderTable.setSortingEnabled(True)
+        self.tableSettings()
 
         self.pageShown = 0
         self.homeButton.clicked.connect(self.goHomePage)
@@ -113,6 +115,27 @@ class MainClass(QMainWindow, Ui_MainWindow):
         self.claimTable.itemSelectionChanged.connect(self.update_claim_button_state)
         self.surrenderTable.itemSelectionChanged.connect(self.update_surrender_button_state)
         self.reportTable.itemSelectionChanged.connect(self.update_report_button_state)
+
+    def tableSettings(self):
+        self.personTable.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
+        self.personTable.setSelectionMode(QtWidgets.QAbstractItemView.SingleSelection)
+        self.personTable.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
+        self.personTable.verticalHeader().setVisible(False)
+
+        self.claimTable.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
+        self.claimTable.setSelectionMode(QtWidgets.QAbstractItemView.SingleSelection)
+        self.claimTable.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
+        self.claimTable.verticalHeader().setVisible(False)
+
+        self.surrenderTable.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
+        self.surrenderTable.setSelectionMode(QtWidgets.QAbstractItemView.SingleSelection)
+        self.surrenderTable.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
+        self.surrenderTable.verticalHeader().setVisible(False)
+
+        self.reportTable.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
+        self.reportTable.setSelectionMode(QtWidgets.QAbstractItemView.SingleSelection)
+        self.reportTable.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
+        self.reportTable.verticalHeader().setVisible(False)
 
     # UPDATE BUTTON STATES
     def update_person_button_state(self):
@@ -463,6 +486,14 @@ class ReportItemDialog(QDialog, Ui_ReportItemDialog):
             QMessageBox.warning(self, "Input Error", "All fields must be filled up.")
             return
 
+        if not first_name.isalpha() or last_name.isalpha() or department.isalpha():
+            QMessageBox.warning(self, "Input Error", "Please input valid data.")
+            return
+        
+        if not re.fullmatch(r"09\d{9}", phone_number):
+            QMessageBox.warning(self, "Input Error", "Please input a valid phone number.")
+            return
+        
         try:
             # Add person
             person_id = dbfunctions.add_person(first_name, last_name, phone_number, department)
@@ -566,6 +597,14 @@ class SurrenderItemDialog(QDialog, Ui_SurrenderItemDialog):
 
         if not (first_name and last_name and phone_number and department):
             QMessageBox.warning(self, "Input Error", "All fields must be filled up.")
+            return
+        
+        if not first_name.isalpha() or last_name.isalpha() or department.isalpha():
+            QMessageBox.warning(self, "Input Error", "Please input valid data.")
+            return
+        
+        if not re.fullmatch(r"09\d{9}", phone_number):
+            QMessageBox.warning(self, "Input Error", "Please input a valid phone number.")
             return
 
         try:
@@ -816,6 +855,14 @@ class UpdatePersonEntryDialog(QDialog, Ui_UpdatePersonDialog):
         if not all(data.values()):
             QMessageBox.warning(self, "Validation Error", "Please fill in all fields.")
             return
+        
+        if not data["FirstName"].isalpha() or data["LastName"].isalpha() or data["Department"].isalpha():
+            QMessageBox.warning(self, "Input Error", "Please input valid data.")
+            return
+        
+        if not re.fullmatch(r"09\d{9}", data["PhoneNumber"]):
+            QMessageBox.warning(self, "Input Error", "Please input a valid phone number.")
+            return
 
         try:
             conn = db.create_connection()
@@ -926,6 +973,14 @@ class ClaimPersonDialog(QDialog, Ui_ClaimPersonDialog):
 
         if not (first_name and last_name and phone_number and department):
             QMessageBox.warning(self, "Input Error", "All fields must be filled up.")
+            return
+        
+        if not first_name.isalpha() or last_name.isalpha() or department.isalpha():
+            QMessageBox.warning(self, "Input Error", "Please input valid data.")
+            return
+        
+        if not re.fullmatch(r"09\d{9}", phone_number):
+            QMessageBox.warning(self, "Input Error", "Please input a valid phone number.")
             return
 
         try:
