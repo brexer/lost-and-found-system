@@ -1,10 +1,8 @@
 from PyQt5 import QtWidgets
-from PyQt5.QtWidgets import QTableWidgetItem
 from src.backend.database import dbfunctions
-from src.backend.utils import match_checker as match
 
-def load_reported_items(reportTable, reportNext, reportPrev, reportPageLabel, currentReportPage, page_size):
-    reported_items, total_records = dbfunctions.get_all_reported_items(currentReportPage, page_size)
+def load_reported_items(reportTable, reportNext, reportPrev, reportPageLabel, currentReportPage, page_size, search_text=""):
+    reported_items, total_records = dbfunctions.get_all_reported_items(currentReportPage, page_size, search_text)
     total_pages = max(1, (total_records + page_size - 1) // page_size)
 
     table = reportTable
@@ -23,11 +21,9 @@ def load_reported_items(reportTable, reportNext, reportPrev, reportPageLabel, cu
     reportPrev.setEnabled(currentReportPage > 0)
     reportNext.setEnabled(currentReportPage < total_pages - 1)
 
-def load_surrendered_items(surrenderTable, surrenderNext, surrenderPrev, surrenderPageLabel, currentSurrenderPage, page_size):
-    surrendered_items, total_records = dbfunctions.get_all_surrendered_items(currentSurrenderPage, page_size)
+def load_surrendered_items(surrenderTable, surrenderNext, surrenderPrev, surrenderPageLabel, currentSurrenderPage, page_size, search_text=""):
+    surrendered_items, total_records = dbfunctions.get_all_surrendered_items(currentSurrenderPage, page_size, search_text)
     total_pages = max(1, (total_records + page_size - 1) // page_size)
-    # all_items = dbfunctions.get_all_items()
-    # surrendered_items = [item for item in all_items if item[4] == "Surrendered"]
 
     table = surrenderTable
     table.setRowCount(0)
@@ -67,8 +63,8 @@ def load_claimed_items(claimTable, claimNext, claimPrev, claimPageLabel, current
     claimPrev.setEnabled(currentClaimPage > 0)
     claimNext.setEnabled(currentClaimPage < total_pages - 1)
 
-def load_persons(personTable, personNext, personPrev, personPageLabel, currentPersonPage, page_size):
-    persons, total_records = dbfunctions.get_all_persons(currentPersonPage, page_size)
+def load_persons(personTable, personNext, personPrev, personPageLabel, currentPersonPage, page_size, search_text=""):
+    persons, total_records = dbfunctions.get_all_persons(currentPersonPage, page_size, search_text)
     total_pages = max(1, (total_records + page_size - 1) // page_size)
 
     table = personTable
@@ -118,19 +114,3 @@ def load_items(itemTable, itemNext, itemPrev, itemPageLabel, currentItemPage, pa
 #         table.insertRow(row_num)
 #         for col, value in enumerate(person):
 #             table.setItem(row_num, col, QtWidgets.QTableWidgetItem(str(value)))
-
-def load_match_table(matchTable, matches):
-    matchTable.setRowCount(0)
-    matchTable.setColumnCount(6)
-    matchTable.setHorizontalHeaderLabels([
-        "Item ID", "Name", "Category", "Date Lost", "Location", "Reported By"
-    ])
-
-    for row, item in enumerate(matches):
-        matchTable.insertRow(row)
-        matchTable.setItem(row, 0, QTableWidgetItem(str(item["ItemID"])))
-        matchTable.setItem(row, 1, QTableWidgetItem(item["Name"]))
-        matchTable.setItem(row, 2, QTableWidgetItem(item["Category"]))
-        matchTable.setItem(row, 3, QTableWidgetItem(item["DateLost"]))
-        matchTable.setItem(row, 4, QTableWidgetItem(item["LocationLost"]))
-        matchTable.setItem(row, 5, QTableWidgetItem(item["ReportedBy"]))
