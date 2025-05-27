@@ -7,7 +7,6 @@ from src.frontend.mainWindow_ui import Ui_MainWindow
 from src.frontend.reportItem import Ui_ReportItemDialog
 from src.frontend.surrenderItem import Ui_SurrenderItemDialog
 from src.backend.utils import load_functions as load
-from src.backend.utils import match_checker as match
 from styles import MAIN_WINDOW_STYLE
 
 import mysql.connector
@@ -35,7 +34,7 @@ class MainClass(QMainWindow, Ui_MainWindow):
         self.pageShown = 0
         self.homeButton.clicked.connect(self.goHomePage)
         self.managePersonsButton.clicked.connect(self.goManagePersonsPage)
-        self.reviewItemsButton.clicked.connect(self.goReviewItemPage)
+        self.manageItemsButton.clicked.connect(self.goManageItemsPage)
         self.claimItemButton.clicked.connect(self.goClaimedItemsPage)
         self.reportItemButton.clicked.connect(self.goReportedItemsPage)
         self.surrenderItemButton.clicked.connect(self.goSurrenderedItemsPage)
@@ -62,7 +61,61 @@ class MainClass(QMainWindow, Ui_MainWindow):
         self.surrenderPrev.clicked.connect(self.prev_surrender_page)
         self.claimNext.clicked.connect(self.next_claim_page)
         self.claimPrev.clicked.connect(self.prev_claim_page)
-        
+
+        # Search button
+        self.personSearchButton.clicked.connect(self.clicked_person_search)
+        self.surrenderSearchButton.clicked.connect(self.clicked_surrender_search)
+        self.reportSearchButton.clicked.connect(self.clicked_report_search)
+    
+    # some more search functions
+    def clicked_person_search(self):
+        self.searchText = self.personSearchEdit.text().strip()
+        self.currentPersonPage = 0
+        self.update_person_page
+
+    def update_person_page(self):
+        load.load_persons(
+            self.personTable,
+            self.personNext,
+            self.personPrev,
+            self.personPageLabel,
+            self.currentPersonPage,
+            ROWS_PER_PAGE,
+            self.searchText
+        )
+
+    def clicked_surrender_search(self):
+        self.searchText = self.surrenederSearchEdit.text().strip()
+        self.currentSurrenderPage = 0
+        self.update_surrender_page()
+
+    def update_surrender_page(self):
+        load.load_surrendered_items(
+            self.surrenderTable,
+            self.surrenderNext,
+            self.surrenderPrev,
+            self.surrenederPageLabel,
+            self.currentSurrenderPage,
+            ROWS_PER_PAGE,
+            self.searchText
+        )
+
+    def clicked_report_search(self):
+        self.searchText = self.reportSearchEdit.text().strip()
+        self.currentReportPage = 0
+        self.update_report_page()
+
+    def update_report_page(self):
+        load.load_reported_items(
+            self.reportTable,
+            self.reportNext,
+            self.reportPrev,
+            self.reportPageLabel,
+            self.currentReportPage,
+            ROWS_PER_PAGE,
+            self.searchText
+        )
+
     # Connections to add and surrender item
     def addReportedItem(self):
         reportItem = ReportItemDialog(self)
@@ -143,9 +196,7 @@ class MainClass(QMainWindow, Ui_MainWindow):
     #     self.stackedWidget.setCurrentIndex(1)
     #     load.load_persons(self.personTable, self.personNext, self.personPrev, self.personPageLabel, self.currentPersonPage)
 
-    def goReviewPage(self):
-        matches = self.match_data
-        match.load_match_table(self.matchTable, matches)
+    def goManageItemsPage(self):
         self.pageshown = 2
         self.currentItemPage = 0
         self.stackedWidget.setCurrentIndex(2)
@@ -303,12 +354,6 @@ class SurrenderItemDialog(QDialog, Ui_SurrenderItemDialog):
         department = self.departmentEdit.text().strip().upper()
         proof_id = self.proofIdEdit.text().strip()
 
-        item = self.item_data
-        category = item["category"]
-        date_found = item.get("date_found") 
-
-        matches = match.check_reported_matches(category, date_found)
-
         if not (first_name and last_name and phone_number and department and proof_id):
             QMessageBox.warning(self, "Input Error", "All fields must be filled up.")
             return
@@ -328,14 +373,6 @@ class SurrenderItemDialog(QDialog, Ui_SurrenderItemDialog):
 
             if not item_id:
                 raise Exception("Failed to insert surrendered item.")
-            
-            if matches:
-                self.match_data = matches
-                self.reviewItemsButton.setVisible(True)
-                QMessageBox.information(self, "Match Found", "Possible match(es) found. Click 'Review Matches' to view.")
-            else:
-                self.match_data = []
-                self.reviewItemsButton.setVisible(False)
 
             QMessageBox.information(self, "Success", "Item surrendered successfully.")
             self.accept()
