@@ -1,13 +1,13 @@
 from src.backend.database import database
 
-def add_person(first_name, last_name, person_contact, person_department, proof_id):
+def add_person(first_name, last_name, person_contact, person_department):
     conn = database.create_connection()
     cursor = conn.cursor()
     query = """
-        INSERT INTO Persons (FirstName, LastName, PhoneNumber, Department, ProofID)
-        VALUES (%s, %s, %s, %s, %s)
+        INSERT INTO Persons (FirstName, LastName, PhoneNumber, Department)
+        VALUES (%s, %s, %s, %s)
     """
-    cursor.execute(query, (first_name, last_name, person_contact, person_department, proof_id))
+    cursor.execute(query, (first_name, last_name, person_contact, person_department))
     person_id = cursor.lastrowid
     conn.commit()
     cursor.close()
@@ -724,28 +724,19 @@ def merge_items(source_item_id, target_item_id):
         cursor.close()
         conn.close()
 
-def add_item_with_image(category, name, description, status, image_path):
+def update_item_image_path(item_id, image_path):
+    conn = database.create_connection()
+    cursor = conn.cursor()
+    cursor.execute("UPDATE items SET ImagePath = %s WHERE ItemID = %s", (image_path, item_id))
+    conn.commit()
+    conn.close()
+
+def update_person_proof_id(person_id, proof_id_path):
     conn = database.create_connection()
     cursor = conn.cursor()
     try:
-        cursor.execute("""
-            INSERT INTO Items (Category, Name, Description, Status)
-            VALUES (%s, %s, %s, %s)
-        """, (category, name, description, status))
-        item_id = cursor.lastrowid
-
-        rel_image_path = save_uploaded_image(image_path, item_id)
-
-        cursor.execute("""
-            UPDATE Items SET ImagePath = %s WHERE ItemID = %s
-        """, (rel_image_path, item_id))
-
+        cursor.execute("UPDATE Persons SET ProofID = %s WHERE PersonID = %s", (proof_id_path, person_id))
         conn.commit()
-        return item_id, rel_image_path
     except Exception as e:
-        print("Database error:", e)
+        print("Error updating proof ID:", e)
         conn.rollback()
-        return None, None
-    finally:
-        cursor.close()
-        conn.close()

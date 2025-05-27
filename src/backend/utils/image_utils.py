@@ -30,7 +30,7 @@ class ImageHandler:
         
     @staticmethod
     def save_uploaded_item_image(source_path, item_id):
-        rel_path = f"assets/itemimg/{item_id}.png"
+        rel_path = f"../../assets/itemimg/{item_id}.png"
         abs_path = os.path.abspath(rel_path)
         os.makedirs(os.path.dirname(abs_path), exist_ok=True)
         shutil.copy(source_path, abs_path)
@@ -38,7 +38,7 @@ class ImageHandler:
 
     @staticmethod
     def save_uploaded_proof_id(source_path, person_id):
-        rel_path = f"assets/proofid/{person_id}.png"
+        rel_path = f"../../assets/proofid/{person_id}.png"
         abs_path = os.path.abspath(rel_path)
         os.makedirs(os.path.dirname(abs_path), exist_ok=True)
         shutil.copy(source_path, abs_path)

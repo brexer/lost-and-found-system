@@ -37,7 +37,7 @@ def create_persons_table():
             LastName VARCHAR(50) NOT NULL,
             PhoneNumber VARCHAR(15) NOT NULL,
             Department VARCHAR(50) NOT NULL,
-            ProofID VARCHAR(255) NOT NULL,
+            ProofID VARCHAR(255),
             PRIMARY KEY (PersonID)
         );
     """)

@@ -8,12 +8,13 @@ from src.frontend.reportItem import Ui_ReportItemDialog
 from src.frontend.surrenderItem import Ui_SurrenderItemDialog
 from src.backend.utils import load_functions as load
 from src.backend.utils import match_checker as match
+from src.backend.utils.image_utils import ImageHandler
 from styles import MAIN_WINDOW_STYLE
 
 import mysql.connector
 from mysql.connector import Error
 import src.backend.database.database as db
-import src.backend.database.dbfunctions as dbfunctions
+from src.backend.database import dbfunctions
 # import src.backend.database.dbfunctions as dbf
 
 ROWS_PER_PAGE = 1 # change rani kung pila ka rows ang i-display per page
@@ -54,8 +55,8 @@ class MainClass(QMainWindow, Ui_MainWindow):
 
         self.personNext.clicked.connect(self.next_person_page)
         self.personPrev.clicked.connect(self.prev_person_page)
-        self.itemNextButton.clicked.connect(self.next_item_page)
-        self.itemPrevButton.clicked.connect(self.prev_item_page)
+        #self.itemNextButton.clicked.connect(self.next_item_page)
+        #self.itemPrevButton.clicked.connect(self.prev_item_page)
         self.reportNext.clicked.connect(self.next_report_page)
         self.reportPrev.clicked.connect(self.prev_report_page)
         self.surrenderNext.clicked.connect(self.next_surrender_page)
@@ -246,6 +247,11 @@ class ReportItemDialog(QDialog, Ui_ReportItemDialog):
         self.setupUi(self)
         self.stackedWidget.setCurrentIndex(0)
 
+        self.proof_id_handler = ImageHandler(self.proofImagePreview)
+        self.item_image_handler = ImageHandler(self.itemImagePreview)
+        self.uploadProofButton.clicked.connect(lambda: self.proof_id_handler.upload_image(self))
+        self.itemImageButton.clicked.connect(lambda: self.item_image_handler.upload_image(self))
+
         self.nextButton.clicked.connect(self.validateInputItem)
         self.confirmButton.clicked.connect(self.validateInputPerson)
         self.backButton.clicked.connect(lambda: self.stackedWidget.setCurrentIndex(0))
@@ -255,8 +261,8 @@ class ReportItemDialog(QDialog, Ui_ReportItemDialog):
 
     def itemDetailsComplete(self):
         item_name = self.itemNameEdit.text().strip().title()
-        category = self.categoryEdit.text().strip().title()
-        date_lost = self.dateTimeEdit.dateTime().toString("yyyy-MM-dd HH:mm:ss")
+        category = self.comboBox_2.currentText().strip().title()
+        date_lost = self.dateLostEdit.dateTime().toString("yyyy-MM-dd HH:mm:ss")
         location_lost = self.locationLostEdit.text().strip()
         item_desc = self.descriptionEdit.text().strip()
         status = 'Reported'
@@ -289,15 +295,14 @@ class ReportItemDialog(QDialog, Ui_ReportItemDialog):
         last_name = self.lastNameEdit.text().strip().title()
         phone_number = self.phoneNumberEdit.text().strip().replace(" ", "")
         department = self.departmentEdit.text().strip().upper()
-        proof_id = self.proofIdEdit.text().strip()
 
-        if not (first_name and last_name and phone_number and department and proof_id):
+        if not (first_name and last_name and phone_number and department):
             QMessageBox.warning(self, "Input Error", "All fields must be filled up.")
             return
 
         try:
             # Add person
-            person_id = dbfunctions.add_person(first_name, last_name, phone_number, department, proof_id)
+            person_id = dbfunctions.add_person(first_name, last_name, phone_number, department)
             if not person_id:
                 raise Exception("Failed to insert person.")
 
@@ -310,6 +315,15 @@ class ReportItemDialog(QDialog, Ui_ReportItemDialog):
 
             if not item_id:
                 raise Exception("Failed to insert reported item.")
+            
+
+            if self.item_image_handler.current_image_path:
+                image_path = ImageHandler.save_uploaded_item_image(self.item_image_handler.current_image_path, item_id)
+                dbfunctions.update_item_image_path(item_id, image_path)
+
+            if self.proof_id_handler.current_image_path:
+                proof_id_path = ImageHandler.save_uploaded_proof_id(self.proof_id_handler.current_image_path, person_id)
+                dbfunctions.update_person_proof_id(person_id, proof_id_path)
 
             QMessageBox.information(self, "Success", "Item reported successfully.")
             self.accept()
@@ -372,7 +386,7 @@ class SurrenderItemDialog(QDialog, Ui_SurrenderItemDialog):
         last_name = self.lastNameEdit.text().strip().title()
         phone_number = self.phoneNumberEdit.text().strip().replace(" ", "")
         department = self.departmentEdit.text().strip().upper()
-        proof_id = self.proofIdEdit.text().strip()
+
 
         item = self.item_data
         category = item["category"]
@@ -380,13 +394,13 @@ class SurrenderItemDialog(QDialog, Ui_SurrenderItemDialog):
 
         matches = match.check_reported_matches(category, date_found)
 
-        if not (first_name and last_name and phone_number and department and proof_id):
+        if not (first_name and last_name and phone_number and department):
             QMessageBox.warning(self, "Input Error", "All fields must be filled up.")
             return
 
         try:
             # Add person
-            person_id = dbfunctions.add_person(first_name, last_name, phone_number, department, proof_id)
+            person_id = dbfunctions.add_person(first_name, last_name, phone_number, department)
             if not person_id:
                 raise Exception("Failed to insert person.")
 

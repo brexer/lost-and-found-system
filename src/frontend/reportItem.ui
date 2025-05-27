@@ -135,7 +135,6 @@
       <property name="font">
        <font>
         <pointsize>18</pointsize>
-        <weight>75</weight>
         <bold>true</bold>
        </font>
       </property>
@@ -147,10 +146,10 @@
       </property>
      </widget>
     </widget>
-    <widget class="QDateTimeEdit" name="dateFoundEdit">
+    <widget class="QDateTimeEdit" name="dateLostEdit">
      <property name="geometry">
       <rect>
-       <x>10</x>
+       <x>20</x>
        <y>220</y>
        <width>271</width>
        <height>41</height>
@@ -165,7 +164,7 @@
     <widget class="QLineEdit" name="itemNameEdit">
      <property name="geometry">
       <rect>
-       <x>10</x>
+       <x>20</x>
        <y>140</y>
        <width>301</width>
        <height>41</height>
@@ -216,7 +215,7 @@
       <string>Item Image</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="pushButton">
+    <widget class="QPushButton" name="itemImageButton">
      <property name="geometry">
       <rect>
        <x>460</x>
@@ -247,7 +246,7 @@
     <widget class="QLabel" name="label_14">
      <property name="geometry">
       <rect>
-       <x>370</x>
+       <x>360</x>
        <y>110</y>
        <width>191</width>
        <height>23</height>
@@ -283,7 +282,7 @@
     <widget class="QLineEdit" name="descriptionEdit">
      <property name="geometry">
       <rect>
-       <x>10</x>
+       <x>20</x>
        <y>300</y>
        <width>561</width>
        <height>61</height>
@@ -330,7 +329,6 @@
      <property name="font">
       <font>
        <pointsize>11</pointsize>
-       <weight>75</weight>
        <bold>true</bold>
       </font>
      </property>
@@ -382,7 +380,7 @@
       </property>
      </item>
     </widget>
-    <widget class="QLineEdit" name="locationFoundEdit">
+    <widget class="QLineEdit" name="locationLostEdit">
      <property name="geometry">
       <rect>
        <x>310</x>
@@ -411,7 +409,6 @@
      <property name="font">
       <font>
        <pointsize>14</pointsize>
-       <weight>75</weight>
        <bold>true</bold>
       </font>
      </property>
@@ -647,7 +644,6 @@
      <property name="font">
       <font>
        <pointsize>14</pointsize>
-       <weight>75</weight>
        <bold>true</bold>
       </font>
      </property>
@@ -732,7 +728,6 @@
       <property name="font">
        <font>
         <pointsize>18</pointsize>
-        <weight>75</weight>
         <bold>true</bold>
        </font>
       </property>
@@ -762,7 +757,7 @@
       <string>Department</string>
      </property>
     </widget>
-    <widget class="QLabel" name="labelImagePreview">
+    <widget class="QLabel" name="proofImagePreview">
      <property name="geometry">
       <rect>
        <x>30</x>
@@ -778,12 +773,12 @@
       <set>Qt::AlignCenter</set>
      </property>
     </widget>
-    <widget class="QPushButton" name="uploadImageButton">
+    <widget class="QPushButton" name="uploadProofButton">
      <property name="geometry">
       <rect>
        <x>460</x>
-       <y>450</y>
-       <width>75</width>
+       <y>470</y>
+       <width>101</width>
        <height>31</height>
       </rect>
      </property>
