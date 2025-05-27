@@ -38,6 +38,7 @@ def create_persons_table():
             PhoneNumber VARCHAR(15) NOT NULL,
             Department VARCHAR(50) NOT NULL,
             ProofID VARCHAR(255),
+            IsDeleted BOOLEAN DEFAULT FALSE,
             PRIMARY KEY (PersonID)
         );
     """)

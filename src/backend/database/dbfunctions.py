@@ -404,7 +404,7 @@ def delete_item(item_id):
 
 def get_all_persons(current_page, page_size, search_text=""):
     conn = database.create_connection()
-    cursor = conn.cursor()
+    cursor = conn.cursor(dictionary=True)
 
     offset = current_page * page_size
     like_pattern = f"%{search_text}%"
@@ -412,12 +412,12 @@ def get_all_persons(current_page, page_size, search_text=""):
     query = """
         SELECT *
         FROM Persons
-        WHERE
-            PersonID LIKE %s OR
+        WHERE IsDeleted = FALSE AND
+            (PersonID LIKE %s OR
             FirstName LIKE %s OR
             LastName LIKE %s OR
             PhoneNumber LIKE %s OR
-            Department LIKE %s
+            Department LIKE %s)
         LIMIT %s OFFSET %s
     """
 
@@ -844,6 +844,34 @@ def clear_person_image(person_id):
     cursor = conn.cursor()
     try:
         cursor.execute("UPDATE Persons SET ProofID = NULL WHERE PersonID = %s", (person_id,))
+        conn.commit()
+    finally:
+        cursor.close()
+        conn.close()
+
+def get_recent_reported_and_surrendered(limit=6):
+    conn = database.create_connection()
+    cursor = conn.cursor(dictionary=True)
+
+    query = f"""
+        SELECT * FROM Items
+        WHERE Status IN ('Reported', 'Surrendered')
+        ORDER BY 
+            CASE WHEN Status = 'Reported' THEN DateLost ELSE DateFound END DESC
+        LIMIT {limit}
+    """
+
+    cursor.execute(query)
+    items = cursor.fetchall()
+    cursor.close()
+    conn.close()
+    return items
+
+def soft_delete_person(person_id):
+    conn = database.create_connection()
+    cursor = conn.cursor()
+    try:
+        cursor.execute("UPDATE Persons SET IsDeleted = TRUE WHERE PersonID = %s", (person_id,))
         conn.commit()
     finally:
         cursor.close()

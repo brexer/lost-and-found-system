@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '.\mainWindow.ui'
+# Form implementation generated from reading ui file 'mainWindow.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.11
 #
@@ -42,78 +42,6 @@ class Ui_MainWindow(object):
         self.horizontalLayout_6.addWidget(self.label_26)
         spacerItem = QtWidgets.QSpacerItem(698, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout_6.addItem(spacerItem)
-        self.layoutWidget_8 = QtWidgets.QWidget(self.homePage)
-        self.layoutWidget_8.setGeometry(QtCore.QRect(40, 260, 981, 291))
-        self.layoutWidget_8.setObjectName("layoutWidget_8")
-        self.horizontalLayout_8 = QtWidgets.QHBoxLayout(self.layoutWidget_8)
-        self.horizontalLayout_8.setContentsMargins(0, 0, 0, 0)
-        self.horizontalLayout_8.setObjectName("horizontalLayout_8")
-        self.frame5 = QtWidgets.QFrame(self.layoutWidget_8)
-        self.frame5.setStyleSheet("")
-        self.frame5.setFrameShape(QtWidgets.QFrame.WinPanel)
-        self.frame5.setFrameShadow(QtWidgets.QFrame.Raised)
-        self.frame5.setObjectName("frame5")
-        self.frame_12 = QtWidgets.QFrame(self.frame5)
-        self.frame_12.setGeometry(QtCore.QRect(10, 10, 171, 181))
-        self.frame_12.setFrameShape(QtWidgets.QFrame.StyledPanel)
-        self.frame_12.setFrameShadow(QtWidgets.QFrame.Raised)
-        self.frame_12.setObjectName("frame_12")
-        self.label_36 = QtWidgets.QLabel(self.frame5)
-        self.label_36.setGeometry(QtCore.QRect(10, 200, 121, 21))
-        self.label_36.setObjectName("label_36")
-        self.horizontalLayout_8.addWidget(self.frame5)
-        self.frame2 = QtWidgets.QFrame(self.layoutWidget_8)
-        self.frame2.setFrameShape(QtWidgets.QFrame.WinPanel)
-        self.frame2.setFrameShadow(QtWidgets.QFrame.Raised)
-        self.frame2.setObjectName("frame2")
-        self.frame_14 = QtWidgets.QFrame(self.frame2)
-        self.frame_14.setGeometry(QtCore.QRect(10, 10, 171, 181))
-        self.frame_14.setFrameShape(QtWidgets.QFrame.StyledPanel)
-        self.frame_14.setFrameShadow(QtWidgets.QFrame.Raised)
-        self.frame_14.setObjectName("frame_14")
-        self.label_37 = QtWidgets.QLabel(self.frame2)
-        self.label_37.setGeometry(QtCore.QRect(10, 200, 121, 21))
-        self.label_37.setObjectName("label_37")
-        self.horizontalLayout_8.addWidget(self.frame2)
-        self.frame3 = QtWidgets.QFrame(self.layoutWidget_8)
-        self.frame3.setFrameShape(QtWidgets.QFrame.WinPanel)
-        self.frame3.setFrameShadow(QtWidgets.QFrame.Raised)
-        self.frame3.setObjectName("frame3")
-        self.frame_16 = QtWidgets.QFrame(self.frame3)
-        self.frame_16.setGeometry(QtCore.QRect(10, 10, 171, 181))
-        self.frame_16.setFrameShape(QtWidgets.QFrame.StyledPanel)
-        self.frame_16.setFrameShadow(QtWidgets.QFrame.Raised)
-        self.frame_16.setObjectName("frame_16")
-        self.label_38 = QtWidgets.QLabel(self.frame3)
-        self.label_38.setGeometry(QtCore.QRect(10, 200, 121, 21))
-        self.label_38.setObjectName("label_38")
-        self.horizontalLayout_8.addWidget(self.frame3)
-        self.frame4 = QtWidgets.QFrame(self.layoutWidget_8)
-        self.frame4.setFrameShape(QtWidgets.QFrame.WinPanel)
-        self.frame4.setFrameShadow(QtWidgets.QFrame.Raised)
-        self.frame4.setObjectName("frame4")
-        self.frame_18 = QtWidgets.QFrame(self.frame4)
-        self.frame_18.setGeometry(QtCore.QRect(10, 10, 171, 181))
-        self.frame_18.setFrameShape(QtWidgets.QFrame.StyledPanel)
-        self.frame_18.setFrameShadow(QtWidgets.QFrame.Raised)
-        self.frame_18.setObjectName("frame_18")
-        self.label_39 = QtWidgets.QLabel(self.frame4)
-        self.label_39.setGeometry(QtCore.QRect(10, 200, 121, 21))
-        self.label_39.setObjectName("label_39")
-        self.horizontalLayout_8.addWidget(self.frame4)
-        self.frame1 = QtWidgets.QFrame(self.layoutWidget_8)
-        self.frame1.setFrameShape(QtWidgets.QFrame.WinPanel)
-        self.frame1.setFrameShadow(QtWidgets.QFrame.Raised)
-        self.frame1.setObjectName("frame1")
-        self.frame_20 = QtWidgets.QFrame(self.frame1)
-        self.frame_20.setGeometry(QtCore.QRect(10, 10, 171, 181))
-        self.frame_20.setFrameShape(QtWidgets.QFrame.StyledPanel)
-        self.frame_20.setFrameShadow(QtWidgets.QFrame.Raised)
-        self.frame_20.setObjectName("frame_20")
-        self.label_40 = QtWidgets.QLabel(self.frame1)
-        self.label_40.setGeometry(QtCore.QRect(10, 200, 121, 21))
-        self.label_40.setObjectName("label_40")
-        self.horizontalLayout_8.addWidget(self.frame1)
         self.reportItem = QtWidgets.QPushButton(self.homePage)
         self.reportItem.setGeometry(QtCore.QRect(870, 30, 151, 51))
         self.reportItem.setStyleSheet("QPushButton {\n"
@@ -160,6 +88,15 @@ class Ui_MainWindow(object):
         self.textEdit_2.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
         self.textEdit_2.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
         self.textEdit_2.setObjectName("textEdit_2")
+        self.widget = QtWidgets.QWidget(self.homePage)
+        self.widget.setGeometry(QtCore.QRect(40, 270, 921, 621))
+        self.widget.setObjectName("widget")
+        self.gridLayoutWidget = QtWidgets.QWidget(self.widget)
+        self.gridLayoutWidget.setGeometry(QtCore.QRect(10, 10, 901, 601))
+        self.gridLayoutWidget.setObjectName("gridLayoutWidget")
+        self.recentItemsContainer = QtWidgets.QGridLayout(self.gridLayoutWidget)
+        self.recentItemsContainer.setContentsMargins(0, 0, 0, 0)
+        self.recentItemsContainer.setObjectName("recentItemsContainer")
         self.stackedWidget.addWidget(self.homePage)
         self.managePersonsPage = QtWidgets.QWidget()
         self.managePersonsPage.setObjectName("managePersonsPage")
@@ -537,7 +474,6 @@ class Ui_MainWindow(object):
         font = QtGui.QFont()
         font.setPointSize(14)
         font.setBold(True)
-        font.setWeight(75)
         self.label.setFont(font)
         self.label.setStyleSheet("color: rgb(255, 255, 255);")
         self.label.setObjectName("label")
@@ -626,7 +562,7 @@ class Ui_MainWindow(object):
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
-        self.stackedWidget.setCurrentIndex(1)
+        self.stackedWidget.setCurrentIndex(0)
         self.itemHistoryButton.toggled['bool'].connect(self.item_dropdown.setHidden) # type: ignore
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
@@ -634,22 +570,23 @@ class Ui_MainWindow(object):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
         self.label_26.setText(_translate("MainWindow", "Recent Items"))
-        self.label_36.setText(_translate("MainWindow", "Item Description"))
-        self.label_37.setText(_translate("MainWindow", "Item Description"))
-        self.label_38.setText(_translate("MainWindow", "Item Description"))
-        self.label_39.setText(_translate("MainWindow", "Item Description"))
-        self.label_40.setText(_translate("MainWindow", "Item Description"))
         self.reportItem.setText(_translate("MainWindow", "Report Item"))
         self.surrenderItem.setText(_translate("MainWindow", "Surrender Item"))
         self.textEdit.setHtml(_translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
-"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><meta charset=\"utf-8\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:8.25pt; font-weight:400; font-style:normal;\">\n"
+"hr { height: 1px; border-width: 0; }\n"
+"li.unchecked::marker { content: \"\\2610\"; }\n"
+"li.checked::marker { content: \"\\2612\"; }\n"
+"</style></head><body style=\" font-family:\'Segoe UI\'; font-size:9pt; font-weight:400; font-style:normal;\">\n"
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'Century Gothic\'; font-size:28pt; font-weight:600;\">Welcome to the </span><span style=\" font-family:\'Century Gothic\'; font-size:28pt; font-weight:600; color:#aa0000;\">Lost</span><span style=\" font-family:\'Century Gothic\'; font-size:28pt; font-weight:600;\"> and <br /></span><span style=\" font-family:\'Century Gothic\'; font-size:28pt; font-weight:600; color:#ffca40;\">Found</span><span style=\" font-family:\'Century Gothic\'; font-size:28pt; font-weight:600;\"> System</span></p></body></html>"))
         self.textEdit_2.setHtml(_translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
-"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><meta charset=\"utf-8\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:8.25pt; font-weight:400; font-style:normal;\">\n"
+"hr { height: 1px; border-width: 0; }\n"
+"li.unchecked::marker { content: \"\\2610\"; }\n"
+"li.checked::marker { content: \"\\2612\"; }\n"
+"</style></head><body style=\" font-family:\'Segoe UI\'; font-size:9pt; font-weight:400; font-style:normal;\">\n"
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'Century Gothic\'; font-size:12pt; font-weight:600;\">Let us help you find what you are looking for or return something you found</span></p></body></html>"))
         self.label_3.setText(_translate("MainWindow", "Person Management Page"))
         item = self.personTable.horizontalHeaderItem(0)

@@ -95,3 +95,27 @@ class ClickableLabel(QLabel):
                 self.on_remove_callback(self.item_id, self.image_path)
 
             dialog.accept()
+
+#no remove
+class ClickableImageLabel(QLabel):
+    def __init__(self, image_path, parent=None):
+        super().__init__(parent)
+        self.image_path = image_path
+        self.setCursor(Qt.PointingHandCursor)
+
+    def mousePressEvent(self, event):
+        if self.image_path and os.path.exists(self.image_path):
+            self.show_preview()
+
+    def show_preview(self):
+        preview_dialog = QDialog()
+        preview_dialog.setWindowTitle("Image Preview")
+        layout = QVBoxLayout(preview_dialog)
+
+        image_label = QLabel()
+        pixmap = QPixmap(self.image_path)
+        image_label.setPixmap(pixmap.scaled(500, 500, Qt.KeepAspectRatio, Qt.SmoothTransformation))
+        image_label.setAlignment(Qt.AlignCenter)
+
+        layout.addWidget(image_label)
+        preview_dialog.exec_()

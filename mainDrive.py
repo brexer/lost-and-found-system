@@ -16,6 +16,7 @@ from src.frontend.updateItem import Ui_UpdateItemDialog
 from src.frontend.updatePerson import Ui_UpdatePersonDialog
 from src.frontend.claimPerson import Ui_ClaimPersonDialog
 
+from src.backend.utils import recent_item_cards as ric
 from src.backend.utils import load_functions as load
 from src.backend.utils import match_checker as match
 from src.backend.utils.image_utils import ImageHandler
@@ -45,6 +46,9 @@ class MainClass(QMainWindow, Ui_MainWindow):
         self.currentItemPage = 0
 
         self.tableSettings()
+
+        recent_items = dbfunctions.get_recent_reported_and_surrendered(6)
+        ric.load_recent_items(self.recentItemsContainer, recent_items)
 
         self.reportTable.cellClicked.connect(self.show_item_id_on_reported_by_click)
         self.claimTable.cellClicked.connect(self.show_person_id_on_claimed_by_click)
@@ -637,9 +641,9 @@ class SurrenderItemDialog(QDialog, Ui_SurrenderItemDialog):
             QMessageBox.warning(self, "Input Error", "All fields must be filled up.")
             return
         
-        if not first_name.isalpha() or last_name.isalpha() or department.isalpha():
-            QMessageBox.warning(self, "Input Error", "Please input valid data.")
-            return
+        #if not first_name.isalpha() or last_name.isalpha() or department.isalpha():
+        #    QMessageBox.warning(self, "Input Error", "Please input valid data.")
+        #    return
         
         if not re.fullmatch(r"09\d{9}", phone_number):
             QMessageBox.warning(self, "Input Error", "Please input a valid phone number.")
