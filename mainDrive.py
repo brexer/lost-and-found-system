@@ -1,5 +1,6 @@
 import sys
 import traceback
+from datetime import datetime
 
 from PyQt5.QtWidgets import QApplication, QPushButton, QMainWindow, QDialog, QTableWidgetItem, QTableWidget, QMessageBox
 from PyQt5.QtGui import QIcon
@@ -9,6 +10,8 @@ from src.frontend.mainWindow_ui import Ui_MainWindow
 from src.frontend.reportItem import Ui_ReportItemDialog
 from src.frontend.surrenderItem import Ui_SurrenderItemDialog
 from src.frontend.updateItem import Ui_UpdateItemDialog
+from src.frontend.updatePerson import Ui_UpdatePersonDialog
+from src.frontend.claimPerson import Ui_ClaimPersonDialog
 
 from src.backend.utils import load_functions as load
 from src.backend.utils import match_checker as match
@@ -80,21 +83,40 @@ class MainClass(QMainWindow, Ui_MainWindow):
         self.surrenderPrev.clicked.connect(self.prev_surrender_page)
         self.claimNext.clicked.connect(self.next_claim_page)
         self.claimPrev.clicked.connect(self.prev_claim_page)
+
+        #Claim buttons
+        self.surrenderDeleteButton.clicked.connect(self.claimSurrenderItem)
         
         # Search button
         self.searchText = ""
         self.personSearchButton.clicked.connect(self.clicked_person_search)
         self.surrenderSearchButton.clicked.connect(self.clicked_surrender_search)
         self.reportSearchButton.clicked.connect(self.clicked_report_search)
+        self.claimSearchButton.clicked.connect(self.clicked_claim_search)
 
         #Updating item entries
         self.updateClaimButton.clicked.connect(self.updateItemInput)
         self.reportUpdateButton.clicked.connect(self.updateItemInput)
         self.surrenderUpdateButton.clicked.connect(self.updateItemInput)
+
+        # Claim functions
+    def claimSurrenderItem(self):
+        selectedRow = self.surrenderTable.currentRow()
+        itemID = int(self.surrenderTable.item(selectedRow, 1).text())
+        ClaimSurrender = ClaimPersonDialog(itemID, self)
+        if ClaimSurrender.exec_():
+            self.goClaimedItemsPage()
         
     # Update functions
     def updateItemInput(self):
-        if self.pageShown == 3:
+        if self.pageShown == 1:
+            selectedRow = self.personTable.currentRow()
+            personID = int(self.personTable.item(selectedRow, 1).text())
+            PersonEditor = UpdatePersonEntryDialog(personID, self)
+            if PersonEditor.exec_():
+                self.goManagePersonsPage
+
+        elif self.pageShown == 3:
             selectedRow = self.claimTable.currentRow()
 
         elif self.pageShown ==4:
@@ -155,6 +177,20 @@ class MainClass(QMainWindow, Ui_MainWindow):
             self.reportNext,
             self.reportPrev,
             self.reportPageLabel,
+            self.currentReportPage,
+            ROWS_PER_PAGE,
+            self.searchText
+        )
+
+    def clicked_claim_search(self):
+        pass
+
+    def update_claim_page(self):\
+        load.load_claimed_items(
+            self.claimTable,
+            self.claimNext,
+            self.claimPrev,
+            self.claimPageLabel,
             self.currentReportPage,
             ROWS_PER_PAGE,
             self.searchText
@@ -250,14 +286,19 @@ class MainClass(QMainWindow, Ui_MainWindow):
             self.update_surrender_page()
 
     def next_claim_page(self):
-        if (self.currentClaimPage + 1) * ROWS_PER_PAGE < dbfunctions.get_total_surrendered_items():
+        search_text = self.searchText if hasattr(self, 'searchText') and self.searchText is not None else ""
+
+        total_records = dbfunctions.get_total_claimed_items(search_text)
+        total_pages = max(1, (total_records + ROWS_PER_PAGE - 1) // ROWS_PER_PAGE)
+
+        if self.currentClaimPage < total_pages - 1:
             self.currentClaimPage += 1
-            load.load_claimed_items(self.claimTable, self.claimNext, self.claimPrev, self.claimPageLabel, self.currentClaimPage, ROWS_PER_PAGE)
+            self.update_claim_page()
 
     def prev_claim_page(self):
         if self.currentClaimPage > 0:
             self.currentClaimPage -= 1
-            load.load_claimed_items(self.claimTable, self.claimNext, self.claimPrev, self.claimPageLabel, self.currentClaimPage, ROWS_PER_PAGE)
+            self.update_claim_page()
 
     # connections of main pages
 
@@ -672,6 +713,128 @@ class UpdateReportedItemDialog(QDialog, Ui_UpdateItemDialog):
             QMessageBox.critical(self, "Database Error", str(e))
         finally:
             conn.close()
+
+class UpdatePersonEntryDialog(QDialog, Ui_UpdatePersonDialog):
+    def __init__(self, personID, parent = None):
+        super().__init__(parent)
+        self.setupUi(self)
+        self.personID = personID
+
+        self.loadPersonData()
+
+        self.cancelButton.clicked.connect(self.reject)
+        self.confirmButton.clicked.connect(self.validatePersonInput)
+
+    def loadPersonData(self):
+        conn = db.create_connection()
+        cursor = conn.cursor()
+    # PROOF ID WALA PA NABUTANG
+        try:
+            cursor.execute("SELECT FirstName, LastName, PhoneNumber, Department FROM Persons WHERE PersonID = %s", (self.personID,))
+            row = cursor.fetchone()
+            if row:
+                first_name, last_name, phone_number, department = row
+
+                self.firstNameEdit.setText(first_name)
+                self.lastNameEdit.setText(last_name)
+                self.phoneNumberEdit.setText(phone_number)
+                self.departmentEdit.setText(department)
+            else:
+                QMessageBox.warning(self, "Error", "Item not found.")
+                self.reject()
+        finally:
+            conn.close()
+
+    def updatePersonInput(self):
+        first_name = self.firstNameEdit.text().strip().title()
+        last_name = self.lastNameEdit.text().strip().title()
+        phone_number = self.phoneNumberEdit.text().strip()
+        department = self.departmentEdit.text().strip().upper().replace(" ","")
+
+        return {
+            "FirstName": first_name,
+            "LastName": last_name,
+            "PhoneNumber": phone_number,
+            "Department": department
+        }
+
+
+    def validatePersonInput(self):
+        data = self.updatePersonInput()
+        
+        if not all(data.values()):
+            QMessageBox.warning(self, "Validation Error", "Please fill in all fields.")
+            return
+
+        try:
+            conn = db.create_connection()
+            cursor = conn.cursor()
+            cursor.execute("""
+                UPDATE Persons
+                SET FirstName = %s, LastName = %s, PhoneNumber = %s, Department = %s
+                WHERE PersonID = %s
+            """, (data["FirstName"], data["LastName"], data["PhoneNumber"], data["Department"], self.personID))
+            conn.commit()
+            QMessageBox.information(self, "Success", "Person entry updated successfully.")
+            self.accept()
+        except Exception as e:
+            QMessageBox.critical(self, "Database Error", str(e))
+        finally:
+            conn.close()
+
+class ClaimPersonDialog(QDialog, Ui_ClaimPersonDialog):
+    def __init__(self, itemID, parent=None):
+        super().__init__(parent)
+        self.setupUi(self)
+        self.itemID = itemID
+
+        self.proof_id_handler = ImageHandler(self.proofImagePreview)
+        self.uploadImageButton.clicked.connect(lambda: self.proof_id_handler.upload_image(self))
+
+        self.cancelButton.clicked.connect(self.reject)
+        self.confirmButton.clicked.connect(self.validatePersonInput)
+
+    def validatePersonInput(self):
+        first_name = self.firstNameEdit.text().strip().title()
+        last_name = self.lastNameEdit.text().strip().title()
+        phone_number = self.phoneNumberEdit.text().strip().replace(" ", "")
+        department = self.departmentEdit.text().strip().upper()
+
+        if not (first_name and last_name and phone_number and department):
+            QMessageBox.warning(self, "Input Error", "All fields must be filled up.")
+            return
+
+        try:
+            # Check for existing person
+            existing_person_id = dbfunctions.get_existing_person_id(first_name, last_name, department)
+
+            if existing_person_id:
+                person_id = existing_person_id
+            else:
+                # Add new person
+                person_id = dbfunctions.add_person(first_name, last_name, phone_number, department)
+                if not person_id:
+                    raise Exception("Failed to insert person.")
+
+                # Save proof ID if provided
+                if self.proof_id_handler.current_image_path:
+                    proof_id_path = ImageHandler.save_uploaded_proof_id(self.proof_id_handler.current_image_path, person_id)
+                    dbfunctions.update_person_proof_id(person_id, proof_id_path)
+
+            # Get current timestamp
+            date_claimed = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+
+            # Attempt to claim the item
+            success = dbfunctions.claim_item(self.itemID, date_claimed, person_id)
+            if not success:
+                QMessageBox.warning(self, "Claim Error", "Item is already claimed or invalid.")
+                return
+
+            QMessageBox.information(self, "Success", "Item claimed successfully.")
+            self.accept()
+
+        except Exception as e:
+            QMessageBox.critical(self, "Error", str(e))
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
