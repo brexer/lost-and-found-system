@@ -25,7 +25,7 @@ import src.backend.database.database as db
 from src.backend.database import dbfunctions
 # import src.backend.database.dbfunctions as dbf
 
-ROWS_PER_PAGE = 10 # change rani kung pila ka rows ang i-display per page
+ROWS_PER_PAGE = 1 # change rani kung pila ka rows ang i-display per page
 
 class MainClass(QMainWindow, Ui_MainWindow):
     def __init__(self):
@@ -41,11 +41,13 @@ class MainClass(QMainWindow, Ui_MainWindow):
 
         self.match_data = []
         self.currentItemPage = 0
-        
+
+        self.surrenderTable.setSortingEnabled(True)
+
         self.pageShown = 0
         self.homeButton.clicked.connect(self.goHomePage)
         self.managePersonsButton.clicked.connect(self.goManagePersonsPage)
-        self.reviewItemsButton.setVisible(False)
+        self.reviewItemsButton.setVisible(True)
         self.reviewItemsButton.clicked.connect(self.goReviewPage)
         self.claimItemButton.clicked.connect(self.goClaimedItemsPage)
         self.reportItemButton.clicked.connect(self.goReportedItemsPage)
@@ -96,9 +98,38 @@ class MainClass(QMainWindow, Ui_MainWindow):
         self.claimSearchButton.clicked.connect(self.clicked_claim_search)
 
         #Updating item entries
-        self.updateClaimButton.clicked.connect(self.updateItemInput)
+        self.updateClaimButton.setEnabled(False)
+        self.pushButton_7.setEnabled(False)
+        self.surrenderUpdateButton.setEnabled(False)
+        self.reportUpdateButton.setEnabled(False)
+
         self.reportUpdateButton.clicked.connect(self.updateItemInput)
-        self.surrenderUpdateButton.clicked.connect(self.updateItemInput)
+        self.surrenderUpdateButton.clicked.connect(self.updateItemInput)        
+        self.pushButton_7.clicked.connect(self.updateItemInput)        
+        self.updateClaimButton.clicked.connect(self.updateItemInput)
+
+        #CONNECTION TO BUTTON STATES
+        self.personTable.itemSelectionChanged.connect(self.update_person_button_state)
+        self.claimTable.itemSelectionChanged.connect(self.update_claim_button_state)
+        self.surrenderTable.itemSelectionChanged.connect(self.update_surrender_button_state)
+        self.reportTable.itemSelectionChanged.connect(self.update_report_button_state)
+
+    # UPDATE BUTTON STATES
+    def update_person_button_state(self):
+        has_selection = self.personTable.selectionModel().hasSelection()
+        self.pushButton_7.setEnabled(has_selection)
+
+    def update_claim_button_state(self):
+        has_selection = self.claimTable.selectionModel().hasSelection()
+        self.updateClaimButton.setEnabled(has_selection)
+
+    def update_surrender_button_state(self):
+        has_selection = self.surrenderTable.selectionModel().hasSelection()
+        self.surrenderUpdateButton.setEnabled(has_selection)
+
+    def update_report_button_state(self):
+        has_selection = self.reportTable.selectionModel().hasSelection()
+        self.reportUpdateButton.setEnabled(has_selection)
 
         # Claim functions
     def claimSurrenderItem(self):
@@ -111,28 +142,36 @@ class MainClass(QMainWindow, Ui_MainWindow):
     # Update functions
     def updateItemInput(self):
         if self.pageShown == 1:
-            selectedRow = self.personTable.currentRow()
-            personID = int(self.personTable.item(selectedRow, 1).text())
-            PersonEditor = UpdatePersonEntryDialog(personID, self)
-            if PersonEditor.exec_():
-                self.goManagePersonsPage
-
+            if self.personTable.selectionModel().hasSelection():
+                selectedRow = self.personTable.currentRow()
+                personID = int(self.personTable.item(selectedRow, 1).text())
+                PersonEditor = UpdatePersonEntryDialog(personID, self)
+                if PersonEditor.exec_():
+                    self.goManagePersonsPage
+            
         elif self.pageShown == 3:
-            selectedRow = self.claimTable.currentRow()
+            if self.claimTable.selectionModel().hasSelection():
+                selectedRow = self.claimTable.currentRow()
+                itemID = int(self.claimTable.item(selectedRow, 1).text())
+                ItemEditor = UpdateClaimItemDialog(itemID, self)
+                if ItemEditor.exec_():
+                    self.goClaimedItemsPage
 
         elif self.pageShown ==4:
-            selectedRow = self.reportTable.currentRow()
-            itemID = int(self.reportTable.item(selectedRow, 1).text())
-            ItemEditor = UpdateReportedItemDialog(itemID, self)
-            if ItemEditor.exec_():
-                self.goReportedItemsPage
+            if self.reportTable.selectionModel().hasSelection():
+                selectedRow = self.reportTable.currentRow()
+                itemID = int(self.reportTable.item(selectedRow, 1).text())
+                ItemEditor = UpdateReportedItemDialog(itemID, self)
+                if ItemEditor.exec_():
+                    self.goReportedItemsPage
 
         elif self.pageShown ==5:
-            selectedRow = self.surrenderTable.currentRow()
-            itemID = int(self.surrenderTable.item(selectedRow, 1).text())
-            ItemEditor = UpdateSurrenderedItemDialog(itemID, self)
-            if ItemEditor.exec_():
-                self.goSurrenderedItemsPage()
+            if self.surrenderTable.selectionModel().hasSelection():
+                selectedRow = self.surrenderTable.currentRow()
+                itemID = int(self.surrenderTable.item(selectedRow, 1).text())
+                ItemEditor = UpdateSurrenderedItemDialog(itemID, self)
+                if ItemEditor.exec_():
+                    self.goSurrenderedItemsPage()
     
     # some more search functions
     def clicked_person_search(self):
@@ -184,7 +223,9 @@ class MainClass(QMainWindow, Ui_MainWindow):
         )
 
     def clicked_claim_search(self):
-        pass
+        self.searchText = self.claimSearchEdit.text().strip()
+        self.currentClaimPage = 0
+        self.update_claim_page()
 
     def update_claim_page(self):\
         load.load_claimed_items(
@@ -192,7 +233,7 @@ class MainClass(QMainWindow, Ui_MainWindow):
             self.claimNext,
             self.claimPrev,
             self.claimPageLabel,
-            self.currentReportPage,
+            self.currentClaimPage,
             ROWS_PER_PAGE,
             self.searchText
         )
@@ -517,7 +558,6 @@ class SurrenderItemDialog(QDialog, Ui_SurrenderItemDialog):
         phone_number = self.phoneNumberEdit.text().strip().replace(" ", "")
         department = self.departmentEdit_2.text().strip().upper()
 
-
         item = self.item_data
         category = item["category"]
         date_found = item.get("date_found") 
@@ -529,13 +569,15 @@ class SurrenderItemDialog(QDialog, Ui_SurrenderItemDialog):
             return
 
         try:
-            # Add person
-            person_id = dbfunctions.add_person(first_name, last_name, phone_number, department)
-            if not person_id:
-                raise Exception("Failed to insert person.")
+            person_id = dbfunctions.get_existing_person_id(first_name, last_name, department)
 
-            # Add item + report
-            item = self.item_data
+            if person_id:
+                print(f"Existing person found: ID = {person_id}")
+            else:
+                person_id = dbfunctions.add_person(first_name, last_name, phone_number, department)
+                if not person_id:
+                    raise Exception("Failed to insert person.")
+
             item_id = dbfunctions.add_surrendered_item(
                 item["category"], item["name"], item["description"],
                 item["date_found"], item["location_found"], person_id
@@ -543,7 +585,7 @@ class SurrenderItemDialog(QDialog, Ui_SurrenderItemDialog):
 
             if not item_id:
                 raise Exception("Failed to insert surrendered item.")
-            
+
             if self.item_image_handler.current_image_path:
                 image_path = ImageHandler.save_uploaded_item_image(self.item_image_handler.current_image_path, item_id)
                 dbfunctions.update_item_image_path(item_id, image_path)
@@ -551,7 +593,7 @@ class SurrenderItemDialog(QDialog, Ui_SurrenderItemDialog):
             if self.proof_id_handler.current_image_path:
                 proof_id_path = ImageHandler.save_uploaded_proof_id(self.proof_id_handler.current_image_path, person_id)
                 dbfunctions.update_person_proof_id(person_id, proof_id_path)
-            
+
             if matches:
                 self.parent().match_data = matches
                 self.parent().reviewItemsButton.setVisible(True)
@@ -785,6 +827,79 @@ class UpdatePersonEntryDialog(QDialog, Ui_UpdatePersonDialog):
             """, (data["FirstName"], data["LastName"], data["PhoneNumber"], data["Department"], self.personID))
             conn.commit()
             QMessageBox.information(self, "Success", "Person entry updated successfully.")
+            self.accept()
+        except Exception as e:
+            QMessageBox.critical(self, "Database Error", str(e))
+        finally:
+            conn.close()
+
+class UpdateClaimItemDialog(QDialog, Ui_UpdateItemDialog):
+    def __init__(self, itemID, parent=None):
+        super().__init__(parent)
+        self.setupUi(self)
+        self.itemID = itemID
+
+        self.loadItemData()
+
+        self.cancelButton.clicked.connect(self.reject)
+        self.confirmButton.clicked.connect(self.validateItemInput)
+
+    def loadItemData(self):
+        conn = db.create_connection()
+        cursor = conn.cursor()
+
+        try:
+            cursor.execute("SELECT Name, Category, DateFound, LocationFound, Description FROM Items WHERE ItemID = %s", (self.itemID,))
+            row = cursor.fetchone()
+            if row:
+                item_name, category, date_found, location, description = row
+
+                self.itemNameEdit.setText(item_name)
+                index = self.categoryComboBox.findText(category)
+                if index != -1:
+                    self.categoryComboBox.setCurrentIndex(index)
+                dt = QDateTime.fromString(str(date_found), "yyyy-MM-dd HH:mm:ss")
+                self.dateTimeEdit.setDateTime(dt)
+                self.locationEdit.setText(location)
+                self.descriptionEdit.setText(description)
+            else:
+                QMessageBox.warning(self, "Error", "Item not found.")
+                self.reject()
+        finally:
+            conn.close()
+
+    def updateItemInput(self):
+        item_name = self.itemNameEdit.text().strip().title()
+        category = self.categoryComboBox.currentText()
+        date_found = self.dateTimeEdit.dateTime().toString("yyyy-MM-dd HH:mm:ss")
+        location_found = self.locationEdit.text().strip().title()
+        item_desc = self.descriptionEdit.text().strip()
+
+        return {
+            "Name": item_name,
+            "Category": category,
+            "DateFound": date_found,
+            "LocationFound": location_found,
+            "Description": item_desc
+        }
+
+    def validateItemInput(self):
+        data = self.updateItemInput()
+        
+        if not all(data.values()):
+            QMessageBox.warning(self, "Validation Error", "Please fill in all fields.")
+            return
+
+        try:
+            conn = db.create_connection()
+            cursor = conn.cursor()
+            cursor.execute("""
+                UPDATE Items
+                SET Name = %s, Category = %s, DateFound = %s, LocationFound = %s, Description = %s
+                WHERE ItemID = %s
+            """, (data["Name"], data["Category"], data["DateFound"], data["LocationFound"], data["Description"], self.itemID))
+            conn.commit()
+            QMessageBox.information(self, "Success", "Item updated successfully.")
             self.accept()
         except Exception as e:
             QMessageBox.critical(self, "Database Error", str(e))
