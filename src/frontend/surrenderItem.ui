@@ -26,7 +26,7 @@
     <string notr="true">background-color: rgb(255, 255, 255);</string>
    </property>
    <property name="currentIndex">
-    <number>0</number>
+    <number>1</number>
    </property>
    <widget class="QWidget" name="itemPage">
     <widget class="QLabel" name="label_2">
@@ -41,6 +41,7 @@
      <property name="font">
       <font>
        <pointsize>14</pointsize>
+       <weight>75</weight>
        <bold>true</bold>
       </font>
      </property>
@@ -271,6 +272,7 @@
       <property name="font">
        <font>
         <pointsize>18</pointsize>
+        <weight>75</weight>
         <bold>true</bold>
        </font>
       </property>
@@ -330,6 +332,7 @@
      <property name="font">
       <font>
        <pointsize>11</pointsize>
+       <weight>75</weight>
        <bold>true</bold>
       </font>
      </property>
@@ -633,6 +636,7 @@
      <property name="font">
       <font>
        <pointsize>14</pointsize>
+       <weight>75</weight>
        <bold>true</bold>
       </font>
      </property>
@@ -690,6 +694,7 @@
       <property name="font">
        <font>
         <pointsize>18</pointsize>
+        <weight>75</weight>
         <bold>true</bold>
        </font>
       </property>
@@ -704,27 +709,28 @@
       <property name="geometry">
        <rect>
         <x>20</x>
-        <y>10</y>
+        <y>20</y>
         <width>60</width>
-        <height>60</height>
+        <height>31</height>
        </rect>
       </property>
       <property name="styleSheet">
        <string notr="true">QPushButton {
-		background-color: white;
-        border: 1px solid;
-        border-radius: 20px;
-        padding: 8px 16px;
-    }
-    QPushButton:hover {
-        background-color: lightgray;
-    }
-    QPushButton:pressed {
-        background-color: gray;
-    }</string>
+    background-color: white;
+    border: 1px solid;
+    border-radius: 10px;
+    padding: 4px 6px;
+    font-size: 10pt;
+}
+QPushButton:hover {
+    background-color: lightgray;
+}
+QPushButton:pressed {
+    background-color: gray;
+}</string>
       </property>
       <property name="text">
-       <string>B</string>
+       <string>Back</string>
       </property>
      </widget>
     </widget>
