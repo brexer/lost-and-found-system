@@ -2,6 +2,10 @@ from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import QTableWidgetItem
 from src.backend.database import dbfunctions
 from src.backend.utils import match_checker as match
+from PyQt5 import QtWidgets
+from PyQt5.QtGui import QPixmap
+from PyQt5.QtCore import Qt
+import os
 
 def load_reported_items(reportTable, reportNext, reportPrev, reportPageLabel, currentReportPage, page_size, search_text=""):
     reported_items, total_records = dbfunctions.get_all_reported_items(currentReportPage, page_size, search_text)
@@ -9,19 +13,36 @@ def load_reported_items(reportTable, reportNext, reportPrev, reportPageLabel, cu
 
     table = reportTable
     table.setRowCount(0)
-    table.setColumnCount(8)
+    table.setColumnCount(9)
     table.setHorizontalHeaderLabels([
-        "Item ID", "Category", "Name", "Description", "Status", "Location", "Date", "Reported By"
+        "Image", "Item ID", "Category", "Name", "Description", "Status", "Location", "Date", "Reported By"
     ])
-    
+
     for row_num, item in enumerate(reported_items):
         table.insertRow(row_num)
-        for col, value in enumerate(item):
-            table.setItem(row_num, col, QtWidgets.QTableWidgetItem(str(value)))
 
-    reportPageLabel.setText(f"Page {currentReportPage + 1} of {total_pages}")
-    reportPrev.setEnabled(currentReportPage > 0)
-    reportNext.setEnabled(currentReportPage < total_pages - 1)
+        # Image column (last item in tuple, or item[8])
+        image_path = item[4] if len(item) > 4 else None
+        label = QtWidgets.QLabel()
+        label.setAlignment(Qt.AlignCenter)
+        if image_path and os.path.exists(image_path):
+            pixmap = QPixmap(image_path).scaled(64, 64, Qt.KeepAspectRatio, Qt.SmoothTransformation)
+            label.setPixmap(pixmap)
+        else:
+            label.setText("No Image")
+        table.setCellWidget(row_num, 0, label)
+
+        # Add text columns (shifted by 1 because of image)
+        for col in range(8):  # columns 1–8
+            table.setItem(row_num, col + 1, QtWidgets.QTableWidgetItem(str(item[col])))
+
+        reportPageLabel.setText(f"Page {currentReportPage + 1} of {total_pages}")
+        reportPrev.setEnabled(currentReportPage > 0)
+        reportNext.setEnabled(currentReportPage < total_pages - 1)
+
+        # Optional: Make rows taller to fit the image
+        table.verticalHeader().setDefaultSectionSize(70)
+        table.setColumnWidth(0, 80)
 
 def load_surrendered_items(surrenderTable, surrenderNext, surrenderPrev, surrenderPageLabel, currentSurrenderPage, page_size, search_text=""):
     surrendered_items, total_records = dbfunctions.get_all_surrendered_items(currentSurrenderPage, page_size, search_text)
@@ -117,12 +138,12 @@ def load_items(itemTable, itemNext, itemPrev, itemPageLabel, currentItemPage, pa
 #         for col, value in enumerate(person):
 #             table.setItem(row_num, col, QtWidgets.QTableWidgetItem(str(value)))
 
-def load_match_table(matchTable, matchNext, matchPrev, matchPageLabel, currentMatchPage, page_size, matches):
+def load_match_table(matchTable, matchNext, matchPrev, matchPageLabel, currentItemPage, page_size, matches):
     total_records = len(matches)
     total_pages = max(1, (total_records + page_size - 1) // page_size)
 
     # Calculate start and end indices for the current page
-    start = currentMatchPage * page_size
+    start = currentItemPage * page_size
     end = start + page_size
     page_matches = matches[start:end]
 
@@ -141,6 +162,6 @@ def load_match_table(matchTable, matchNext, matchPrev, matchPageLabel, currentMa
         matchTable.setItem(row, 4, QTableWidgetItem(item.get("LocationLost", "")))
         matchTable.setItem(row, 5, QTableWidgetItem(item.get("ReportedBy", "")))
 
-    matchPageLabel.setText(f"Page {currentMatchPage + 1} of {total_pages}")
-    matchPrev.setEnabled(currentMatchPage > 0)
-    matchNext.setEnabled(currentMatchPage < total_pages - 1)
+    matchPageLabel.setText(f"Page {currentItemPage + 1} of {total_pages}")
+    matchPrev.setEnabled(currentItemPage > 0)
+    matchNext.setEnabled(currentItemPage < total_pages - 1)

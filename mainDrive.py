@@ -35,7 +35,7 @@ class MainClass(QMainWindow, Ui_MainWindow):
         self.stackedWidget.setCurrentIndex(0)
         db.initialize_database()
 
-        self.homeButton
+        self.match_data = []
         
         self.pageShown = 0
         self.homeButton.clicked.connect(self.goHomePage)
@@ -246,7 +246,7 @@ class MainClass(QMainWindow, Ui_MainWindow):
 
     def goReviewPage(self):
         matches = self.match_data
-        load.load_match_tableload_match_table(self.matchTable, self.itemNextButton, self.itemPrevButton, self.personPageLabel_2, self.currentItemPage, ROWS_PER_PAGE, matches)
+        load.load_match_table(self.matchTable, self.itemNextButton, self.itemPrevButton, self.personPageLabel_2, self.currentItemPage, ROWS_PER_PAGE, matches)
         self.pageshown = 2
         self.currentItemPage = 0
         self.stackedWidget.setCurrentIndex(2)
@@ -271,11 +271,6 @@ class MainClass(QMainWindow, Ui_MainWindow):
         self.stackedWidget.setCurrentIndex(5)
         load.load_surrendered_items(self.surrenderTable, self.surrenderNext, self.surrenderPrev, self.surrenederPageLabel, self.currentSurrenderPage, ROWS_PER_PAGE)
 
-    def update_dateTime(self):
-        self.dateLostEdit.setMaximumDateTime(QDateTime.currentDateTime())
-        self.dateLostEdit.setDateTime(QDateTime.currentDateTime())
-        self.dateFoundEdit.setMaximumDateTime(QDateTime.currentDateTime())
-        self.dateFoundEdit.setDateTime(QDateTime.currentDateTime())
 
 class ReportItemDialog(QDialog, Ui_ReportItemDialog):
     def __init__(self, parent=None):
@@ -384,7 +379,8 @@ class SurrenderItemDialog(QDialog, Ui_SurrenderItemDialog):
         self.proofImageButton.clicked.connect(lambda: self.proof_id_handler.upload_image(self))
         self.itemImageButton.clicked.connect(lambda: self.item_image_handler.upload_image(self))
 
-        self.update_dateTime()
+        self.dateFoundEdit.setMaximumDateTime(QDateTime.currentDateTime())
+        self.dateFoundEdit.setDateTime(QDateTime.currentDateTime())
 
         self.nextButton.clicked.connect(self.validateItemInput)
         self.confirmButton.clicked.connect(self.validatePersonInput)
@@ -470,11 +466,11 @@ class SurrenderItemDialog(QDialog, Ui_SurrenderItemDialog):
             
             if matches:
                 self.match_data = matches
-                self.reviewItemsButton.setVisible(True)
+                self.parent().reviewItemsButton.setVisible(True)
                 QMessageBox.information(self, "Match Found", "Possible match(es) found. Click 'Review Matches' to view.")
             else:
                 self.match_data = []
-                self.reviewItemsButton.setVisible(False)
+                self.parent().reviewItemsButton.setVisible(False)
 
             QMessageBox.information(self, "Success", "Item surrendered successfully.")
             self.accept()
