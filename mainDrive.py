@@ -21,7 +21,7 @@ import src.backend.database.database as db
 from src.backend.database import dbfunctions
 # import src.backend.database.dbfunctions as dbf
 
-ROWS_PER_PAGE = 1 # change rani kung pila ka rows ang i-display per page
+ROWS_PER_PAGE = 10 # change rani kung pila ka rows ang i-display per page
 
 class MainClass(QMainWindow, Ui_MainWindow):
     def __init__(self):
