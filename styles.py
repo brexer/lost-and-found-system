@@ -123,5 +123,4 @@ MAIN_WINDOW_STYLE = """
         color: #2c3e50;
         font-weight: 700;
     }
-
-"""
+"""""
