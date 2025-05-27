@@ -14,6 +14,25 @@ def add_person(first_name, last_name, person_contact, person_department):
     conn.close()
     return person_id
 
+def get_existing_person_id(first_name, last_name, department):
+    query = """
+        SELECT PersonID FROM Persons
+        WHERE FirstName = %s AND LastName = %s AND Department = %s
+        LIMIT 1
+    """
+    try:
+        conn = database.create_connection()
+        cursor = conn.cursor()
+        cursor.execute(query, (first_name, last_name, department))
+        result = cursor.fetchone()
+        cursor.close()
+        conn.close()
+        return result[0] if result else None
+    
+    except Exception as e:
+        print("Database error:", e)
+        return None
+
 # def add_person(person_id, first_name, last_name, person_contact, person_department, proof_id):
 #         conn = database.create_connection()
 #         cursor = conn.cursor()
@@ -154,33 +173,27 @@ def update_reported_item(item_id, item_category, item_name, item_description, da
                 cursor.close()
                 conn.close()
 
-#only admin should be able to change this
 def claim_item(item_id, date_claimed, person_id):
     conn = database.create_connection()
     cursor = conn.cursor()
 
-    if not can_claim(item_id):
-        print("Item is already claimed.")  # dialog
-        return False
-
     try:
-        # Check if item exists in ReportedItems
+        # Ensure item exists and is claimable (i.e., not already 'Claimed')
         cursor.execute("""
-            SELECT 1 FROM ReportedItems WHERE ItemID = %s
+            SELECT Status FROM Items WHERE ItemID = %s
         """, (item_id,))
-        reported_exists = cursor.fetchone() is not None
+        result = cursor.fetchone()
 
-        # Check if item exists in SurrenderedItems
-        cursor.execute("""
-            SELECT 1 FROM SurrenderedItems WHERE ItemID = %s
-        """, (item_id,))
-        surrendered_exists = cursor.fetchone() is not None
-
-        if not reported_exists and not surrendered_exists:
-            print("Error: Item not found in reported or surrendered.")
+        if not result:
+            print("Error: Item not found.")
             return False
 
-        # Insert into ClaimedItems (only allowed columns)
+        status = result[0]
+        if status == 'Claimed':
+            print("Item is already claimed.")
+            return False
+
+        # Insert into ClaimedItems
         cursor.execute("""
             INSERT INTO ClaimedItems (
                 ItemID, DateClaimed, PersonID
@@ -188,7 +201,7 @@ def claim_item(item_id, date_claimed, person_id):
             VALUES (%s, %s, %s)
         """, (item_id, date_claimed, person_id))
 
-        # Update item status
+        # Update Items status to 'Claimed'
         cursor.execute("""
             UPDATE Items
             SET Status = 'Claimed'
@@ -207,6 +220,60 @@ def claim_item(item_id, date_claimed, person_id):
     finally:
         cursor.close()
         conn.close()
+        
+#only admin should be able to change this
+# def claim_item(item_id, date_claimed, person_id):
+#     conn = database.create_connection()
+#     cursor = conn.cursor()
+
+#     if not can_claim(item_id):
+#         print("Item is already claimed.")  # dialog
+#         return False
+
+#     try:
+#         # Check if item exists in ReportedItems
+#         cursor.execute("""
+#             SELECT 1 FROM ReportedItems WHERE ItemID = %s
+#         """, (item_id,))
+#         reported_exists = cursor.fetchone() is not None
+
+#         # Check if item exists in SurrenderedItems
+#         cursor.execute("""
+#             SELECT 1 FROM SurrenderedItems WHERE ItemID = %s
+#         """, (item_id,))
+#         surrendered_exists = cursor.fetchone() is not None
+
+#         if not reported_exists and not surrendered_exists:
+#             print("Error: Item not found in reported or surrendered.")
+#             return False
+
+#         # Insert into ClaimedItems (only allowed columns)
+#         cursor.execute("""
+#             INSERT INTO ClaimedItems (
+#                 ItemID, DateClaimed, PersonID
+#             )
+#             VALUES (%s, %s, %s)
+#         """, (item_id, date_claimed, person_id))
+
+#         # Update item status
+#         cursor.execute("""
+#             UPDATE Items
+#             SET Status = 'Claimed'
+#             WHERE ItemID = %s
+#         """, (item_id,))
+
+#         conn.commit()
+#         print(f"Item {item_id} successfully claimed.")
+#         return True
+
+#     except Exception as e:
+#         print("Error during claiming:", e)
+#         conn.rollback()
+#         return False
+
+#     finally:
+#         cursor.close()
+#         conn.close()
 
 # def add_surrendered_item(item_category, item_name, item_description, date_found, location_found, person_id):
 #     conn = database.create_connection()
