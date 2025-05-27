@@ -89,23 +89,23 @@ MAIN_WINDOW_STYLE = """
         font-size: 13px;
         font-weight: bold;
     }
-        QPushButton#reportItem,
+    QPushButton#reportItem,
     QPushButton#surrenderItem {
-        color: white;
-        border: none;
-        min-width: 110px;
-        max-width: 110px;
-        min-height: 20px;
-        max-height: 20px;
-        padding: 6px 12px;  /* Reduced padding for compact look */
-        border-radius: 4px;
-        background-color: rgba(255, 255, 255, 0.2);
-        font-family: 'Century Gothic';  /* Matching home button font */
-        font-weight: 600;  /* Matching home button weight */
-        font-size: 12px;  /* Smaller than home button's 15px */
-        letter-spacing: 0.5px;  /* Matching home button letter spacing */
-        text-align: center;  /* Centered for compact buttons */
-    }
+    color: white;
+    border: none;
+    min-width: 110px;
+    max-width: 110px;
+    min-height: 20px;
+    max-height: 20px;
+    padding: 6px 12px;  /* Reduced padding for compact look */
+    border-radius: 10px;  /* Increased for rounder buttons */
+    background-color: rgba(255, 255, 255, 0.2);
+    font-family: 'Century Gothic';  /* Matching home button font */
+    font-weight: 600;  /* Matching home button weight */
+    font-size: 12px;  /* Smaller than home button's 15px */
+    letter-spacing: 0.5px;  /* Matching home button letter spacing */
+    text-align: center;  /* Centered for compact buttons */
+}
     
     QPushButton#reportItem:hover,
     QPushButton#surrenderItem:hover {
