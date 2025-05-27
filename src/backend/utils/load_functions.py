@@ -86,11 +86,9 @@ def load_surrendered_items(surrenderTable, surrenderNext, surrenderPrev, surrend
     table.verticalHeader().setDefaultSectionSize(70)
     table.setColumnWidth(0, 80)
 
-def load_claimed_items(claimTable, claimNext, claimPrev, claimPageLabel, currentClaimPage, page_size):
-    claimed_items, total_records = dbfunctions.get_all_claimed_items(currentClaimPage, page_size)
+def load_claimed_items(claimTable, claimNext, claimPrev, claimPageLabel, currentClaimPage, page_size, search_text=""):
+    claimed_items, total_records = dbfunctions.get_all_claimed_items(currentClaimPage, page_size, search_text)
     total_pages = max(1, (total_records + page_size - 1) // page_size)
-    # all_items = dbfunctions.get_all_items()
-    # claimed_items = [item for item in all_items if item[4] == "Claimed"]
 
     table = claimTable
     table.setRowCount(0)
@@ -114,7 +112,7 @@ def load_claimed_items(claimTable, claimNext, claimPrev, claimPageLabel, current
             item.get("Status", ""),
             item.get("LocationFound", ""),
             item.get("DateClaimed", ""),
-            item.get("PersonID", "")
+            item.get("ClaimedBy", "")
         ]
 
         for col, value in enumerate(values):
@@ -124,6 +122,9 @@ def load_claimed_items(claimTable, claimNext, claimPrev, claimPageLabel, current
     claimPageLabel.setText(f"Page {currentClaimPage + 1} of {total_pages}")
     claimPrev.setEnabled(currentClaimPage > 0)
     claimNext.setEnabled(currentClaimPage < total_pages - 1)
+
+    table.verticalHeader().setDefaultSectionSize(70)
+    table.setColumnWidth(0, 80)
 
 def load_persons(personTable, personNext, personPrev, personPageLabel, currentPersonPage, page_size, search_text=""):
     persons, total_records = dbfunctions.get_all_persons(currentPersonPage, page_size, search_text)
