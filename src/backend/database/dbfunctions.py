@@ -360,33 +360,6 @@ def get_all_persons(current_page, page_size, search_text=""):
     cursor = conn.cursor()
 
     offset = current_page * page_size
-    like_pattern = f"{search_text}"
-
-    query = """
-        SELECT (*)
-        FROM Persons
-        WHERE
-            PersonID LIKE %s OR
-            FirstName LIKE %s OR
-            LastName LIKE %s OR
-            PhoneNumber LIKE %s OR
-            Department LIKE %s
-        LIMIT %s OFFSET %s
-    """
-    cursor.execute(query, (like_pattern,) * 5 + (page_size, offset))
-    data = cursor.fetchall()
-
-    # cursor.execute("SELECT COUNT(*) FROM Persons")
-    total_records = get_total_persons(search_text)
-
-    cursor.close()
-    conn.close()
-    return data, total_records
-
-def get_total_persons(search_text=""):
-    conn = database.create_connection()
-    cursor = conn.cursor()    
-
     like_pattern = f"%{search_text}%"
 
     query = """
@@ -398,8 +371,35 @@ def get_total_persons(search_text=""):
             LastName LIKE %s OR
             PhoneNumber LIKE %s OR
             Department LIKE %s
+        LIMIT %s OFFSET %s
     """
-    # cursor.execute("SELECT COUNT(*) FROM Persons")
+
+    cursor.execute(query, (like_pattern,) * 5 + (page_size, offset))
+    data = cursor.fetchall()
+
+    total_records = get_total_persons(search_text)
+
+    cursor.close()
+    conn.close()
+    return data, total_records
+
+def get_total_persons(search_text=""):
+    conn = database.create_connection()
+    cursor = conn.cursor()
+
+    like_pattern = f"%{search_text}%"
+
+    query = """
+        SELECT COUNT(*)
+        FROM Persons
+        WHERE
+            PersonID LIKE %s OR
+            FirstName LIKE %s OR
+            LastName LIKE %s OR
+            PhoneNumber LIKE %s OR
+            Department LIKE %s
+    """
+    cursor.execute(query, (like_pattern,) * 5)
     total_records = cursor.fetchone()[0]
 
     cursor.close()
