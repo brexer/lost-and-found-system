@@ -6,10 +6,14 @@ def check_reported_matches(category, date_found):
 
     try:
         query = """
-            SELECT * FROM Items
-            WHERE Status = 'Reported'
-              AND Category = %s
-              AND ABS(DATEDIFF(DateLost, %s)) <= 5
+            SELECT 
+                i.ItemID, i.Name, i.Category, i.DateLost, i.LocationLost,
+                CONCAT(p.FirstName, ' ', p.LastName) AS ReportedBy
+            FROM Items i
+            JOIN Persons p ON i.ReportedBy = p.PersonID
+            WHERE i.Status = 'Reported'
+            AND i.Category = %s
+            AND ABS(DATEDIFF(i.DateLost, %s)) <= 5
         """
 
         cursor.execute(query, (category, date_found))

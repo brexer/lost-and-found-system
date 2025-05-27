@@ -524,7 +524,7 @@ def get_total_reported_items(search_text=""):
 
 def get_all_surrendered_items(current_page, page_size, search_text=""):
     conn = database.create_connection()
-    cursor = conn.cursor()
+    cursor = conn.cursor(dictionary=True)
 
     offset = current_page * page_size
     like_pattern = f"%{search_text}%"
@@ -538,7 +538,8 @@ def get_all_surrendered_items(current_page, page_size, search_text=""):
             i.Status,
             i.LocationFound,
             i.DateFound,
-            CONCAT(p.FirstName, ' ', p.LastName) AS SurrenderedBy
+            CONCAT(p.FirstName, ' ', p.LastName) AS SurrenderedBy,
+            i.ImagePath
         FROM 
             Items i
         JOIN 
@@ -592,7 +593,7 @@ def get_total_surrendered_items(search_text=""):
 
 def get_all_claimed_items(current_page, page_size):
     conn = database.create_connection()
-    cursor = conn.cursor()
+    cursor = conn.cursor(dictionary=True)
 
     offset = current_page * page_size
 
@@ -606,7 +607,8 @@ def get_all_claimed_items(current_page, page_size):
             i.LocationFound,
             i.DateFound,
             c.DateClaimed,
-            CONCAT(p.FirstName, ' ', p.LastName) AS ClaimedBy
+            CONCAT(p.FirstName, ' ', p.LastName) AS ClaimedBy,
+            i.ImagePath
         FROM 
             ClaimedItems c
         JOIN 

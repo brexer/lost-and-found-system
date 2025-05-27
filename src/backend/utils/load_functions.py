@@ -53,19 +53,38 @@ def load_surrendered_items(surrenderTable, surrenderNext, surrenderPrev, surrend
 
     table = surrenderTable
     table.setRowCount(0)
-    table.setColumnCount(8)
+    table.setColumnCount(9)
     table.setHorizontalHeaderLabels([
-        "Item ID", "Category", "Name", "Description", "Status", "Location", "Date", "Surrendered By"
+        "Image", "Item ID", "Category", "Name", "Description", "Status", "Location", "Date", "Surrendered By"
     ])
 
     for row_num, item in enumerate(surrendered_items):
         table.insertRow(row_num)
-        for col, value in enumerate(item):
-            table.setItem(row_num, col, QtWidgets.QTableWidgetItem(str(value)))
+
+        image_path = item["ImagePath"]
+        abs_path = os.path.abspath(image_path) if image_path else None
+        display_image_in_cell(table, row_num, abs_path)
+
+        values = [
+            item.get("ItemID", ""),
+            item.get("Category", ""),
+            item.get("Name", ""),
+            item.get("Description", ""),
+            item.get("Status", ""),
+            item.get("LocationFound", ""),
+            item.get("DateFound", ""),
+            item.get("SurrenderedBy", "")
+        ]
+
+        for col, value in enumerate(values):
+            table.setItem(row_num, col + 1, QTableWidgetItem(str(value)))
 
     surrenderPageLabel.setText(f"Page {currentSurrenderPage + 1} of {total_pages}")
     surrenderPrev.setEnabled(currentSurrenderPage > 0)
     surrenderNext.setEnabled(currentSurrenderPage < total_pages - 1)
+
+    table.verticalHeader().setDefaultSectionSize(70)
+    table.setColumnWidth(0, 80)
 
 def load_claimed_items(claimTable, claimNext, claimPrev, claimPageLabel, currentClaimPage, page_size):
     claimed_items, total_records = dbfunctions.get_all_claimed_items(currentClaimPage, page_size)
@@ -75,15 +94,32 @@ def load_claimed_items(claimTable, claimNext, claimPrev, claimPageLabel, current
 
     table = claimTable
     table.setRowCount(0)
-    table.setColumnCount(8)
+    table.setColumnCount(9)
     table.setHorizontalHeaderLabels([
-        "Item ID", "Category", "Name", "Description", "Status", "Location", "Date", "Claimed By"
+        "Image", "Item ID", "Category", "Name", "Description", "Status", "Location", "Date", "Claimed By"
     ])
 
     for row_num, item in enumerate(claimed_items):
         table.insertRow(row_num)
-        for col, value in enumerate(item):
-            table.setItem(row_num, col, QtWidgets.QTableWidgetItem(str(value)))
+
+        image_path = item["ImagePath"]
+        abs_path = os.path.abspath(image_path) if image_path else None
+        display_image_in_cell(table, row_num, abs_path)
+
+        values = [
+            item.get("ItemID", ""),
+            item.get("Category", ""),
+            item.get("Name", ""),
+            item.get("Description", ""),
+            item.get("Status", ""),
+            item.get("LocationFound", ""),
+            item.get("DateClaimed", ""),
+            item.get("PersonID", "")
+        ]
+
+        for col, value in enumerate(values):
+            table.setItem(row_num, col + 1, QTableWidgetItem(str(value)))
+
 
     claimPageLabel.setText(f"Page {currentClaimPage + 1} of {total_pages}")
     claimPrev.setEnabled(currentClaimPage > 0)
@@ -141,33 +177,35 @@ def load_items(itemTable, itemNext, itemPrev, itemPageLabel, currentItemPage, pa
 #         for col, value in enumerate(person):
 #             table.setItem(row_num, col, QtWidgets.QTableWidgetItem(str(value)))
 
-def load_match_table(matchTable, matchNext, matchPrev, matchPageLabel, currentItemPage, page_size, matches):
-    total_records = len(matches)
-    total_pages = max(1, (total_records + page_size - 1) // page_size)
-
-    # Calculate start and end indices for the current page
-    start = currentItemPage * page_size
-    end = start + page_size
-    page_matches = matches[start:end]
-
+def load_match_table(matchTable, itemNextButton, itemPrevButton, personPageLabel_2, currentItemPage, ROWS_PER_PAGE, matches):
     matchTable.setRowCount(0)
     matchTable.setColumnCount(6)
     matchTable.setHorizontalHeaderLabels([
         "Item ID", "Name", "Category", "Date Lost", "Location", "Reported By"
     ])
 
+    total_records = len(matches)
+    total_pages = max(1, (total_records + ROWS_PER_PAGE - 1) // ROWS_PER_PAGE)
+    start = currentItemPage * ROWS_PER_PAGE
+    end = start + ROWS_PER_PAGE
+    page_matches = matches[start:end]
+
     for row, item in enumerate(page_matches):
         matchTable.insertRow(row)
         matchTable.setItem(row, 0, QTableWidgetItem(str(item.get("ItemID", ""))))
-        matchTable.setItem(row, 1, QTableWidgetItem(item.get("Name", "")))
-        matchTable.setItem(row, 2, QTableWidgetItem(item.get("Category", "")))
-        matchTable.setItem(row, 3, QTableWidgetItem(item.get("DateLost", "")))
-        matchTable.setItem(row, 4, QTableWidgetItem(item.get("LocationLost", "")))
-        matchTable.setItem(row, 5, QTableWidgetItem(item.get("ReportedBy", "")))
+        matchTable.setItem(row, 1, QTableWidgetItem(str(item.get("Name", ""))))
+        matchTable.setItem(row, 2, QTableWidgetItem(str(item.get("Category", ""))))
+        # Convert DateLost to string if it's a datetime object
+        date_lost = item.get("DateLost", "")
+        if hasattr(date_lost, "strftime"):
+            date_lost = date_lost.strftime("%Y-%m-%d %H:%M:%S")
+        matchTable.setItem(row, 3, QTableWidgetItem(str(date_lost)))
+        matchTable.setItem(row, 4, QTableWidgetItem(str(item.get("LocationLost", ""))))
+        matchTable.setItem(row, 5, QTableWidgetItem(str(item.get("ReportedBy", ""))))
 
-    matchPageLabel.setText(f"Page {currentItemPage + 1} of {total_pages}")
-    matchPrev.setEnabled(currentItemPage > 0)
-    matchNext.setEnabled(currentItemPage < total_pages - 1)
+    personPageLabel_2.setText(f"Page {currentItemPage + 1} of {total_pages}")
+    itemPrevButton.setEnabled(currentItemPage > 0)
+    itemNextButton.setEnabled(currentItemPage < total_pages - 1)
 
 def display_image_in_cell(table, row, image_path):
     label = ClickableLabel(image_path)
