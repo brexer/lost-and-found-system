@@ -1,14 +1,17 @@
 import sys
 import traceback
+from datetime import datetime
 
 from PyQt5.QtWidgets import QApplication, QPushButton, QMainWindow, QDialog, QTableWidgetItem, QTableWidget, QMessageBox
 from PyQt5.QtGui import QIcon
-from PyQt5.QtCore import QDateTime, QSize
+from PyQt5.QtCore import QDateTime
 
 from src.frontend.mainWindow_ui import Ui_MainWindow
 from src.frontend.reportItem import Ui_ReportItemDialog
 from src.frontend.surrenderItem import Ui_SurrenderItemDialog
 from src.frontend.updateItem import Ui_UpdateItemDialog
+from src.frontend.updatePerson import Ui_UpdatePersonDialog
+from src.frontend.claimPerson import Ui_ClaimPersonDialog
 
 from src.backend.utils import load_functions as load
 from src.backend.utils import match_checker as match
@@ -21,7 +24,7 @@ import src.backend.database.database as db
 from src.backend.database import dbfunctions
 # import src.backend.database.dbfunctions as dbf
 
-ROWS_PER_PAGE = 1 # change rani kung pila ka rows ang i-display per page
+ROWS_PER_PAGE = 10 # change rani kung pila ka rows ang i-display per page
 
 class MainClass(QMainWindow, Ui_MainWindow):
     def __init__(self):
@@ -29,13 +32,14 @@ class MainClass(QMainWindow, Ui_MainWindow):
         self.setupUi(self)
         self.setWindowTitle("Lost and Found Management System")
         self.setStyleSheet(MAIN_WINDOW_STYLE)
-        self.setFixedHeight(960)
-        self.setFixedWidth(1310)
+        self.setFixedHeight(900)
+        self.setFixedWidth(1300)
         
         self.stackedWidget.setCurrentIndex(0)
         db.initialize_database()
 
         self.match_data = []
+        self.currentItemPage = 0
         
         self.pageShown = 0
         self.homeButton.clicked.connect(self.goHomePage)
@@ -47,22 +51,11 @@ class MainClass(QMainWindow, Ui_MainWindow):
         self.surrenderItemButton.clicked.connect(self.goSurrenderedItemsPage)
 
         self.homeButton.setIcon(QIcon("assets/home.svg"))
-        self.homeButton.setIconSize(QSize(25, 25))  # Adjust size as needed
-
         self.managePersonsButton.setIcon(QIcon("assets/persons.svg"))
-        self.managePersonsButton.setIconSize(QSize(25, 25))
-
         self.reviewItemsButton.setIcon(QIcon("assets/items2.svg"))
-        self.reviewItemsButton.setIconSize(QSize(25, 25))
-
         self.itemHistoryButton.setIcon(QIcon("assets/history.svg"))
-        self.itemHistoryButton.setIconSize(QSize(25, 25))
-
         self.reportItem.setIcon(QIcon("assets/report.svg"))
-        self.reportItem.setIconSize(QSize(28, 28))
-
         self.surrenderItem.setIcon(QIcon("assets/surrender.svg"))
-        self.surrenderItem.setIconSize(QSize(18, 18))
         
         # Homepage Button connections
         self.reportItem.clicked.connect(self.addReportedItem)
@@ -71,8 +64,8 @@ class MainClass(QMainWindow, Ui_MainWindow):
 
         self.personNext.clicked.connect(self.next_person_page)
         self.personPrev.clicked.connect(self.prev_person_page)
-        #self.itemNextButton.clicked.connect(self.next_item_page)
-        #self.itemPrevButton.clicked.connect(self.prev_item_page)
+        self.itemNextButton.clicked.connect(self.next_item_page)
+        self.itemPrevButton.clicked.connect(self.prev_item_page)
         self.reportNext.clicked.connect(self.next_report_page)
         self.reportPrev.clicked.connect(self.prev_report_page)
         self.surrenderNext.clicked.connect(self.next_surrender_page)
@@ -80,6 +73,9 @@ class MainClass(QMainWindow, Ui_MainWindow):
         self.claimNext.clicked.connect(self.next_claim_page)
         self.claimPrev.clicked.connect(self.prev_claim_page)
         
+        #Claim buttons
+        self.surrenderDeleteButton.clicked.connect(self.claimSurrenderItem)
+
         # Search button
         self.searchText = ""
         self.personSearchButton.clicked.connect(self.clicked_person_search)
@@ -90,22 +86,38 @@ class MainClass(QMainWindow, Ui_MainWindow):
         self.updateClaimButton.clicked.connect(self.updateItemInput)
         self.reportUpdateButton.clicked.connect(self.updateItemInput)
         self.surrenderUpdateButton.clicked.connect(self.updateItemInput)
+
+    # Claim functions
+    def claimSurrenderItem(self):
+        selectedRow = self.surrenderTable.currentRow()
+        itemID = int(self.surrenderTable.item(selectedRow, 1).text())
+        ClaimSurrender = ClaimPersonDialog(itemID, self)
+        if ClaimSurrender.exec_():
+            self.goClaimedItemsPage()
+
         
     # Update functions
     def updateItemInput(self):
-        if self.pageShown == 3:
+        if self.pageShown == 1:
+            selectedRow = self.personTable.currentRow()
+            personID = int(self.personTable.item(selectedRow, 1).text())
+            PersonEditor = UpdatePersonEntryDialog(personID, self)
+            if PersonEditor.exec_():
+                self.goManagePersonsPage
+
+        elif self.pageShown == 3:
             selectedRow = self.claimTable.currentRow()
 
         elif self.pageShown ==4:
             selectedRow = self.reportTable.currentRow()
-            itemID = int(self.reportTable.item(selectedRow, 0).text())
+            itemID = int(self.reportTable.item(selectedRow, 1).text())
             ItemEditor = UpdateReportedItemDialog(itemID, self)
             if ItemEditor.exec_():
                 self.goReportedItemsPage
 
         elif self.pageShown ==5:
             selectedRow = self.surrenderTable.currentRow()
-            itemID = int(self.surrenderTable.item(selectedRow, 0).text())
+            itemID = int(self.surrenderTable.item(selectedRow, 1).text())
             ItemEditor = UpdateSurrenderedItemDialog(itemID, self)
             if ItemEditor.exec_():
                 self.goSurrenderedItemsPage()
@@ -187,16 +199,32 @@ class MainClass(QMainWindow, Ui_MainWindow):
             self.update_person_page()
 
     def next_item_page(self):
-        if (self.currentItemPage + 1) * ROWS_PER_PAGE < dbfunctions.get_total_items():
+        total_records = len(self.match_data)
+        total_pages = max(1, (total_records + ROWS_PER_PAGE - 1) // ROWS_PER_PAGE)
+        if self.currentItemPage < total_pages - 1:
             self.currentItemPage += 1
-            matches = getattr(self, 'match_data', [])
-            load.load_match_table(self.matchTable, self.itemNextButton, self.itemPrevButton, self.personPageLabel_2, self.currentItemPage, ROWS_PER_PAGE, matches)
+            load.load_match_table(
+                self.matchTable,
+                self.itemNextButton,
+                self.itemPrevButton,
+                self.personPageLabel_2,
+                self.currentItemPage,
+                ROWS_PER_PAGE,
+                self.match_data
+            )
 
     def prev_item_page(self):
         if self.currentItemPage > 0:
             self.currentItemPage -= 1
-            matches = getattr(self, 'match_data', [])
-            load.load_match_table(self.matchTable, self.itemNextButton, self.itemPrevButton, self.personPageLabel_2, self.currentItemPage, ROWS_PER_PAGE, matches)
+            load.load_match_table(
+                self.matchTable,
+                self.itemNextButton,
+                self.itemPrevButton,
+                self.personPageLabel_2,
+                self.currentItemPage,
+                ROWS_PER_PAGE,
+                self.match_data
+            )
 
     def next_report_page(self):
         search_text = self.searchText if hasattr(self, 'searchText') and self.searchText is not None else ""
@@ -249,7 +277,6 @@ class MainClass(QMainWindow, Ui_MainWindow):
         self.currentPersonPage = 0  # Reset to first page
         self.stackedWidget.setCurrentIndex(1)
         load.load_persons(self.personTable, self.personNext, self.personPrev, self.personPageLabel, self.currentPersonPage, ROWS_PER_PAGE)
-        self.personTable.resizeColumnsToContents()
 
     # def goManagePersonsPage(self):
     #     self.pageShown = 1
@@ -257,8 +284,17 @@ class MainClass(QMainWindow, Ui_MainWindow):
     #     load.load_persons(self.personTable, self.personNext, self.personPrev, self.personPageLabel, self.currentPersonPage)
 
     def goReviewPage(self):
+        self.currentItemPage = 0
         matches = self.match_data
-        load.load_match_table(self.matchTable, self.itemNextButton, self.itemPrevButton, self.personPageLabel_2, self.currentItemPage, ROWS_PER_PAGE, matches)
+        load.load_match_table(
+            self.matchTable,
+            self.itemNextButton,
+            self.itemPrevButton,
+            self.personPageLabel_2,
+            self.currentItemPage,
+            ROWS_PER_PAGE,
+            matches
+        )
         self.pageshown = 2
         self.currentItemPage = 0
         self.stackedWidget.setCurrentIndex(2)
@@ -268,7 +304,6 @@ class MainClass(QMainWindow, Ui_MainWindow):
         self.currentClaimPage = 0
         self.stackedWidget.setCurrentIndex(3)
         load.load_claimed_items(self.claimTable, self.claimNext, self.claimPrev, self.claimPageLabel, self.currentClaimPage, ROWS_PER_PAGE)
-        self.claimTable.resizeColumnsToContents()
 
     def goReportedItemsPage(self):
         self.pageShown = 4
@@ -276,7 +311,6 @@ class MainClass(QMainWindow, Ui_MainWindow):
         self.currentReportPage = 0
         self.stackedWidget.setCurrentIndex(4)
         load.load_reported_items(self.reportTable, self.reportNext, self.reportPrev, self.reportPageLabel, self.currentReportPage, ROWS_PER_PAGE)
-        self.reportTable.resizeColumnsToContents()
 
     def goSurrenderedItemsPage(self):
         self.pageShown = 5
@@ -284,7 +318,7 @@ class MainClass(QMainWindow, Ui_MainWindow):
         self.currentSurrenderPage = 0
         self.stackedWidget.setCurrentIndex(5)
         load.load_surrendered_items(self.surrenderTable, self.surrenderNext, self.surrenderPrev, self.surrenederPageLabel, self.currentSurrenderPage, ROWS_PER_PAGE)
-        self.surrenderTable.resizeColumnsToContents()
+
 
 class ReportItemDialog(QDialog, Ui_ReportItemDialog):
     def __init__(self, parent=None):
@@ -479,11 +513,11 @@ class SurrenderItemDialog(QDialog, Ui_SurrenderItemDialog):
                 dbfunctions.update_person_proof_id(person_id, proof_id_path)
             
             if matches:
-                self.match_data = matches
+                self.parent().match_data = matches
                 self.parent().reviewItemsButton.setVisible(True)
                 QMessageBox.information(self, "Match Found", "Possible match(es) found. Click 'Review Matches' to view.")
             else:
-                self.match_data = []
+                self.parent().match_data = []
                 self.parent().reviewItemsButton.setVisible(False)
 
             QMessageBox.information(self, "Success", "Item surrendered successfully.")
@@ -640,6 +674,128 @@ class UpdateReportedItemDialog(QDialog, Ui_UpdateItemDialog):
             QMessageBox.critical(self, "Database Error", str(e))
         finally:
             conn.close()
+
+class UpdatePersonEntryDialog(QDialog, Ui_UpdatePersonDialog):
+    def __init__(self, personID, parent = None):
+        super().__init__(parent)
+        self.setupUi(self)
+        self.personID = personID
+
+        self.loadPersonData()
+
+        self.cancelButton.clicked.connect(self.reject)
+        self.confirmButton.clicked.connect(self.validatePersonInput)
+
+    def loadPersonData(self):
+        conn = db.create_connection()
+        cursor = conn.cursor()
+    # PROOF ID WALA PA NABUTANG
+        try:
+            cursor.execute("SELECT FirstName, LastName, PhoneNumber, Department FROM Persons WHERE PersonID = %s", (self.personID,))
+            row = cursor.fetchone()
+            if row:
+                first_name, last_name, phone_number, department = row
+
+                self.firstNameEdit.setText(first_name)
+                self.lastNameEdit.setText(last_name)
+                self.phoneNumberEdit.setText(phone_number)
+                self.departmentEdit.setText(department)
+            else:
+                QMessageBox.warning(self, "Error", "Item not found.")
+                self.reject()
+        finally:
+            conn.close()
+
+    def updatePersonInput(self):
+        first_name = self.firstNameEdit.text().strip().title()
+        last_name = self.lastNameEdit.text().strip().title()
+        phone_number = self.phoneNumberEdit.text().strip()
+        department = self.departmentEdit.text().strip().upper().replace(" ","")
+
+        return {
+            "FirstName": first_name,
+            "LastName": last_name,
+            "PhoneNumber": phone_number,
+            "Department": department
+        }
+
+
+    def validatePersonInput(self):
+        data = self.updatePersonInput()
+        
+        if not all(data.values()):
+            QMessageBox.warning(self, "Validation Error", "Please fill in all fields.")
+            return
+
+        try:
+            conn = db.create_connection()
+            cursor = conn.cursor()
+            cursor.execute("""
+                UPDATE Persons
+                SET FirstName = %s, LastName = %s, PhoneNumber = %s, Department = %s
+                WHERE PersonID = %s
+            """, (data["FirstName"], data["LastName"], data["PhoneNumber"], data["Department"], self.personID))
+            conn.commit()
+            QMessageBox.information(self, "Success", "Person entry updated successfully.")
+            self.accept()
+        except Exception as e:
+            QMessageBox.critical(self, "Database Error", str(e))
+        finally:
+            conn.close()
+
+class ClaimPersonDialog(QDialog, Ui_ClaimPersonDialog):
+    def __init__(self, itemID, parent=None):
+        super().__init__(parent)
+        self.setupUi(self)
+        self.itemID = itemID
+
+        self.proof_id_handler = ImageHandler(self.proofImagePreview)
+        self.uploadImageButton.clicked.connect(lambda: self.proof_id_handler.upload_image(self))
+
+        self.cancelButton.clicked.connect(self.reject)
+        self.confirmButton.clicked.connect(self.validatePersonInput)
+
+    def validatePersonInput(self):
+        first_name = self.firstNameEdit.text().strip().title()
+        last_name = self.lastNameEdit.text().strip().title()
+        phone_number = self.phoneNumberEdit.text().strip().replace(" ", "")
+        department = self.departmentEdit.text().strip().upper()
+
+        if not (first_name and last_name and phone_number and department):
+            QMessageBox.warning(self, "Input Error", "All fields must be filled up.")
+            return
+
+        try:
+            # Check for existing person
+            existing_person_id = dbfunctions.get_existing_person_id(first_name, last_name, department)
+
+            if existing_person_id:
+                person_id = existing_person_id
+            else:
+                # Add new person
+                person_id = dbfunctions.add_person(first_name, last_name, phone_number, department)
+                if not person_id:
+                    raise Exception("Failed to insert person.")
+
+                # Save proof ID if provided
+                if self.proof_id_handler.current_image_path:
+                    proof_id_path = ImageHandler.save_uploaded_proof_id(self.proof_id_handler.current_image_path, person_id)
+                    dbfunctions.update_person_proof_id(person_id, proof_id_path)
+
+            # Get current timestamp
+            date_claimed = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+
+            # Attempt to claim the item
+            success = dbfunctions.claim_item(self.itemID, date_claimed, person_id)
+            if not success:
+                QMessageBox.warning(self, "Claim Error", "Item is already claimed or invalid.")
+                return
+
+            QMessageBox.information(self, "Success", "Item claimed successfully.")
+            self.accept()
+
+        except Exception as e:
+            QMessageBox.critical(self, "Error", str(e))
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
