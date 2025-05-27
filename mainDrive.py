@@ -4,9 +4,12 @@ import traceback
 from PyQt5.QtWidgets import QApplication, QPushButton, QMainWindow, QDialog, QTableWidgetItem, QTableWidget, QMessageBox
 from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import QDateTime
+
 from src.frontend.mainWindow_ui import Ui_MainWindow
 from src.frontend.reportItem import Ui_ReportItemDialog
 from src.frontend.surrenderItem import Ui_SurrenderItemDialog
+from src.frontend.updateItem import Ui_UpdateItemDialog
+
 from src.backend.utils import load_functions as load
 from src.backend.utils import match_checker as match
 from src.backend.utils.image_utils import ImageHandler
@@ -71,6 +74,30 @@ class MainClass(QMainWindow, Ui_MainWindow):
         self.personSearchButton.clicked.connect(self.clicked_person_search)
         self.surrenderSearchButton.clicked.connect(self.clicked_surrender_search)
         self.reportSearchButton.clicked.connect(self.clicked_report_search)
+
+        #Updating item entries
+        self.updateClaimButton.clicked.connect(self.updateItemInput)
+        self.reportUpdateButton.clicked.connect(self.updateItemInput)
+        self.surrenderUpdateButton.clicked.connect(self.updateItemInput)
+        
+    # Update functions
+    def updateItemInput(self):
+        if self.pageShown == 3:
+            selectedRow = self.claimTable.currentRow()
+
+        elif self.pageShown ==4:
+            selectedRow = self.reportTable.currentRow()
+            itemID = int(self.reportTable.item(selectedRow, 0).text())
+            ItemEditor = UpdateReportedItemDialog(itemID, self)
+            if ItemEditor.exec_():
+                self.goReportedItemsPage
+
+        elif self.pageShown ==5:
+            selectedRow = self.surrenderTable.currentRow()
+            itemID = int(self.surrenderTable.item(selectedRow, 0).text())
+            ItemEditor = UpdateSurrenderedItemDialog(itemID, self)
+            if ItemEditor.exec_():
+                self.goSurrenderedItemsPage()
     
     # some more search functions
     def clicked_person_search(self):
@@ -454,6 +481,155 @@ class SurrenderItemDialog(QDialog, Ui_SurrenderItemDialog):
 
         except Exception as e:
             QMessageBox.critical(self, "Error", str(e))
+
+class UpdateSurrenderedItemDialog(QDialog, Ui_UpdateItemDialog):
+    def __init__(self, itemID, parent=None):
+        super().__init__(parent)
+        self.setupUi(self)
+        self.itemID = itemID
+
+        self.loadItemData()
+
+        self.cancelButton.clicked.connect(self.reject)
+        self.confirmButton.clicked.connect(self.validateItemInput)
+
+    def loadItemData(self):
+        conn = db.create_connection()
+        cursor = conn.cursor()
+
+        try:
+            cursor.execute("SELECT Name, Category, DateFound, LocationFound, Description FROM Items WHERE ItemID = %s", (self.itemID,))
+            row = cursor.fetchone()
+            if row:
+                item_name, category, date_found, location, description = row
+
+                self.itemNameEdit.setText(item_name)
+                index = self.categoryComboBox.findText(category)
+                if index != -1:
+                    self.categoryComboBox.setCurrentIndex(index)
+                dt = QDateTime.fromString(str(date_found), "yyyy-MM-dd HH:mm:ss")
+                self.dateTimeEdit.setDateTime(dt)
+                self.locationEdit.setText(location)
+                self.descriptionEdit.setText(description)
+            else:
+                QMessageBox.warning(self, "Error", "Item not found.")
+                self.reject()
+        finally:
+            conn.close()
+
+    def updateItemInput(self):
+        item_name = self.itemNameEdit.text().strip().title()
+        category = self.categoryComboBox.currentText()
+        date_found = self.dateTimeEdit.dateTime().toString("yyyy-MM-dd HH:mm:ss")
+        location_found = self.locationEdit.text().strip().title()
+        item_desc = self.descriptionEdit.text().strip()
+        # Image path can be added here
+
+        return {
+            "Name": item_name,
+            "Category": category,
+            "DateFound": date_found,
+            "LocationFound": location_found,
+            "Description": item_desc
+        }
+
+    def validateItemInput(self):
+        data = self.updateItemInput()
+        
+        if not all(data.values()):
+            QMessageBox.warning(self, "Validation Error", "Please fill in all fields.")
+            return
+
+        try:
+            conn = db.create_connection()
+            cursor = conn.cursor()
+            cursor.execute("""
+                UPDATE Items
+                SET Name = %s, Category = %s, DateFound = %s, LocationFound = %s, Description = %s
+                WHERE ItemID = %s
+            """, (data["Name"], data["Category"], data["DateFound"], data["LocationFound"], data["Description"], self.itemID))
+            conn.commit()
+            QMessageBox.information(self, "Success", "Item updated successfully.")
+            self.accept()
+        except Exception as e:
+            QMessageBox.critical(self, "Database Error", str(e))
+        finally:
+            conn.close()
+
+class UpdateReportedItemDialog(QDialog, Ui_UpdateItemDialog):
+    def __init__(self, itemID, parent=None):
+        super().__init__(parent)
+        self.setupUi(self)
+        self.itemID = itemID
+
+        self.loadItemData()
+
+        self.cancelButton.clicked.connect(self.reject)
+        self.confirmButton.clicked.connect(self.validateItemInput)
+
+    def loadItemData(self):
+        conn = db.create_connection()
+        cursor = conn.cursor()
+
+        try:
+            cursor.execute("SELECT Name, Category, DateLost, LocationLost, Description FROM Items WHERE ItemID = %s", (self.itemID,))
+            row = cursor.fetchone()
+            if row:
+                item_name, category, date_lost, location, description = row
+
+                self.itemNameEdit.setText(item_name)
+                index = self.categoryComboBox.findText(category)
+                if index != -1:
+                    self.categoryComboBox.setCurrentIndex(index)
+                dt = QDateTime.fromString(str(date_lost), "yyyy-MM-dd HH:mm:ss")
+                self.dateTimeEdit.setDateTime(dt)
+                self.locationEdit.setText(location)
+                self.descriptionEdit.setText(description)
+            else:
+                QMessageBox.warning(self, "Error", "Item not found.")
+                self.reject()
+        finally:
+            conn.close()
+
+    def updateItemInput(self):
+        item_name = self.itemNameEdit.text().strip().title()
+        category = self.categoryComboBox.currentText()
+        date_lost = self.dateTimeEdit.dateTime().toString("yyyy-MM-dd HH:mm:ss")
+        location_lost = self.locationEdit.text().strip().title()
+        item_desc = self.descriptionEdit.text().strip()
+        # Image path can be added here
+
+        return {
+            "Name": item_name,
+            "Category": category,
+            "DateLost": date_lost,
+            "LocationLost": location_lost,
+            "Description": item_desc
+        }
+
+    def validateItemInput(self):
+        data = self.updateItemInput()
+        
+        # Basic validation
+        if not all(data.values()):
+            QMessageBox.warning(self, "Validation Error", "Please fill in all fields.")
+            return
+
+        try:
+            conn = db.create_connection()
+            cursor = conn.cursor()
+            cursor.execute("""
+                UPDATE Items
+                SET Name = %s, Category = %s, DateLost = %s, LocationLost = %s, Description = %s
+                WHERE ItemID = %s
+            """, (data["Name"], data["Category"], data["DateLost"], data["LocationLost"], data["Description"], self.itemID))
+            conn.commit()
+            QMessageBox.information(self, "Success", "Item updated successfully.")
+            self.accept()
+        except Exception as e:
+            QMessageBox.critical(self, "Database Error", str(e))
+        finally:
+            conn.close()
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
