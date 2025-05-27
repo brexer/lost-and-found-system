@@ -454,7 +454,7 @@ def get_total_items():
 
 def get_all_reported_items(current_page, page_size, search_text=""):
     conn = database.create_connection()
-    cursor = conn.cursor()
+    cursor = conn.cursor(dictionary=True)
 
     offset = current_page * page_size
     like_pattern = f"%{search_text}%"
@@ -468,7 +468,8 @@ def get_all_reported_items(current_page, page_size, search_text=""):
             i.Status,
             i.LocationLost,
             i.DateLost,
-            CONCAT(p.FirstName, ' ', p.LastName) AS ReportedBy
+            CONCAT(p.FirstName, ' ', p.LastName) AS ReportedBy,
+            i.ImagePath
         FROM 
             Items i
         JOIN 

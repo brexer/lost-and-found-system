@@ -1,10 +1,11 @@
 from PyQt5 import QtWidgets
-from PyQt5.QtWidgets import QTableWidgetItem
+from PyQt5.QtWidgets import QTableWidgetItem, QLabel
 from src.backend.database import dbfunctions
 from src.backend.utils import match_checker as match
 from PyQt5 import QtWidgets
 from PyQt5.QtGui import QPixmap
 from PyQt5.QtCore import Qt
+from src.backend.utils.image_utils import ClickableLabel
 import os
 
 def load_reported_items(reportTable, reportNext, reportPrev, reportPageLabel, currentReportPage, page_size, search_text=""):
@@ -21,28 +22,30 @@ def load_reported_items(reportTable, reportNext, reportPrev, reportPageLabel, cu
     for row_num, item in enumerate(reported_items):
         table.insertRow(row_num)
 
-        # Image column (last item in tuple, or item[8])
-        image_path = item[4] if len(item) > 4 else None
-        label = QtWidgets.QLabel()
-        label.setAlignment(Qt.AlignCenter)
-        if image_path and os.path.exists(image_path):
-            pixmap = QPixmap(image_path).scaled(64, 64, Qt.KeepAspectRatio, Qt.SmoothTransformation)
-            label.setPixmap(pixmap)
-        else:
-            label.setText("No Image")
-        table.setCellWidget(row_num, 0, label)
+        image_path = item["ImagePath"]
+        abs_path = os.path.abspath(image_path) if image_path else None
+        display_image_in_cell(table, row_num, abs_path)
 
-        # Add text columns (shifted by 1 because of image)
-        for col in range(8):  # columns 1–8
-            table.setItem(row_num, col + 1, QtWidgets.QTableWidgetItem(str(item[col])))
+        values = [
+            item["ItemID"],
+            item["Category"],
+            item["Name"],
+            item["Description"],
+            item["Status"],
+            item["LocationLost"],
+            item["DateLost"],
+            item["ReportedBy"]
+        ]
 
-        reportPageLabel.setText(f"Page {currentReportPage + 1} of {total_pages}")
-        reportPrev.setEnabled(currentReportPage > 0)
-        reportNext.setEnabled(currentReportPage < total_pages - 1)
+        for col, value in enumerate(values):
+            table.setItem(row_num, col + 1, QTableWidgetItem(str(value)))
 
-        # Optional: Make rows taller to fit the image
-        table.verticalHeader().setDefaultSectionSize(70)
-        table.setColumnWidth(0, 80)
+    reportPageLabel.setText(f"Page {currentReportPage + 1} of {total_pages}")
+    reportPrev.setEnabled(currentReportPage > 0)
+    reportNext.setEnabled(currentReportPage < total_pages - 1)
+
+    table.verticalHeader().setDefaultSectionSize(70)
+    table.setColumnWidth(0, 80)
 
 def load_surrendered_items(surrenderTable, surrenderNext, surrenderPrev, surrenderPageLabel, currentSurrenderPage, page_size, search_text=""):
     surrendered_items, total_records = dbfunctions.get_all_surrendered_items(currentSurrenderPage, page_size, search_text)
@@ -165,3 +168,19 @@ def load_match_table(matchTable, matchNext, matchPrev, matchPageLabel, currentIt
     matchPageLabel.setText(f"Page {currentItemPage + 1} of {total_pages}")
     matchPrev.setEnabled(currentItemPage > 0)
     matchNext.setEnabled(currentItemPage < total_pages - 1)
+
+def display_image_in_cell(table, row, image_path):
+    label = ClickableLabel(image_path)
+    label.setAlignment(Qt.AlignCenter)
+
+    if image_path and os.path.exists(image_path):
+        pixmap = QPixmap(image_path).scaled(
+            64, 64,
+            Qt.KeepAspectRatio,
+            Qt.SmoothTransformation
+        )
+        label.setPixmap(pixmap)
+    else:
+        label.setText("No Image")
+
+    table.setCellWidget(row, 0, label)
