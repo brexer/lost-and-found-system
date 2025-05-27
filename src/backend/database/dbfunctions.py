@@ -832,3 +832,13 @@ def update_person_proof_id(person_id, proof_id_path):
     except Exception as e:
         print("Error updating proof ID:", e)
         conn.rollback()
+
+def clear_person_image(person_id):
+    conn = database.create_connection()
+    cursor = conn.cursor()
+    try:
+        cursor.execute("UPDATE Persons SET ProofID = NULL WHERE PersonID = %s", (person_id,))
+        conn.commit()
+    finally:
+        cursor.close()
+        conn.close()

@@ -1,10 +1,11 @@
 import sys
 import traceback
+import os
 from datetime import datetime
 
 from PyQt5.QtWidgets import QApplication, QPushButton, QMainWindow, QDialog, QTableWidgetItem, QTableWidget, QMessageBox
-from PyQt5.QtGui import QIcon
-from PyQt5.QtCore import QDateTime, QSize
+from PyQt5.QtGui import QIcon, QPixmap
+from PyQt5.QtCore import QDateTime, QSize, Qt
 
 from src.frontend.mainWindow_ui import Ui_MainWindow
 from src.frontend.reportItem import Ui_ReportItemDialog
@@ -121,14 +122,14 @@ class MainClass(QMainWindow, Ui_MainWindow):
 
         elif self.pageShown ==4:
             selectedRow = self.reportTable.currentRow()
-            itemID = int(self.reportTable.item(selectedRow, 0).text())
+            itemID = int(self.reportTable.item(selectedRow, 1).text())
             ItemEditor = UpdateReportedItemDialog(itemID, self)
             if ItemEditor.exec_():
                 self.goReportedItemsPage
 
         elif self.pageShown ==5:
             selectedRow = self.surrenderTable.currentRow()
-            itemID = int(self.surrenderTable.item(selectedRow, 0).text())
+            itemID = int(self.surrenderTable.item(selectedRow, 1).text())
             ItemEditor = UpdateSurrenderedItemDialog(itemID, self)
             if ItemEditor.exec_():
                 self.goSurrenderedItemsPage()
@@ -581,10 +582,10 @@ class UpdateSurrenderedItemDialog(QDialog, Ui_UpdateItemDialog):
         cursor = conn.cursor()
 
         try:
-            cursor.execute("SELECT Name, Category, DateFound, LocationFound, Description FROM Items WHERE ItemID = %s", (self.itemID,))
+            cursor.execute("SELECT Name, Category, DateFound, LocationFound, Description, ImagePath FROM Items WHERE ItemID = %s", (self.itemID,))
             row = cursor.fetchone()
             if row:
-                item_name, category, date_found, location, description = row
+                item_name, category, date_found, location, description, image_path = row
 
                 self.itemNameEdit.setText(item_name)
                 index = self.categoryComboBox.findText(category)
@@ -594,6 +595,14 @@ class UpdateSurrenderedItemDialog(QDialog, Ui_UpdateItemDialog):
                 self.dateTimeEdit.setDateTime(dt)
                 self.locationEdit.setText(location)
                 self.descriptionEdit.setText(description)
+
+                if image_path and os.path.exists(image_path):
+                    pixmap = QPixmap(image_path).scaled(
+                        self.itemImagePreview.size(),
+                        Qt.KeepAspectRatio,
+                        Qt.SmoothTransformation
+                    )
+                    self.itemImagePreview.setPixmap(pixmap)
             else:
                 QMessageBox.warning(self, "Error", "Item not found.")
                 self.reject()
