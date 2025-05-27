@@ -355,31 +355,51 @@ def delete_item(item_id):
                 cursor.close()
                 conn.close()
 
-def get_all_persons(page=0, page_size=5):
+def get_all_persons(current_page, page_size, search_text=""):
     conn = database.create_connection()
     cursor = conn.cursor()
 
-    offset = page * page_size
+    offset = current_page * page_size
+    like_pattern = f"{search_text}"
+
     query = """
-        SELECT PersonID, FirstName, LastName, PhoneNumber, Department, ProofID
+        SELECT (*)
         FROM Persons
+        WHERE
+            PersonID LIKE %s OR
+            FirstName LIKE %s OR
+            LastName LIKE %s OR
+            PhoneNumber LIKE %s OR
+            Department LIKE %s
         LIMIT %s OFFSET %s
     """
-    cursor.execute(query, (page_size, offset))
+    cursor.execute(query, (like_pattern,) * 5 + (page_size, offset))
     data = cursor.fetchall()
 
-    cursor.execute("SELECT COUNT(*) FROM Persons")
-    total_records = cursor.fetchone()[0]
+    # cursor.execute("SELECT COUNT(*) FROM Persons")
+    total_records = get_total_persons(search_text)
 
     cursor.close()
     conn.close()
     return data, total_records
 
-def get_total_persons():
+def get_total_persons(search_text=""):
     conn = database.create_connection()
-    cursor = conn.cursor()
-    
-    cursor.execute("SELECT COUNT(*) FROM Persons")
+    cursor = conn.cursor()    
+
+    like_pattern = f"%{search_text}%"
+
+    query = """
+        SELECT *
+        FROM Persons
+        WHERE
+            PersonID LIKE %s OR
+            FirstName LIKE %s OR
+            LastName LIKE %s OR
+            PhoneNumber LIKE %s OR
+            Department LIKE %s
+    """
+    # cursor.execute("SELECT COUNT(*) FROM Persons")
     total_records = cursor.fetchone()[0]
 
     cursor.close()
@@ -432,11 +452,12 @@ def get_total_items():
         conn.close()
         return total_records
 
-def get_all_reported_items(current_page, page_size):
+def get_all_reported_items(current_page, page_size, search_text=""):
     conn = database.create_connection()
     cursor = conn.cursor()
 
     offset = current_page * page_size
+    like_pattern = f"%{search_text}%"
 
     query = """
         SELECT 
@@ -453,15 +474,21 @@ def get_all_reported_items(current_page, page_size):
         JOIN 
             Persons p ON i.ReportedBy = p.PersonID
         WHERE 
-            i.Status = 'Reported'
+            i.Status = 'Reported' AND (
+                i.Category LIKE %s OR
+                i.Name LIKE %s OR
+                i.Description LIKE %s OR
+                i.LocationLost LIKE %s OR
+                CONCAT(p.FirstName, ' ', p.LastName) LIKE %s
+            )
         ORDER BY 
             i.DateLost DESC
         LIMIT %s OFFSET %s
     """
-    cursor.execute(query, (page_size, offset))
+    cursor.execute(query, (like_pattern,) * 5 + (page_size, offset))
     results = cursor.fetchall()
 
-    total_records = get_total_reported_items()
+    total_records = get_total_reported_items(search_text)
 
     cursor.close()
     conn.close()
@@ -469,22 +496,37 @@ def get_all_reported_items(current_page, page_size):
     return results, total_records
 
 
-def get_total_reported_items():
+def get_total_reported_items(search_text=""):
     conn = database.create_connection()
     cursor = conn.cursor()
 
-    cursor.execute("SELECT COUNT(*) FROM Items WHERE Status = 'Reported'")
+    like_pattern = f"%{search_text}%"
+
+    query = """
+        SELECT COUNT(*)
+        FROM Items i
+        JOIN Persons p ON i.ReportedBy = p.PersonID
+        WHERE i.Status = 'Reported' AND (
+            i.Category LIKE %s OR
+            i.Name LIKE %s OR
+            i.Description LIKE %s OR
+            i.LocationLost LIKE %s OR
+            CONCAT(p.FirstName, ' ', p.LastName) LIKE %s
+        )
+    """
+    cursor.execute(query, (like_pattern,) * 5)
     total_records = cursor.fetchone()[0]
 
     cursor.close()
     conn.close()
     return total_records
 
-def get_all_surrendered_items(current_page, page_size):
+def get_all_surrendered_items(current_page, page_size, search_text=""):
     conn = database.create_connection()
     cursor = conn.cursor()
 
     offset = current_page * page_size
+    like_pattern = f"%{search_text}%"
 
     query = """
         SELECT 
@@ -501,32 +543,99 @@ def get_all_surrendered_items(current_page, page_size):
         JOIN 
             Persons p ON i.SurrenderedBy = p.PersonID
         WHERE 
-            i.Status = 'Surrendered'
+            i.Status = 'Surrendered' AND (
+                i.Category LIKE %s OR
+                i.Name LIKE %s OR
+                i.Description LIKE %s OR
+                i.LocationFound LIKE %s OR
+                CONCAT(p.FirstName, ' ', p.LastName) LIKE %s
+            )
         ORDER BY 
             i.DateFound DESC
         LIMIT %s OFFSET %s
     """
-    cursor.execute(query, (page_size, offset))
+    cursor.execute(query, (like_pattern,) * 5 + (page_size, offset))
     results = cursor.fetchall()
 
-    total_records = get_total_surrendered_items()
+    total_records = get_total_surrendered_items(search_text)
 
     cursor.close()
     conn.close()
 
     return results, total_records
 
-
-def get_total_surrendered_items():
+def get_total_surrendered_items(search_text=""):
     conn = database.create_connection()
     cursor = conn.cursor()
 
-    cursor.execute("SELECT COUNT(*) FROM Items WHERE Status = 'Surrendered'")
+    like_pattern = f"%{search_text}%"
+
+    query = """
+        SELECT COUNT(*)
+        FROM Items i
+        JOIN Persons p ON i.SurrenderedBy = p.PersonID
+        WHERE i.Status = 'Surrendered' AND (
+            i.Category LIKE %s OR
+            i.Name LIKE %s OR
+            i.Description LIKE %s OR
+            i.LocationFound LIKE %s OR
+            CONCAT(p.FirstName, ' ', p.LastName) LIKE %s
+        )
+    """
+    cursor.execute(query, (like_pattern,) * 5)
     total_records = cursor.fetchone()[0]
 
     cursor.close()
     conn.close()
     return total_records
+
+# def get_all_surrendered_items(current_page, page_size):
+#     conn = database.create_connection()
+#     cursor = conn.cursor()
+
+#     offset = current_page * page_size
+
+#     query = """
+#         SELECT 
+#             i.ItemID,
+#             i.Category,
+#             i.Name,
+#             i.Description,
+#             i.Status,
+#             i.LocationFound,
+#             i.DateFound,
+#             CONCAT(p.FirstName, ' ', p.LastName) AS SurrenderedBy
+#         FROM 
+#             Items i
+#         JOIN 
+#             Persons p ON i.SurrenderedBy = p.PersonID
+#         WHERE 
+#             i.Status = 'Surrendered'
+#         ORDER BY 
+#             i.DateFound DESC
+#         LIMIT %s OFFSET %s
+#     """
+#     cursor.execute(query, (page_size, offset))
+#     results = cursor.fetchall()
+
+#     total_records = get_total_surrendered_items()
+
+#     cursor.close()
+#     conn.close()
+
+#     return results, total_records
+
+
+# def get_total_surrendered_items():
+#     conn = database.create_connection()
+#     cursor = conn.cursor()
+
+#     cursor.execute("SELECT COUNT(*) FROM Items WHERE Status = 'Surrendered'")
+#     total_records = cursor.fetchone()[0]
+
+#     cursor.close()
+#     conn.close()
+#     return total_records
 
 def get_all_claimed_items(current_page, page_size):
     conn = database.create_connection()
