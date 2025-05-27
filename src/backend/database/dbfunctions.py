@@ -159,28 +159,22 @@ def claim_item(item_id, date_claimed, person_id):
     conn = database.create_connection()
     cursor = conn.cursor()
 
-    if not can_claim(item_id):
-        print("Item is already claimed.")  # dialog
-        return False
-
     try:
-        # Check if item exists in ReportedItems
         cursor.execute("""
-            SELECT 1 FROM ReportedItems WHERE ItemID = %s
+            SELECT Status FROM Items WHERE ItemID = %s
         """, (item_id,))
-        reported_exists = cursor.fetchone() is not None
+        result = cursor.fetchone()
 
-        # Check if item exists in SurrenderedItems
-        cursor.execute("""
-            SELECT 1 FROM SurrenderedItems WHERE ItemID = %s
-        """, (item_id,))
-        surrendered_exists = cursor.fetchone() is not None
-
-        if not reported_exists and not surrendered_exists:
-            print("Error: Item not found in reported or surrendered.")
+        if not result:
+            print("Error: Item not found.")
             return False
 
-        # Insert into ClaimedItems (only allowed columns)
+        status = result[0]
+        if status == 'Claimed':
+            print("Item is already claimed.")
+            return False
+
+        # Insert into ClaimedItems
         cursor.execute("""
             INSERT INTO ClaimedItems (
                 ItemID, DateClaimed, PersonID
@@ -188,7 +182,7 @@ def claim_item(item_id, date_claimed, person_id):
             VALUES (%s, %s, %s)
         """, (item_id, date_claimed, person_id))
 
-        # Update item status
+        # Update Items status to 'Claimed'
         cursor.execute("""
             UPDATE Items
             SET Status = 'Claimed'
@@ -207,6 +201,59 @@ def claim_item(item_id, date_claimed, person_id):
     finally:
         cursor.close()
         conn.close()
+        
+# def claim_item(item_id, date_claimed, person_id):
+#     conn = database.create_connection()
+#     cursor = conn.cursor()
+
+#     if not can_claim(item_id):
+#         print("Item is already claimed.")  # dialog
+#         return False
+
+#     try:
+#         # Check if item exists in ReportedItems
+#         cursor.execute("""
+#             SELECT 1 FROM ReportedItems WHERE ItemID = %s
+#         """, (item_id,))
+#         reported_exists = cursor.fetchone() is not None
+
+#         # Check if item exists in SurrenderedItems
+#         cursor.execute("""
+#             SELECT 1 FROM SurrenderedItems WHERE ItemID = %s
+#         """, (item_id,))
+#         surrendered_exists = cursor.fetchone() is not None
+
+#         if not reported_exists and not surrendered_exists:
+#             print("Error: Item not found in reported or surrendered.")
+#             return False
+
+#         # Insert into ClaimedItems (only allowed columns)
+#         cursor.execute("""
+#             INSERT INTO ClaimedItems (
+#                 ItemID, DateClaimed, PersonID
+#             )
+#             VALUES (%s, %s, %s)
+#         """, (item_id, date_claimed, person_id))
+
+#         # Update item status
+#         cursor.execute("""
+#             UPDATE Items
+#             SET Status = 'Claimed'
+#             WHERE ItemID = %s
+#         """, (item_id,))
+
+#         conn.commit()
+#         print(f"Item {item_id} successfully claimed.")
+#         return True
+
+#     except Exception as e:
+#         print("Error during claiming:", e)
+#         conn.rollback()
+#         return False
+
+#     finally:
+#         cursor.close()
+#         conn.close()
 
 # def add_surrendered_item(item_category, item_name, item_description, date_found, location_found, person_id):
 #     conn = database.create_connection()
@@ -591,11 +638,12 @@ def get_total_surrendered_items(search_text=""):
     conn.close()
     return total_records
 
-def get_all_claimed_items(current_page, page_size):
+def get_all_claimed_items(current_page, page_size, search_text=""):
     conn = database.create_connection()
     cursor = conn.cursor(dictionary=True)
 
     offset = current_page * page_size
+    like_pattern = f"%{search_text}%"
 
     query = """
         SELECT 
@@ -615,14 +663,22 @@ def get_all_claimed_items(current_page, page_size):
             Items i ON c.ItemID = i.ItemID
         JOIN 
             Persons p ON c.PersonID = p.PersonID
+        WHERE 
+            i.Status = 'Claimed' AND (
+                i.Category LIKE %s OR
+                i.Name LIKE %s OR
+                i.Description LIKE %s OR
+                i.LocationFound LIKE %s OR
+                CONCAT(p.FirstName, ' ', p.LastName) LIKE %s
+            )
         ORDER BY 
             c.DateClaimed DESC
         LIMIT %s OFFSET %s
     """
-    cursor.execute(query, (page_size, offset))
+    cursor.execute(query, (like_pattern, like_pattern, like_pattern, like_pattern, like_pattern, page_size, offset))
     results = cursor.fetchall()
 
-    total_records = get_total_claimed_items()
+    total_records = get_total_claimed_items(search_text)
 
     cursor.close()
     conn.close()
@@ -630,11 +686,26 @@ def get_all_claimed_items(current_page, page_size):
     return results, total_records
 
 
-def get_total_claimed_items():
+def get_total_claimed_items(search_text=""):
     conn = database.create_connection()
     cursor = conn.cursor()
 
-    cursor.execute("SELECT COUNT(*) FROM ClaimedItems")
+    like_pattern = f"%{search_text}%"
+
+    query = """
+        SELECT COUNT(*)
+        FROM ClaimedItems c
+        JOIN Items i ON c.ItemID = i.ItemID
+        JOIN Persons p ON c.PersonID = p.PersonID
+        WHERE i.Status = 'Claimed' AND (
+            i.Category LIKE %s OR
+            i.Name LIKE %s OR
+            i.Description LIKE %s OR
+            i.LocationFound LIKE %s OR
+            CONCAT(p.FirstName, ' ', p.LastName) LIKE %s
+        )
+    """
+    cursor.execute(query, (like_pattern, like_pattern, like_pattern, like_pattern, like_pattern))
     total_records = cursor.fetchone()[0]
 
     cursor.close()
@@ -665,6 +736,24 @@ def get_total_claimed_items():
 #         cursor.close()
 #         conn.close()
 #         return list
+def get_existing_person_id(first_name, last_name, department):
+    query = """
+        SELECT PersonID FROM Persons
+        WHERE FirstName = %s AND LastName = %s AND Department = %s
+        LIMIT 1
+    """
+    try:
+        conn = database.create_connection()
+        cursor = conn.cursor()
+        cursor.execute(query, (first_name, last_name, department))
+        result = cursor.fetchone()
+        cursor.close()
+        conn.close()
+        return result[0] if result else None
+    
+    except Exception as e:
+        print("Database error:", e)
+        return None
 
 
 def can_claim(item_id):
@@ -743,3 +832,13 @@ def update_person_proof_id(person_id, proof_id_path):
     except Exception as e:
         print("Error updating proof ID:", e)
         conn.rollback()
+
+def clear_person_image(person_id):
+    conn = database.create_connection()
+    cursor = conn.cursor()
+    try:
+        cursor.execute("UPDATE Persons SET ProofID = NULL WHERE PersonID = %s", (person_id,))
+        conn.commit()
+    finally:
+        cursor.close()
+        conn.close()

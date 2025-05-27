@@ -86,11 +86,9 @@ def load_surrendered_items(surrenderTable, surrenderNext, surrenderPrev, surrend
     table.verticalHeader().setDefaultSectionSize(70)
     table.setColumnWidth(0, 80)
 
-def load_claimed_items(claimTable, claimNext, claimPrev, claimPageLabel, currentClaimPage, page_size):
-    claimed_items, total_records = dbfunctions.get_all_claimed_items(currentClaimPage, page_size)
+def load_claimed_items(claimTable, claimNext, claimPrev, claimPageLabel, currentClaimPage, page_size, search_text=""):
+    claimed_items, total_records = dbfunctions.get_all_claimed_items(currentClaimPage, page_size, search_text)
     total_pages = max(1, (total_records + page_size - 1) // page_size)
-    # all_items = dbfunctions.get_all_items()
-    # claimed_items = [item for item in all_items if item[4] == "Claimed"]
 
     table = claimTable
     table.setRowCount(0)
@@ -114,7 +112,7 @@ def load_claimed_items(claimTable, claimNext, claimPrev, claimPageLabel, current
             item.get("Status", ""),
             item.get("LocationFound", ""),
             item.get("DateClaimed", ""),
-            item.get("PersonID", "")
+            item.get("ClaimedBy", "")
         ]
 
         for col, value in enumerate(values):
@@ -124,6 +122,9 @@ def load_claimed_items(claimTable, claimNext, claimPrev, claimPageLabel, current
     claimPageLabel.setText(f"Page {currentClaimPage + 1} of {total_pages}")
     claimPrev.setEnabled(currentClaimPage > 0)
     claimNext.setEnabled(currentClaimPage < total_pages - 1)
+
+    table.verticalHeader().setDefaultSectionSize(70)
+    table.setColumnWidth(0, 80)
 
 def load_persons(personTable, personNext, personPrev, personPageLabel, currentPersonPage, page_size, search_text=""):
     persons, total_records = dbfunctions.get_all_persons(currentPersonPage, page_size, search_text)
@@ -154,7 +155,7 @@ def load_persons(personTable, personNext, personPrev, personPageLabel, currentPe
 
     table.verticalHeader().setDefaultSectionSize(70)
     table.setColumnWidth(0, 80)
-    
+
 def load_items(itemTable, itemNext, itemPrev, itemPageLabel, currentItemPage, page_size):
     items, total_records = dbfunctions.get_all_items(currentItemPage, page_size)
     total_pages = max(1, (total_records + page_size - 1) // page_size)
@@ -217,18 +218,30 @@ def load_match_table(matchTable, itemNextButton, itemPrevButton, personPageLabel
     itemPrevButton.setEnabled(currentItemPage > 0)
     itemNextButton.setEnabled(currentItemPage < total_pages - 1)
 
-def display_image_in_cell(table, row, image_path):
-    label = ClickableLabel(image_path)
-    label.setAlignment(Qt.AlignCenter)
-
+def display_image_in_cell(table, row, image_path, item_id=None, db_remove=False):
     if image_path and os.path.exists(image_path):
-        pixmap = QPixmap(image_path).scaled(
-            64, 64,
-            Qt.KeepAspectRatio,
-            Qt.SmoothTransformation
-        )
-        label.setPixmap(pixmap)
-    else:
-        label.setText("No Image")
+        def on_remove(item_id, path):
+            if os.path.exists(path):
+                os.remove(path)
 
-    table.setCellWidget(row, 0, label)
+            # Replace with plain "No Image" label
+            no_img = QLabel("No Image")
+            no_img.setAlignment(Qt.AlignCenter)
+            table.setCellWidget(row, 0, no_img)
+
+            if db_remove and item_id:
+                from src.backend.database import dbfunctions
+                dbfunctions.clear_person_image(item_id)
+
+        label = ClickableLabel(image_path, item_id=item_id, on_remove_callback=on_remove)
+        label.setAlignment(Qt.AlignCenter)
+
+        pixmap = QPixmap(image_path)
+        if not pixmap.isNull():
+            label.setPixmap(pixmap.scaled(64, 64, Qt.KeepAspectRatio, Qt.SmoothTransformation))
+            table.setCellWidget(row, 0, label)
+            return
+
+    no_img = QLabel("No Image")
+    no_img.setAlignment(Qt.AlignCenter)
+    table.setCellWidget(row, 0, no_img)
