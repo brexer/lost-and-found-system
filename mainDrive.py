@@ -46,6 +46,10 @@ class MainClass(QMainWindow, Ui_MainWindow):
 
         self.tableSettings()
 
+        self.reportTable.cellClicked.connect(self.show_item_id_on_reported_by_click)
+        self.claimTable.cellClicked.connect(self.show_person_id_on_claimed_by_click)
+        self.surrenderTable.cellClicked.connect(self.show_person_id_on_surrendered_by_click)
+
         self.pageShown = 0
         self.homeButton.clicked.connect(self.goHomePage)
         self.managePersonsButton.clicked.connect(self.goManagePersonsPage)
@@ -427,6 +431,36 @@ class MainClass(QMainWindow, Ui_MainWindow):
         load.load_surrendered_items(self.surrenderTable, self.surrenderNext, self.surrenderPrev, self.surrenederPageLabel, self.currentSurrenderPage, ROWS_PER_PAGE)
         self.surrenderTable.horizontalHeader().setStretchLastSection(True)
         self.surrenderTable.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
+
+    def show_item_id_on_reported_by_click(self, row, column):
+        if column == 8:
+            person_item = self.reportTable.item(row, column)
+            if person_item:
+                person_id = person_item.data(Qt.UserRole)
+            if person_id:
+                QMessageBox.information(self, "Person ID", f"The Person's ID is: {person_id}")
+            else:
+                QMessageBox.warning(self, "No Data", "No Person ID found for this entry.")
+
+    def show_person_id_on_claimed_by_click(self, row, column):
+        if column == 8:
+            person_item = self.claimTable.item(row, column)
+            if person_item:
+                person_id = person_item.data(Qt.UserRole)
+                if person_id:
+                    QMessageBox.information(self, "Person ID", f"The Claimer's Person ID is: {person_id}")
+                else:
+                    QMessageBox.warning(self, "No Data", "No Person ID found for this entry.")
+
+    def show_person_id_on_surrendered_by_click(self, row, column):
+        if column == 8:
+            person_item = self.surrenderTable.item(row, column)
+            if person_item:
+                person_id = person_item.data(Qt.UserRole)
+                if person_id:
+                    QMessageBox.information(self, "Person ID", f"The Surrenderer's Person ID is: {person_id}")
+                else:
+                    QMessageBox.warning(self, "No Data", "No Person ID found for this entry.")
 
 class ReportItemDialog(QDialog, Ui_ReportItemDialog):
     def __init__(self, parent=None):

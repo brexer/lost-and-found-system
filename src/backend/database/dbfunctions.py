@@ -515,8 +515,10 @@ def get_all_reported_items(current_page, page_size, search_text=""):
             i.Status,
             i.LocationLost,
             i.DateLost,
+            i.ImagePath,
             CONCAT(p.FirstName, ' ', p.LastName) AS ReportedBy,
-            i.ImagePath
+            p.PersonID AS ReportedByID
+
         FROM 
             Items i
         JOIN 
@@ -585,8 +587,10 @@ def get_all_surrendered_items(current_page, page_size, search_text=""):
             i.Status,
             i.LocationFound,
             i.DateFound,
+            i.ImagePath,
             CONCAT(p.FirstName, ' ', p.LastName) AS SurrenderedBy,
-            i.ImagePath
+            p.PersonID AS SurrenderedByID
+
         FROM 
             Items i
         JOIN 
@@ -655,8 +659,10 @@ def get_all_claimed_items(current_page, page_size, search_text=""):
             i.LocationFound,
             i.DateFound,
             c.DateClaimed,
+            i.ImagePath,
             CONCAT(p.FirstName, ' ', p.LastName) AS ClaimedBy,
-            i.ImagePath
+            p.PersonID AS ClaimedByID
+
         FROM 
             ClaimedItems c
         JOIN 

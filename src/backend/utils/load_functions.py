@@ -40,6 +40,11 @@ def load_reported_items(reportTable, reportNext, reportPrev, reportPageLabel, cu
         for col, value in enumerate(values):
             table.setItem(row_num, col + 1, QTableWidgetItem(str(value)))
 
+        reported_by_item = QTableWidgetItem(str(item["ReportedBy"]))
+        if "ReportedByID" in item:
+            reported_by_item.setData(Qt.UserRole, item["ReportedByID"])
+        table.setItem(row_num, 8, reported_by_item)
+
     reportPageLabel.setText(f"Page {currentReportPage + 1} of {total_pages}")
     reportPrev.setEnabled(currentReportPage > 0)
     reportNext.setEnabled(currentReportPage < total_pages - 1)
@@ -78,6 +83,11 @@ def load_surrendered_items(surrenderTable, surrenderNext, surrenderPrev, surrend
 
         for col, value in enumerate(values):
             table.setItem(row_num, col + 1, QTableWidgetItem(str(value)))
+        
+        surrendered_by_item = QTableWidgetItem(str(item["SurrenderedBy"]))
+        if "SurrenderedByID" in item:
+            surrendered_by_item.setData(Qt.UserRole, item["SurrenderedByID"])
+        table.setItem(row_num, 8, surrendered_by_item)
 
     surrenderPageLabel.setText(f"Page {currentSurrenderPage + 1} of {total_pages}")
     surrenderPrev.setEnabled(currentSurrenderPage > 0)
@@ -117,6 +127,11 @@ def load_claimed_items(claimTable, claimNext, claimPrev, claimPageLabel, current
 
         for col, value in enumerate(values):
             table.setItem(row_num, col + 1, QTableWidgetItem(str(value)))
+
+        claimed_by_item = QTableWidgetItem(str(item["ClaimedBy"]))
+        if "ClaimedByID" in item:
+            claimed_by_item.setData(Qt.UserRole, item["ClaimedByID"])
+        table.setItem(row_num, 8, claimed_by_item)
 
 
     claimPageLabel.setText(f"Page {currentClaimPage + 1} of {total_pages}")
