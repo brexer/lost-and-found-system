@@ -296,6 +296,9 @@
        <pointsize>12</pointsize>
       </font>
      </property>
+     <property name="calendarPopup">
+      <bool>true</bool>
+     </property>
     </widget>
     <widget class="QLabel" name="label_14">
      <property name="geometry">

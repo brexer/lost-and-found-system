@@ -3,6 +3,7 @@ import traceback
 
 from PyQt5.QtWidgets import QApplication, QPushButton, QMainWindow, QDialog, QTableWidgetItem, QTableWidget, QMessageBox
 from PyQt5.QtGui import QIcon
+from PyQt5.QtCore import QDateTime
 from src.frontend.mainWindow_ui import Ui_MainWindow
 from src.frontend.reportItem import Ui_ReportItemDialog
 from src.frontend.surrenderItem import Ui_SurrenderItemDialog
@@ -243,6 +244,12 @@ class MainClass(QMainWindow, Ui_MainWindow):
         self.stackedWidget.setCurrentIndex(5)
         load.load_surrendered_items(self.surrenderTable, self.surrenderNext, self.surrenderPrev, self.surrenederPageLabel, self.currentSurrenderPage, ROWS_PER_PAGE)
 
+    def update_dateTime(self):
+        self.dateLostEdit.setMaximumDateTime(QDateTime.currentDateTime())
+        self.dateLostEdit.setDateTime(QDateTime.currentDateTime())
+        self.dateFoundEdit.setMaximumDateTime(QDateTime.currentDateTime())
+        self.dateFoundEdit.setDateTime(QDateTime.currentDateTime())
+
 class ReportItemDialog(QDialog, Ui_ReportItemDialog):
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -253,6 +260,9 @@ class ReportItemDialog(QDialog, Ui_ReportItemDialog):
         self.item_image_handler = ImageHandler(self.itemImagePreview)
         self.uploadProofButton.clicked.connect(lambda: self.proof_id_handler.upload_image(self))
         self.itemImageButton.clicked.connect(lambda: self.item_image_handler.upload_image(self))
+
+        self.dateLostEdit.setMaximumDateTime(QDateTime.currentDateTime())
+        self.dateLostEdit.setDateTime(QDateTime.currentDateTime())
 
         self.nextButton.clicked.connect(self.validateInputItem)
         self.confirmButton.clicked.connect(self.validateInputPerson)
@@ -346,6 +356,8 @@ class SurrenderItemDialog(QDialog, Ui_SurrenderItemDialog):
         self.item_image_handler = ImageHandler(self.itemImagePreview)
         self.proofImageButton.clicked.connect(lambda: self.proof_id_handler.upload_image(self))
         self.itemImageButton.clicked.connect(lambda: self.item_image_handler.upload_image(self))
+
+        self.update_dateTime()
 
         self.nextButton.clicked.connect(self.validateItemInput)
         self.confirmButton.clicked.connect(self.validatePersonInput)

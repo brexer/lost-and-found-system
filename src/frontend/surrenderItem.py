@@ -133,6 +133,7 @@ class Ui_SurrenderItemDialog(object):
         font = QtGui.QFont()
         font.setPointSize(12)
         self.dateFoundEdit.setFont(font)
+        self.dateFoundEdit.setCalendarPopup(True)
         self.dateFoundEdit.setObjectName("dateFoundEdit")
         self.label_14 = QtWidgets.QLabel(self.itemPage)
         self.label_14.setGeometry(QtCore.QRect(380, 110, 191, 23))
