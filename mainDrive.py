@@ -3,7 +3,7 @@ import traceback
 
 from PyQt5.QtWidgets import QApplication, QPushButton, QMainWindow, QDialog, QTableWidgetItem, QTableWidget, QMessageBox
 from PyQt5.QtGui import QIcon
-from PyQt5.QtCore import QDateTime
+from PyQt5.QtCore import QDateTime, QSize
 
 from src.frontend.mainWindow_ui import Ui_MainWindow
 from src.frontend.reportItem import Ui_ReportItemDialog
@@ -21,7 +21,7 @@ import src.backend.database.database as db
 from src.backend.database import dbfunctions
 # import src.backend.database.dbfunctions as dbf
 
-ROWS_PER_PAGE = 10 # change rani kung pila ka rows ang i-display per page
+ROWS_PER_PAGE = 1 # change rani kung pila ka rows ang i-display per page
 
 class MainClass(QMainWindow, Ui_MainWindow):
     def __init__(self):
@@ -29,14 +29,13 @@ class MainClass(QMainWindow, Ui_MainWindow):
         self.setupUi(self)
         self.setWindowTitle("Lost and Found Management System")
         self.setStyleSheet(MAIN_WINDOW_STYLE)
-        self.setFixedHeight(900)
-        self.setFixedWidth(1300)
+        self.setFixedHeight(960)
+        self.setFixedWidth(1310)
         
         self.stackedWidget.setCurrentIndex(0)
         db.initialize_database()
 
         self.match_data = []
-        self.currentItemPage = 0
         
         self.pageShown = 0
         self.homeButton.clicked.connect(self.goHomePage)
@@ -48,11 +47,22 @@ class MainClass(QMainWindow, Ui_MainWindow):
         self.surrenderItemButton.clicked.connect(self.goSurrenderedItemsPage)
 
         self.homeButton.setIcon(QIcon("assets/home.svg"))
+        self.homeButton.setIconSize(QSize(25, 25))  # Adjust size as needed
+
         self.managePersonsButton.setIcon(QIcon("assets/persons.svg"))
+        self.managePersonsButton.setIconSize(QSize(25, 25))
+
         self.reviewItemsButton.setIcon(QIcon("assets/items2.svg"))
+        self.reviewItemsButton.setIconSize(QSize(25, 25))
+
         self.itemHistoryButton.setIcon(QIcon("assets/history.svg"))
+        self.itemHistoryButton.setIconSize(QSize(25, 25))
+
         self.reportItem.setIcon(QIcon("assets/report.svg"))
+        self.reportItem.setIconSize(QSize(28, 28))
+
         self.surrenderItem.setIcon(QIcon("assets/surrender.svg"))
+        self.surrenderItem.setIconSize(QSize(18, 18))
         
         # Homepage Button connections
         self.reportItem.clicked.connect(self.addReportedItem)
@@ -177,32 +187,16 @@ class MainClass(QMainWindow, Ui_MainWindow):
             self.update_person_page()
 
     def next_item_page(self):
-        total_records = len(self.match_data)
-        total_pages = max(1, (total_records + ROWS_PER_PAGE - 1) // ROWS_PER_PAGE)
-        if self.currentItemPage < total_pages - 1:
+        if (self.currentItemPage + 1) * ROWS_PER_PAGE < dbfunctions.get_total_items():
             self.currentItemPage += 1
-            load.load_match_table(
-                self.matchTable,
-                self.itemNextButton,
-                self.itemPrevButton,
-                self.personPageLabel_2,
-                self.currentItemPage,
-                ROWS_PER_PAGE,
-                self.match_data
-            )
+            matches = getattr(self, 'match_data', [])
+            load.load_match_table(self.matchTable, self.itemNextButton, self.itemPrevButton, self.personPageLabel_2, self.currentItemPage, ROWS_PER_PAGE, matches)
 
     def prev_item_page(self):
         if self.currentItemPage > 0:
             self.currentItemPage -= 1
-            load.load_match_table(
-                self.matchTable,
-                self.itemNextButton,
-                self.itemPrevButton,
-                self.personPageLabel_2,
-                self.currentItemPage,
-                ROWS_PER_PAGE,
-                self.match_data
-            )
+            matches = getattr(self, 'match_data', [])
+            load.load_match_table(self.matchTable, self.itemNextButton, self.itemPrevButton, self.personPageLabel_2, self.currentItemPage, ROWS_PER_PAGE, matches)
 
     def next_report_page(self):
         search_text = self.searchText if hasattr(self, 'searchText') and self.searchText is not None else ""
@@ -255,6 +249,7 @@ class MainClass(QMainWindow, Ui_MainWindow):
         self.currentPersonPage = 0  # Reset to first page
         self.stackedWidget.setCurrentIndex(1)
         load.load_persons(self.personTable, self.personNext, self.personPrev, self.personPageLabel, self.currentPersonPage, ROWS_PER_PAGE)
+        self.personTable.resizeColumnsToContents()
 
     # def goManagePersonsPage(self):
     #     self.pageShown = 1
@@ -262,17 +257,8 @@ class MainClass(QMainWindow, Ui_MainWindow):
     #     load.load_persons(self.personTable, self.personNext, self.personPrev, self.personPageLabel, self.currentPersonPage)
 
     def goReviewPage(self):
-        self.currentItemPage = 0
         matches = self.match_data
-        load.load_match_table(
-            self.matchTable,
-            self.itemNextButton,
-            self.itemPrevButton,
-            self.personPageLabel_2,
-            self.currentItemPage,
-            ROWS_PER_PAGE,
-            matches
-        )
+        load.load_match_table(self.matchTable, self.itemNextButton, self.itemPrevButton, self.personPageLabel_2, self.currentItemPage, ROWS_PER_PAGE, matches)
         self.pageshown = 2
         self.currentItemPage = 0
         self.stackedWidget.setCurrentIndex(2)
@@ -282,6 +268,7 @@ class MainClass(QMainWindow, Ui_MainWindow):
         self.currentClaimPage = 0
         self.stackedWidget.setCurrentIndex(3)
         load.load_claimed_items(self.claimTable, self.claimNext, self.claimPrev, self.claimPageLabel, self.currentClaimPage, ROWS_PER_PAGE)
+        self.claimTable.resizeColumnsToContents()
 
     def goReportedItemsPage(self):
         self.pageShown = 4
@@ -289,6 +276,7 @@ class MainClass(QMainWindow, Ui_MainWindow):
         self.currentReportPage = 0
         self.stackedWidget.setCurrentIndex(4)
         load.load_reported_items(self.reportTable, self.reportNext, self.reportPrev, self.reportPageLabel, self.currentReportPage, ROWS_PER_PAGE)
+        self.reportTable.resizeColumnsToContents()
 
     def goSurrenderedItemsPage(self):
         self.pageShown = 5
@@ -296,7 +284,7 @@ class MainClass(QMainWindow, Ui_MainWindow):
         self.currentSurrenderPage = 0
         self.stackedWidget.setCurrentIndex(5)
         load.load_surrendered_items(self.surrenderTable, self.surrenderNext, self.surrenderPrev, self.surrenederPageLabel, self.currentSurrenderPage, ROWS_PER_PAGE)
-
+        self.surrenderTable.resizeColumnsToContents()
 
 class ReportItemDialog(QDialog, Ui_ReportItemDialog):
     def __init__(self, parent=None):
@@ -491,11 +479,11 @@ class SurrenderItemDialog(QDialog, Ui_SurrenderItemDialog):
                 dbfunctions.update_person_proof_id(person_id, proof_id_path)
             
             if matches:
-                self.parent().match_data = matches
+                self.match_data = matches
                 self.parent().reviewItemsButton.setVisible(True)
                 QMessageBox.information(self, "Match Found", "Possible match(es) found. Click 'Review Matches' to view.")
             else:
-                self.parent().match_data = []
+                self.match_data = []
                 self.parent().reviewItemsButton.setVisible(False)
 
             QMessageBox.information(self, "Success", "Item surrendered successfully.")
