@@ -35,7 +35,7 @@ class MainClass(QMainWindow, Ui_MainWindow):
         self.pageShown = 0
         self.homeButton.clicked.connect(self.goHomePage)
         self.managePersonsButton.clicked.connect(self.goManagePersonsPage)
-        self.reviewItemsButton.clicked.connect(self.goReviewItemPage)
+        # self.reviewItemsButton.clicked.connect(self.goReviewItemPage)
         self.claimItemButton.clicked.connect(self.goClaimedItemsPage)
         self.reportItemButton.clicked.connect(self.goReportedItemsPage)
         self.surrenderItemButton.clicked.connect(self.goSurrenderedItemsPage)
@@ -63,6 +63,61 @@ class MainClass(QMainWindow, Ui_MainWindow):
         self.claimNext.clicked.connect(self.next_claim_page)
         self.claimPrev.clicked.connect(self.prev_claim_page)
         
+        # Search button
+        self.searchText = ""
+        self.personSearchButton.clicked.connect(self.clicked_person_search)
+        self.surrenderSearchButton.clicked.connect(self.clicked_surrender_search)
+        self.reportSearchButton.clicked.connect(self.clicked_report_search)
+    
+    # some more search functions
+    def clicked_person_search(self):
+        self.searchText = self.personSearchEdit.text().strip()
+        self.currentPersonPage = 0
+        self.update_person_page()
+
+    def update_person_page(self):
+        load.load_persons(
+            self.personTable,
+            self.personNext,
+            self.personPrev,
+            self.personPageLabel,
+            self.currentPersonPage,
+            ROWS_PER_PAGE,
+            self.searchText
+        )
+
+    def clicked_surrender_search(self):
+        self.searchText = self.surrenederSearchEdit.text().strip()
+        self.currentSurrenderPage = 0
+        self.update_surrender_page()
+
+    def update_surrender_page(self):
+        load.load_surrendered_items(
+            self.surrenderTable,
+            self.surrenderNext,
+            self.surrenderPrev,
+            self.surrenederPageLabel,
+            self.currentSurrenderPage,
+            ROWS_PER_PAGE,
+            self.searchText
+        )
+
+    def clicked_report_search(self):
+        self.searchText = self.reportSearchEdit.text().strip()
+        self.currentReportPage = 0
+        self.update_report_page()
+
+    def update_report_page(self):
+        load.load_reported_items(
+            self.reportTable,
+            self.reportNext,
+            self.reportPrev,
+            self.reportPageLabel,
+            self.currentReportPage,
+            ROWS_PER_PAGE,
+            self.searchText
+        )
+
     # Connections to add and surrender item
     def addReportedItem(self):
         reportItem = ReportItemDialog(self)
@@ -77,44 +132,57 @@ class MainClass(QMainWindow, Ui_MainWindow):
     # PAGINATION FUNCTIONS
 
     def next_person_page(self):
-        if (self.currentPersonPage + 1) * ROWS_PER_PAGE < dbfunctions.get_total_persons():
+        search_text = self.searchText if hasattr(self, 'searchText') and self.searchText is not None else ""
+
+        total_records = dbfunctions.get_total_persons(search_text)
+        total_pages = max(1, (total_records + ROWS_PER_PAGE - 1) // ROWS_PER_PAGE)
+        if self.currentPersonPage < total_pages - 1:
             self.currentPersonPage += 1
-            load.load_persons(self.personTable, self.personNext, self.personPrev, self.personPageLabel, self.currentPersonPage, ROWS_PER_PAGE)
+            self.update_person_page()
 
     def prev_person_page(self):
         if self.currentPersonPage > 0:
             self.currentPersonPage -= 1
-            load.load_persons(self.personTable, self.personNext, self.personPrev, self.personPageLabel, self.currentPersonPage, ROWS_PER_PAGE)
+            self.update_person_page()
 
-    def next_item_page(self):
-        if (self.currentItemPage + 1) * ROWS_PER_PAGE < dbfunctions.get_total_items():
-            self.currentItemPage += 1
-            load.load_items(self.itemTable, self.itemNextButton, self.itemPrevButton, self.personPageLabel_2, self.currentItemPage, ROWS_PER_PAGE)
+    # def next_item_page(self):
+    #     if (self.currentItemPage + 1) * ROWS_PER_PAGE < dbfunctions.get_total_items():
+    #         self.currentItemPage += 1
+    #         load.load_items(self.itemTable, self.itemNextButton, self.itemPrevButton, self.personPageLabel_2, self.currentItemPage, ROWS_PER_PAGE)
 
-    def prev_item_page(self):
-        if self.currentItemPage > 0:
-            self.currentItemPage -= 1
-            load.load_items(self.itemTable, self.itemNextButton, self.itemPrevButton, self.personPageLabel_2, self.currentItemPage, ROWS_PER_PAGE)
+    # def prev_item_page(self):
+    #     if self.currentItemPage > 0:
+    #         self.currentItemPage -= 1
+    #         load.load_items(self.itemTable, self.itemNextButton, self.itemPrevButton, self.personPageLabel_2, self.currentItemPage, ROWS_PER_PAGE)
 
     def next_report_page(self):
-        if (self.currentReportPage + 1) * ROWS_PER_PAGE < dbfunctions.get_total_reported_items():
+        search_text = self.searchText if hasattr(self, 'searchText') and self.searchText is not None else ""
+
+        total_records = dbfunctions.get_total_reported_items(search_text)
+        total_pages = max(1, (total_records + ROWS_PER_PAGE - 1) // ROWS_PER_PAGE)
+        if self.currentReportPage < total_pages - 1:
             self.currentReportPage += 1
-            load.load_reported_items(self.reportTable, self.reportNext, self.reportPrev, self.reportPageLabel, self.currentReportPage, ROWS_PER_PAGE)
+            self.update_report_page()
 
     def prev_report_page(self):
         if self.currentReportPage > 0:
             self.currentReportPage -= 1
-            load.load_reported_items(self.reportTable, self.reportNext, self.reportPrev, self.reportPageLabel, self.currentReportPage, ROWS_PER_PAGE)
+            self.update_report_page()
 
     def next_surrender_page(self):
-        if (self.currentSurrenderPage + 1) * ROWS_PER_PAGE < dbfunctions.get_total_surrendered_items():
+        search_text = self.searchText if hasattr(self, 'searchText') and self.searchText is not None else ""
+
+        total_records = dbfunctions.get_total_surrendered_items(search_text)
+        total_pages = max(1, (total_records + ROWS_PER_PAGE - 1) // ROWS_PER_PAGE)
+
+        if self.currentSurrenderPage < total_pages - 1:
             self.currentSurrenderPage += 1
-            load.load_surrendered_items(self.surrenderTable, self.surrenderNext, self.surrenderPrev, self.surrenederPageLabel, self.currentSurrenderPage, ROWS_PER_PAGE)
+            self.update_surrender_page()
 
     def prev_surrender_page(self):
         if self.currentSurrenderPage > 0:
             self.currentSurrenderPage -= 1
-            load.load_surrendered_items(self.surrenderTable, self.surrenderNext, self.surrenderPrev, self.surrenederPageLabel, self.currentSurrenderPage, ROWS_PER_PAGE)
+            self.update_surrender_page()
 
     def next_claim_page(self):
         if (self.currentClaimPage + 1) * ROWS_PER_PAGE < dbfunctions.get_total_surrendered_items():
@@ -134,6 +202,7 @@ class MainClass(QMainWindow, Ui_MainWindow):
 
     def goManagePersonsPage(self):
         self.pageShown = 1
+        self.searchText = ""
         self.currentPersonPage = 0  # Reset to first page
         self.stackedWidget.setCurrentIndex(1)
         load.load_persons(self.personTable, self.personNext, self.personPrev, self.personPageLabel, self.currentPersonPage, ROWS_PER_PAGE)
@@ -159,12 +228,14 @@ class MainClass(QMainWindow, Ui_MainWindow):
 
     def goReportedItemsPage(self):
         self.pageShown = 4
+        self.searchText = ""
         self.currentReportPage = 0
         self.stackedWidget.setCurrentIndex(4)
         load.load_reported_items(self.reportTable, self.reportNext, self.reportPrev, self.reportPageLabel, self.currentReportPage, ROWS_PER_PAGE)
 
     def goSurrenderedItemsPage(self):
         self.pageShown = 5
+        self.searchText = ""
         self.currentSurrenderPage = 0
         self.stackedWidget.setCurrentIndex(5)
         load.load_surrendered_items(self.surrenderTable, self.surrenderNext, self.surrenderPrev, self.surrenederPageLabel, self.currentSurrenderPage, ROWS_PER_PAGE)
