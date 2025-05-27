@@ -28,7 +28,7 @@
 </string>
     </property>
     <property name="currentIndex">
-     <number>2</number>
+     <number>1</number>
     </property>
     <widget class="QWidget" name="homePage">
      <widget class="QWidget" name="layoutWidget_7">
@@ -363,12 +363,9 @@
       </property>
       <property name="html">
        <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;meta charset=&quot;utf-8&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
-hr { height: 1px; border-width: 0; }
-li.unchecked::marker { content: &quot;\2610&quot;; }
-li.checked::marker { content: &quot;\2612&quot;; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Segoe UI'; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'MS Shell Dlg 2'; font-size:8.25pt; font-weight:400; font-style:normal;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Century Gothic'; font-size:28pt; font-weight:600;&quot;&gt;Welcome to the &lt;/span&gt;&lt;span style=&quot; font-family:'Century Gothic'; font-size:28pt; font-weight:600; color:#aa0000;&quot;&gt;Lost&lt;/span&gt;&lt;span style=&quot; font-family:'Century Gothic'; font-size:28pt; font-weight:600;&quot;&gt; and &lt;br /&gt;&lt;/span&gt;&lt;span style=&quot; font-family:'Century Gothic'; font-size:28pt; font-weight:600; color:#ffca40;&quot;&gt;Found&lt;/span&gt;&lt;span style=&quot; font-family:'Century Gothic'; font-size:28pt; font-weight:600;&quot;&gt; System&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
       </property>
      </widget>
@@ -395,12 +392,9 @@ li.checked::marker { content: &quot;\2612&quot;; }
       </property>
       <property name="html">
        <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;meta charset=&quot;utf-8&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
-hr { height: 1px; border-width: 0; }
-li.unchecked::marker { content: &quot;\2610&quot;; }
-li.checked::marker { content: &quot;\2612&quot;; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Segoe UI'; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'MS Shell Dlg 2'; font-size:8.25pt; font-weight:400; font-style:normal;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Century Gothic'; font-size:12pt; font-weight:600;&quot;&gt;Let us help you find what you are looking for or return something you found&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
       </property>
      </widget>
@@ -411,8 +405,8 @@ li.checked::marker { content: &quot;\2612&quot;; }
        <rect>
         <x>20</x>
         <y>10</y>
-        <width>681</width>
-        <height>101</height>
+        <width>321</width>
+        <height>31</height>
        </rect>
       </property>
       <property name="font">
@@ -428,9 +422,9 @@ li.checked::marker { content: &quot;\2612&quot;; }
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>180</y>
+        <y>100</y>
         <width>1091</width>
-        <height>671</height>
+        <height>751</height>
        </rect>
       </property>
       <column>
@@ -477,24 +471,11 @@ li.checked::marker { content: &quot;\2612&quot;; }
        <string>Update</string>
       </property>
      </widget>
-     <widget class="QPushButton" name="pushButton_8">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>860</y>
-        <width>112</width>
-        <height>34</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Delete</string>
-      </property>
-     </widget>
      <widget class="QLineEdit" name="personSearchEdit">
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>130</y>
+        <y>50</y>
         <width>401</width>
         <height>41</height>
        </rect>
@@ -516,7 +497,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
       <property name="geometry">
        <rect>
         <x>430</x>
-        <y>130</y>
+        <y>50</y>
         <width>112</width>
         <height>41</height>
        </rect>
@@ -578,10 +559,10 @@ li.checked::marker { content: &quot;\2612&quot;; }
      <widget class="QLabel" name="label_7">
       <property name="geometry">
        <rect>
-        <x>20</x>
+        <x>10</x>
         <y>10</y>
         <width>401</width>
-        <height>111</height>
+        <height>31</height>
        </rect>
       </property>
       <property name="font">
@@ -597,22 +578,22 @@ li.checked::marker { content: &quot;\2612&quot;; }
       <property name="geometry">
        <rect>
         <x>990</x>
-        <y>850</y>
+        <y>860</y>
         <width>112</width>
         <height>34</height>
        </rect>
       </property>
       <property name="text">
-       <string>Update</string>
+       <string>Claim</string>
       </property>
      </widget>
      <widget class="QTableWidget" name="matchTable">
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>180</y>
+        <y>100</y>
         <width>1091</width>
-        <height>661</height>
+        <height>751</height>
        </rect>
       </property>
       <column>
@@ -641,24 +622,11 @@ li.checked::marker { content: &quot;\2612&quot;; }
        </property>
       </column>
      </widget>
-     <widget class="QPushButton" name="itemDeleteButton">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>850</y>
-        <width>112</width>
-        <height>34</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Delete</string>
-      </property>
-     </widget>
      <widget class="QPushButton" name="itemSearchButton">
       <property name="geometry">
        <rect>
         <x>430</x>
-        <y>130</y>
+        <y>50</y>
         <width>112</width>
         <height>41</height>
        </rect>
@@ -686,7 +654,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>130</y>
+        <y>50</y>
         <width>401</width>
         <height>41</height>
        </rect>
@@ -743,7 +711,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>130</y>
+        <y>50</y>
         <width>401</width>
         <height>41</height>
        </rect>
@@ -765,9 +733,9 @@ li.checked::marker { content: &quot;\2612&quot;; }
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>180</y>
+        <y>100</y>
         <width>1091</width>
-        <height>661</height>
+        <height>751</height>
        </rect>
       </property>
       <column>
@@ -808,7 +776,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
       <property name="geometry">
        <rect>
         <x>430</x>
-        <y>130</y>
+        <y>50</y>
         <width>112</width>
         <height>41</height>
        </rect>
@@ -882,9 +850,9 @@ li.checked::marker { content: &quot;\2612&quot;; }
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>10</y>
+        <y>0</y>
         <width>401</width>
-        <height>111</height>
+        <height>41</height>
        </rect>
       </property>
       <property name="font">
@@ -902,7 +870,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>130</y>
+        <y>50</y>
         <width>401</width>
         <height>41</height>
        </rect>
@@ -983,7 +951,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
       <property name="geometry">
        <rect>
         <x>430</x>
-        <y>130</y>
+        <y>50</y>
         <width>112</width>
         <height>41</height>
        </rect>
@@ -1011,9 +979,9 @@ li.checked::marker { content: &quot;\2612&quot;; }
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>180</y>
+        <y>100</y>
         <width>1091</width>
-        <height>661</height>
+        <height>751</height>
        </rect>
       </property>
       <column>
@@ -1048,7 +1016,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
         <x>20</x>
         <y>10</y>
         <width>401</width>
-        <height>111</height>
+        <height>31</height>
        </rect>
       </property>
       <property name="font">
@@ -1079,7 +1047,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
       <property name="geometry">
        <rect>
         <x>430</x>
-        <y>130</y>
+        <y>50</y>
         <width>112</width>
         <height>41</height>
        </rect>
@@ -1107,7 +1075,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>130</y>
+        <y>50</y>
         <width>401</width>
         <height>41</height>
        </rect>
@@ -1162,9 +1130,9 @@ li.checked::marker { content: &quot;\2612&quot;; }
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>180</y>
+        <y>100</y>
         <width>1091</width>
-        <height>661</height>
+        <height>751</height>
        </rect>
       </property>
       <column>
@@ -1203,16 +1171,16 @@ li.checked::marker { content: &quot;\2612&quot;; }
        </rect>
       </property>
       <property name="text">
-       <string>Delete</string>
+       <string>Claim</string>
       </property>
      </widget>
      <widget class="QLabel" name="label_6">
       <property name="geometry">
        <rect>
-        <x>30</x>
+        <x>10</x>
         <y>20</y>
         <width>421</width>
-        <height>91</height>
+        <height>21</height>
        </rect>
       </property>
       <property name="font">
@@ -1259,6 +1227,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
        <property name="font">
         <font>
          <pointsize>14</pointsize>
+         <weight>75</weight>
          <bold>true</bold>
         </font>
        </property>

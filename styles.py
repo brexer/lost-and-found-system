@@ -7,6 +7,7 @@ MAIN_WINDOW_STYLE = """
     
     /* ===== NAVIGATION BUTTONS ===== */
     /* Style for ALL navigation buttons */
+    QPushButton#reviewItemsButton,
     QPushButton#homeButton,
     QPushButton#manageItemsButton,
     QPushButton#managePersonsButton,
@@ -29,6 +30,7 @@ MAIN_WINDOW_STYLE = """
     }
     
     /* Hover and pressed states for ALL */
+    QPushButton#reviewItemsButton,
     QPushButton#homeButton:hover,
     QPushButton#manageItemsButton:hover,
     QPushButton#managePersonsButton:hover,
@@ -38,7 +40,7 @@ MAIN_WINDOW_STYLE = """
     QPushButton#surrenderItemButton:hover {
         background-color: rgba(255, 255, 255, 0.3);
     }
-    
+    QPushButton#reviewItemsButton,
     QPushButton#homeButton:pressed,
     QPushButton#manageItemsButton:pressed,
     QPushButton#managePersonsButton:pressed,
@@ -50,6 +52,7 @@ MAIN_WINDOW_STYLE = """
     }
     
     /* Active state for ALL */
+    QPushButton#reviewItemsButton[active="true"],
     QPushButton#homeButton[active="true"],
     QPushButton#manageItemsButton[active="true"],
     QPushButton#managePersonsButton[active="true"],

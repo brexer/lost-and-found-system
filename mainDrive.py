@@ -3,7 +3,7 @@ import traceback
 import os
 from datetime import datetime
 
-from PyQt5.QtWidgets import QApplication, QPushButton, QMainWindow, QDialog, QTableWidgetItem, QTableWidget, QMessageBox
+from PyQt5.QtWidgets import QApplication, QPushButton, QMainWindow, QDialog, QTableWidgetItem, QTableWidget, QMessageBox,QHeaderView
 from PyQt5.QtGui import QIcon, QPixmap
 from PyQt5.QtCore import QDateTime, QSize, Qt
 
@@ -354,7 +354,8 @@ class MainClass(QMainWindow, Ui_MainWindow):
         self.currentPersonPage = 0  # Reset to first page
         self.stackedWidget.setCurrentIndex(1)
         load.load_persons(self.personTable, self.personNext, self.personPrev, self.personPageLabel, self.currentPersonPage, ROWS_PER_PAGE)
-        self.personTable.resizeColumnsToContents()
+        self.personTable.horizontalHeader().setStretchLastSection(True)
+        self.personTable.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
 
     # def goManagePersonsPage(self):
     #     self.pageShown = 1
@@ -383,7 +384,8 @@ class MainClass(QMainWindow, Ui_MainWindow):
         self.currentClaimPage = 0
         self.stackedWidget.setCurrentIndex(3)
         load.load_claimed_items(self.claimTable, self.claimNext, self.claimPrev, self.claimPageLabel, self.currentClaimPage, ROWS_PER_PAGE)
-        self.claimTable.resizeColumnsToContents()
+        self.claimTable.horizontalHeader().setStretchLastSection(True)
+        self.claimTable.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
 
     def goReportedItemsPage(self):
         self.pageShown = 4
@@ -391,7 +393,8 @@ class MainClass(QMainWindow, Ui_MainWindow):
         self.currentReportPage = 0
         self.stackedWidget.setCurrentIndex(4)
         load.load_reported_items(self.reportTable, self.reportNext, self.reportPrev, self.reportPageLabel, self.currentReportPage, ROWS_PER_PAGE)
-        self.reportTable.resizeColumnsToContents()
+        self.reportTable.horizontalHeader().setStretchLastSection(True)
+        self.reportTable.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
 
     def goSurrenderedItemsPage(self):
         self.pageShown = 5
@@ -399,7 +402,8 @@ class MainClass(QMainWindow, Ui_MainWindow):
         self.currentSurrenderPage = 0
         self.stackedWidget.setCurrentIndex(5)
         load.load_surrendered_items(self.surrenderTable, self.surrenderNext, self.surrenderPrev, self.surrenederPageLabel, self.currentSurrenderPage, ROWS_PER_PAGE)
-        self.surrenderTable.resizeColumnsToContents()
+        self.surrenderTable.horizontalHeader().setStretchLastSection(True)
+        self.surrenderTable.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
 
 class ReportItemDialog(QDialog, Ui_ReportItemDialog):
     def __init__(self, parent=None):

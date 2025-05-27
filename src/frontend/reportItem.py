@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '.\reportItem.ui'
+# Form implementation generated from reading ui file 'reportItem.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.11
 #
@@ -70,6 +70,7 @@ class Ui_ReportItemDialog(object):
         font = QtGui.QFont()
         font.setPointSize(18)
         font.setBold(True)
+        font.setWeight(75)
         self.label_11.setFont(font)
         self.label_11.setStyleSheet("color: rgb(255, 255, 255);")
         self.label_11.setObjectName("label_11")
@@ -147,6 +148,7 @@ class Ui_ReportItemDialog(object):
         font = QtGui.QFont()
         font.setPointSize(11)
         font.setBold(True)
+        font.setWeight(75)
         self.comboBox_2.setFont(font)
         self.comboBox_2.setStyleSheet("QComboBox {\n"
 "        border: 2px solid #ccc;\n"
@@ -175,6 +177,7 @@ class Ui_ReportItemDialog(object):
         font = QtGui.QFont()
         font.setPointSize(14)
         font.setBold(True)
+        font.setWeight(75)
         self.label_2.setFont(font)
         self.label_2.setObjectName("label_2")
         self.label_5 = QtWidgets.QLabel(self.itemPage)
@@ -275,6 +278,7 @@ class Ui_ReportItemDialog(object):
         font = QtGui.QFont()
         font.setPointSize(14)
         font.setBold(True)
+        font.setWeight(75)
         self.label_13.setFont(font)
         self.label_13.setObjectName("label_13")
         self.lastNameEdit = QtWidgets.QLineEdit(self.personPage)
@@ -291,29 +295,31 @@ class Ui_ReportItemDialog(object):
         self.frame.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.frame.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame.setObjectName("frame")
-        self.backButton = QtWidgets.QPushButton(self.frame)
-        self.backButton.setGeometry(QtCore.QRect(20, 10, 60, 60))
-        self.backButton.setStyleSheet("QPushButton {\n"
-"        background-color: white;\n"
-"        border: 1px solid;\n"
-"        border-radius: 20px;\n"
-"        padding: 8px 16px;\n"
-"    }\n"
-"    QPushButton:hover {\n"
-"        background-color: lightgray;\n"
-"    }\n"
-"    QPushButton:pressed {\n"
-"        background-color: gray;\n"
-"    }")
-        self.backButton.setObjectName("backButton")
         self.label = QtWidgets.QLabel(self.frame)
         self.label.setGeometry(QtCore.QRect(220, 0, 181, 81))
         font = QtGui.QFont()
         font.setPointSize(18)
         font.setBold(True)
+        font.setWeight(75)
         self.label.setFont(font)
         self.label.setStyleSheet("color: rgb(255, 255, 255);")
         self.label.setObjectName("label")
+        self.backButton = QtWidgets.QPushButton(self.frame)
+        self.backButton.setGeometry(QtCore.QRect(60, 20, 60, 31))
+        self.backButton.setStyleSheet("QPushButton {\n"
+"    background-color: white;\n"
+"    border: 1px solid;\n"
+"    border-radius: 10px;\n"
+"    padding: 4px 6px;\n"
+"    font-size: 10pt;\n"
+"}\n"
+"QPushButton:hover {\n"
+"    background-color: lightgray;\n"
+"}\n"
+"QPushButton:pressed {\n"
+"    background-color: gray;\n"
+"}")
+        self.backButton.setObjectName("backButton")
         self.label_12 = QtWidgets.QLabel(self.personPage)
         self.label_12.setGeometry(QtCore.QRect(310, 240, 191, 23))
         font = QtGui.QFont()
@@ -343,7 +349,7 @@ class Ui_ReportItemDialog(object):
         self.stackedWidget.addWidget(self.personPage)
 
         self.retranslateUi(ReportItemDialog)
-        self.stackedWidget.setCurrentIndex(0)
+        self.stackedWidget.setCurrentIndex(1)
         QtCore.QMetaObject.connectSlotsByName(ReportItemDialog)
 
     def retranslateUi(self, ReportItemDialog):
@@ -379,8 +385,8 @@ class Ui_ReportItemDialog(object):
         self.departmentEdit.setPlaceholderText(_translate("ReportItemDialog", "e.g. BSCS"))
         self.label_13.setText(_translate("ReportItemDialog", "Personal Details"))
         self.lastNameEdit.setPlaceholderText(_translate("ReportItemDialog", "Last Name"))
-        self.backButton.setText(_translate("ReportItemDialog", "B"))
         self.label.setText(_translate("ReportItemDialog", "Report an Item"))
+        self.backButton.setText(_translate("ReportItemDialog", "Back"))
         self.label_12.setText(_translate("ReportItemDialog", "Department"))
         self.proofImagePreview.setText(_translate("ReportItemDialog", "No Image Selected"))
         self.uploadProofButton.setText(_translate("ReportItemDialog", "Upload"))
