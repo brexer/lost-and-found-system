@@ -609,6 +609,7 @@ def get_all_reported_items(current_page, page_size, search_text=""):
             Persons p ON i.ReportedBy = p.PersonID
         WHERE 
             i.Status = 'Reported' AND i.IsDeleted = FALSE AND (
+                i.ItemID LIKE %s OR
                 i.Category LIKE %s OR
                 i.Name LIKE %s OR
                 i.Description LIKE %s OR
@@ -619,7 +620,7 @@ def get_all_reported_items(current_page, page_size, search_text=""):
             i.DateLost DESC
         LIMIT %s OFFSET %s
     """
-    cursor.execute(query, (like_pattern,) * 5 + (page_size, offset))
+    cursor.execute(query, (like_pattern,) * 6 + (page_size, offset))
     results = cursor.fetchall()
 
     total_records = get_total_reported_items(search_text)
@@ -641,6 +642,7 @@ def get_total_reported_items(search_text=""):
         FROM Items i
         JOIN Persons p ON i.ReportedBy = p.PersonID
         WHERE i.Status = 'Reported' AND i.IsDeleted = FALSE AND (
+            i.ItemID LIKE %s OR
             i.Category LIKE %s OR
             i.Name LIKE %s OR
             i.Description LIKE %s OR
@@ -648,7 +650,7 @@ def get_total_reported_items(search_text=""):
             CONCAT(p.FirstName, ' ', p.LastName) LIKE %s
         )
     """
-    cursor.execute(query, (like_pattern,) * 5)
+    cursor.execute(query, (like_pattern,) * 6)
     total_records = cursor.fetchone()[0]
 
     cursor.close()
@@ -680,6 +682,7 @@ def get_all_surrendered_items(current_page, page_size, search_text=""):
             Persons p ON i.SurrenderedBy = p.PersonID
         WHERE 
             i.Status = 'Surrendered' AND i.IsDeleted = FALSE AND (
+                i.ItemID LIKE %s OR
                 i.Category LIKE %s OR
                 i.Name LIKE %s OR
                 i.Description LIKE %s OR
@@ -690,7 +693,7 @@ def get_all_surrendered_items(current_page, page_size, search_text=""):
             i.DateFound DESC
         LIMIT %s OFFSET %s
     """
-    cursor.execute(query, (like_pattern,) * 5 + (page_size, offset))
+    cursor.execute(query, (like_pattern,) * 6 + (page_size, offset))
     results = cursor.fetchall()
 
     total_records = get_total_surrendered_items(search_text)
@@ -711,6 +714,7 @@ def get_total_surrendered_items(search_text=""):
         FROM Items i
         JOIN Persons p ON i.SurrenderedBy = p.PersonID
         WHERE i.Status = 'Surrendered' AND i.IsDeleted = FALSE AND (
+            i.ItemID LIKE %s OR
             i.Category LIKE %s OR
             i.Name LIKE %s OR
             i.Description LIKE %s OR
@@ -718,7 +722,7 @@ def get_total_surrendered_items(search_text=""):
             CONCAT(p.FirstName, ' ', p.LastName) LIKE %s
         )
     """
-    cursor.execute(query, (like_pattern,) * 5)
+    cursor.execute(query, (like_pattern,) * 6)
     total_records = cursor.fetchone()[0]
 
     cursor.close()
@@ -779,6 +783,7 @@ def get_all_claimed_items(current_page, page_size, search_text=""):
             Persons p ON c.PersonID = p.PersonID
         WHERE 
             i.Status = 'Claimed' AND i.isDeleted = FALSE AND (
+                i.ItemID LIKE %s OR
                 i.Category LIKE %s OR
                 i.Name LIKE %s OR
                 i.Description LIKE %s OR
@@ -789,7 +794,7 @@ def get_all_claimed_items(current_page, page_size, search_text=""):
             c.DateClaimed DESC
         LIMIT %s OFFSET %s
     """
-    cursor.execute(query, (like_pattern, like_pattern, like_pattern, like_pattern, like_pattern, page_size, offset))
+    cursor.execute(query, (like_pattern, like_pattern, like_pattern, like_pattern, like_pattern, like_pattern, page_size, offset))
     results = cursor.fetchall()
 
     total_records = get_total_claimed_items(search_text)
@@ -812,6 +817,7 @@ def get_total_claimed_items(search_text=""):
         JOIN Items i ON c.ItemID = i.ItemID
         JOIN Persons p ON c.PersonID = p.PersonID
         WHERE i.Status = 'Claimed' AND i.isDeleted = FALSE AND (
+            i.ItemID LIKE %s OR
             i.Category LIKE %s OR
             i.Name LIKE %s OR
             i.Description LIKE %s OR
@@ -819,7 +825,7 @@ def get_total_claimed_items(search_text=""):
             CONCAT(p.FirstName, ' ', p.LastName) LIKE %s
         )
     """
-    cursor.execute(query, (like_pattern, like_pattern, like_pattern, like_pattern, like_pattern))
+    cursor.execute(query, (like_pattern, like_pattern, like_pattern, like_pattern, like_pattern, like_pattern))
     total_records = cursor.fetchone()[0]
 
     cursor.close()
