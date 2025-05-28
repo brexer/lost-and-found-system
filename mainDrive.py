@@ -382,7 +382,7 @@ class MainClass(QMainWindow, Ui_MainWindow):
     def goManagePersonsPage(self):
         self.pageShown = 1
         self.searchText = ""
-        self.currentPersonPage = 0  # Reset to first page
+        self.currentPersonPage = 0
         self.stackedWidget.setCurrentIndex(1)
         load.load_persons(self.personTable, self.personNext, self.personPrev, self.personPageLabel, self.currentPersonPage, ROWS_PER_PAGE)
         self.personTable.horizontalHeader().setStretchLastSection(True)
@@ -528,7 +528,7 @@ class ReportItemDialog(QDialog, Ui_ReportItemDialog):
             QMessageBox.warning(self, "Input Error", "All fields must be filled up.")
             return
 
-        if not first_name.isalpha() or last_name.isalpha() or department.isalpha():
+        if not all([first_name.isalpha(), last_name.isalpha(), department.isalpha()]):
             QMessageBox.warning(self, "Input Error", "Please input valid data.")
             return
         
@@ -641,9 +641,9 @@ class SurrenderItemDialog(QDialog, Ui_SurrenderItemDialog):
             QMessageBox.warning(self, "Input Error", "All fields must be filled up.")
             return
         
-        #if not first_name.isalpha() or last_name.isalpha() or department.isalpha():
-        #    QMessageBox.warning(self, "Input Error", "Please input valid data.")
-        #    return
+        if not all([first_name.isalpha(), last_name.isalpha(), department.isalpha()]):
+            QMessageBox.warning(self, "Input Error", "Please input valid data.")
+            return
         
         if not re.fullmatch(r"09\d{9}", phone_number):
             QMessageBox.warning(self, "Input Error", "Please input a valid phone number.")
@@ -860,7 +860,7 @@ class UpdatePersonEntryDialog(QDialog, Ui_UpdatePersonDialog):
     def loadPersonData(self):
         conn = db.create_connection()
         cursor = conn.cursor()
-    # PROOF ID WALA PA NABUTANG
+
         try:
             cursor.execute("SELECT FirstName, LastName, PhoneNumber, Department FROM Persons WHERE PersonID = %s", (self.personID,))
             row = cursor.fetchone()
@@ -898,7 +898,7 @@ class UpdatePersonEntryDialog(QDialog, Ui_UpdatePersonDialog):
             QMessageBox.warning(self, "Validation Error", "Please fill in all fields.")
             return
         
-        if not data["FirstName"].isalpha() or data["LastName"].isalpha() or data["Department"].isalpha():
+        if not all([data["FirstName"].isalpha(), data["LastName"].isalpha(), data["Department"].isalpha()]):
             QMessageBox.warning(self, "Input Error", "Please input valid data.")
             return
         
@@ -1017,7 +1017,7 @@ class ClaimPersonDialog(QDialog, Ui_ClaimPersonDialog):
             QMessageBox.warning(self, "Input Error", "All fields must be filled up.")
             return
         
-        if not first_name.isalpha() or last_name.isalpha() or department.isalpha():
+        if not all([first_name.isalpha(), last_name.isalpha(), department.isalpha()]):
             QMessageBox.warning(self, "Input Error", "Please input valid data.")
             return
         
