@@ -28,7 +28,7 @@ import src.backend.database.database as db
 from src.backend.database import dbfunctions
 # import src.backend.database.dbfunctions as dbf
 
-ROWS_PER_PAGE = 1 # change rani kung pila ka rows ang i-display per page
+ROWS_PER_PAGE = 2 # change rani kung pila ka rows ang i-display per page
 
 class MainClass(QMainWindow, Ui_MainWindow):
     def __init__(self):
@@ -98,7 +98,8 @@ class MainClass(QMainWindow, Ui_MainWindow):
         self.claimPrev.clicked.connect(self.prev_claim_page)
 
         #Claim buttons
-        self.surrenderDeleteButton.clicked.connect(self.claimSurrenderItem)
+        self.surrenderDeleteButton.setEnabled(False)
+        self.surrenderDeleteButton.clicked.connect(self.claimSurrenderItem) #THIS IS THE CLAIM BUTTON
         
         # Search button
         self.searchText = ""
@@ -146,6 +147,10 @@ class MainClass(QMainWindow, Ui_MainWindow):
         self.reportTable.verticalHeader().setVisible(False)
 
     # UPDATE BUTTON STATES
+    # def update_claim_surrender_button_state(self):
+    #     has_selection = self.surrenderTable.selectionModel().hasSelection()
+    #     self.surrenderDeleteButton.setEnabled(has_selection)
+
     def update_person_button_state(self):
         has_selection = self.personTable.selectionModel().hasSelection()
         self.pushButton_7.setEnabled(has_selection)
@@ -157,6 +162,7 @@ class MainClass(QMainWindow, Ui_MainWindow):
     def update_surrender_button_state(self):
         has_selection = self.surrenderTable.selectionModel().hasSelection()
         self.surrenderUpdateButton.setEnabled(has_selection)
+        self.surrenderDeleteButton.setEnabled(has_selection)
 
     def update_report_button_state(self):
         has_selection = self.reportTable.selectionModel().hasSelection()
@@ -528,8 +534,13 @@ class ReportItemDialog(QDialog, Ui_ReportItemDialog):
             QMessageBox.warning(self, "Input Error", "All fields must be filled up.")
             return
 
-        if not all([first_name.isalpha(), last_name.isalpha(), department.isalpha()]):
-            QMessageBox.warning(self, "Input Error", "Please input valid data.")
+        name_pattern = r"^[A-Za-z ]+$"
+        if not all([
+            re.fullmatch(name_pattern, first_name),
+            re.fullmatch(name_pattern, last_name),
+            re.fullmatch(name_pattern, department)
+        ]):
+            QMessageBox.warning(self, "Input Error", "Names and department must contain only letters and spaces.")
             return
         
         if not re.fullmatch(r"09\d{9}", phone_number):
