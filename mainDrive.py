@@ -98,12 +98,22 @@ class MainClass(QMainWindow, Ui_MainWindow):
         self.claimPrev.clicked.connect(self.prev_claim_page)
 
         #Claim buttons
+        self.surrenderClaimButton.setEnabled(False)
+        self.reportClaimButton.setEnabled(False)
+
         self.surrenderClaimButton.clicked.connect(self.claimSurrenderItem)
+        self.reportClaimButton.clicked.connect(self.claimReportItem)
 
         #delete buttons
+        self.DeletePersonButton.setEnabled(False)
+        self.deleteReportButton.setEnabled(False)
+        self.surrenderDeleteButton.setEnabled(False)
+        self.deleteClaimButton.setEnabled(False)
+
         self.DeletePersonButton.clicked.connect(self.delete_selected_person)
         self.deleteReportButton.clicked.connect(self.delete_selected_reported_item)
         self.surrenderDeleteButton.clicked.connect(self.delete_selected_surrendered_item)
+        self.deleteClaimButton.clicked.connect(self.delete_selected_claimed_item)
         
         # Search button
         self.searchText = ""
@@ -158,19 +168,24 @@ class MainClass(QMainWindow, Ui_MainWindow):
     def update_person_button_state(self):
         has_selection = self.personTable.selectionModel().hasSelection()
         self.pushButton_7.setEnabled(has_selection)
+        self.DeletePersonButton.setEnabled(has_selection)
 
     def update_claim_button_state(self):
         has_selection = self.claimTable.selectionModel().hasSelection()
         self.updateClaimButton.setEnabled(has_selection)
+        self.deleteClaimButton.setEnabled(has_selection)
 
     def update_surrender_button_state(self):
         has_selection = self.surrenderTable.selectionModel().hasSelection()
         self.surrenderUpdateButton.setEnabled(has_selection)
+        self.surrenderClaimButton.setEnabled(has_selection)
         self.surrenderDeleteButton.setEnabled(has_selection)
 
     def update_report_button_state(self):
         has_selection = self.reportTable.selectionModel().hasSelection()
         self.reportUpdateButton.setEnabled(has_selection)
+        self.reportClaimButton.setEnabled(has_selection)
+        self.deleteReportButton.setEnabled(has_selection)
 
         # Claim functions
     def claimSurrenderItem(self):
@@ -180,7 +195,15 @@ class MainClass(QMainWindow, Ui_MainWindow):
         if ClaimSurrender.exec_():
             self.goClaimedItemsPage()
 
+    def claimReportItem(self):
+        selectedRow = self.reportTable.currentRow()
+        itemID = int(self.reportTable.item(selectedRow, 1).text())
+        ClaimSurrender = ClaimPersonDialog(itemID, self)
+        if ClaimSurrender.exec_():
+            self.goClaimedItemsPage()
+
     # delete functions
+    
     def delete_selected_person(self):
         if not self.personTable.selectionModel().hasSelection():
             QMessageBox.warning(self, "No Selection", "Please select a person to delete.")
@@ -203,17 +226,26 @@ class MainClass(QMainWindow, Ui_MainWindow):
             from src.backend.database import dbfunctions
             dbfunctions.soft_delete_person(person_id)
             QMessageBox.information(self, "Deleted", "Person has been deleted (soft delete).")
+
+            total_after_delete = dbfunctions.get_total_persons(self.searchText)
+            total_pages = max(1, (total_after_delete + ROWS_PER_PAGE - 1) // ROWS_PER_PAGE)
+
+            if self.currentPersonPage >= total_pages:
+                self.currentPersonPage = total_pages - 1
+
             self.update_person_page()
 
     def delete_selected_reported_item(self):
         if not self.reportTable.selectionModel().hasSelection():
             QMessageBox.warning(self, "No Selection", "Please select a reported item to delete.")
             return
+
         selected_row = self.reportTable.currentRow()
-        item_id_item = self.reportTable.item(selected_row, 1) 
+        item_id_item = self.reportTable.item(selected_row, 1)
         if not item_id_item:
             QMessageBox.warning(self, "Error", "Could not determine Item ID.")
             return
+
         item_id = item_id_item.text()
         reply = QMessageBox.question(
             self,
@@ -224,17 +256,26 @@ class MainClass(QMainWindow, Ui_MainWindow):
         if reply == QMessageBox.Yes:
             dbfunctions.soft_delete_reported_item(item_id)
             QMessageBox.information(self, "Deleted", "Reported item has been deleted (soft delete).")
+
+            total_after_delete = dbfunctions.get_total_reported_items(self.reportSearchText)
+            total_pages = max(1, (total_after_delete + ROWS_PER_PAGE - 1) // ROWS_PER_PAGE)
+
+            if self.currentReportPage >= total_pages:
+                self.currentReportPage = total_pages - 1
+
             self.update_report_page()
 
     def delete_selected_surrendered_item(self):
         if not self.surrenderTable.selectionModel().hasSelection():
             QMessageBox.warning(self, "No Selection", "Please select a surrendered item to delete.")
             return
+
         selected_row = self.surrenderTable.currentRow()
         item_id_item = self.surrenderTable.item(selected_row, 1) 
         if not item_id_item:
             QMessageBox.warning(self, "Error", "Could not determine Item ID.")
             return
+
         item_id = item_id_item.text()
         reply = QMessageBox.question(
             self,
@@ -245,7 +286,44 @@ class MainClass(QMainWindow, Ui_MainWindow):
         if reply == QMessageBox.Yes:
             dbfunctions.soft_delete_surrendered_item(item_id)
             QMessageBox.information(self, "Deleted", "Surrendered item has been deleted (soft delete).")
+
+            total_after_delete = dbfunctions.get_total_surrendered_items(self.searchText)
+            total_pages = max(1, (total_after_delete + ROWS_PER_PAGE - 1) // ROWS_PER_PAGE)
+
+            if self.currentSurrenderPage >= total_pages:
+                self.currentSurrenderPage = total_pages - 1
+
             self.update_surrender_page()
+
+    def delete_selected_claimed_item(self):
+        if not self.claimTable.selectionModel().hasSelection():
+            QMessageBox.warning(self, "No Selection", "Please select a claimed item to delete.")
+            return
+
+        selected_row = self.claimTable.currentRow()
+        item_id_item = self.claimTable.item(selected_row, 1)
+        if not item_id_item:
+            QMessageBox.warning(self, "Error", "Could not determine Item ID.")
+            return
+
+        item_id = item_id_item.text()
+        reply = QMessageBox.question(
+            self,
+            "Confirm Delete",
+            f"Are you sure you want to delete Claimed Item ID {item_id}?",
+            QMessageBox.Yes | QMessageBox.No
+        )
+        if reply == QMessageBox.Yes:
+            dbfunctions.soft_delete_claimed_item(item_id)
+            QMessageBox.information(self, "Deleted", "Claimed item has been deleted (soft delete).")
+
+            total_after_delete = dbfunctions.get_total_claimed_items(self.searchText)
+            total_pages = max(1, (total_after_delete + ROWS_PER_PAGE - 1) // ROWS_PER_PAGE)
+
+            if self.currentClaimPage >= total_pages:
+                self.currentClaimPage = total_pages - 1
+
+            self.update_claim_page()
         
     # Update functions
     def updateItemInput(self):
