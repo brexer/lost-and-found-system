@@ -6,7 +6,7 @@ MAIN_WINDOW_STYLE = """
     }
     
     /* ===== NAVIGATION BUTTONS ===== */
-    /* Style for ALL navigation buttons */
+    /* Default state for ALL navigation buttons */
     QPushButton#reviewItemsButton,
     QPushButton#homeButton,
     QPushButton#manageItemsButton,
@@ -29,8 +29,8 @@ MAIN_WINDOW_STYLE = """
         max-width: 160px;
     }
     
-    /* Hover and pressed states for ALL */
-    QPushButton#reviewItemsButton,
+    /* Hover state - ALL buttons turn yellow */
+    QPushButton#reviewItemsButton:hover,
     QPushButton#homeButton:hover,
     QPushButton#manageItemsButton:hover,
     QPushButton#managePersonsButton:hover,
@@ -38,9 +38,12 @@ MAIN_WINDOW_STYLE = """
     QPushButton#claimItemButton:hover,
     QPushButton#reportItemButton:hover,
     QPushButton#surrenderItemButton:hover {
-        background-color: rgba(255, 255, 255, 0.3);
+        background-color: #ffc107; /* Yellow background */
+        color: #2c3e50; /* Dark text for contrast */
     }
-    QPushButton#reviewItemsButton,
+    
+    /* Pressed state */
+    QPushButton#reviewItemsButton:pressed,
     QPushButton#homeButton:pressed,
     QPushButton#manageItemsButton:pressed,
     QPushButton#managePersonsButton:pressed,
@@ -51,7 +54,7 @@ MAIN_WINDOW_STYLE = """
         background-color: rgba(255, 255, 255, 0.1);
     }
     
-    /* Active state for ALL */
+    /* Active state */
     QPushButton#reviewItemsButton[active="true"],
     QPushButton#homeButton[active="true"],
     QPushButton#manageItemsButton[active="true"],
@@ -65,7 +68,7 @@ MAIN_WINDOW_STYLE = """
         font-weight: 700;
     }
     
-        QPushButton#reportItem,
+    QPushButton#reportItem,
     QPushButton#surrenderItem {
         min-width: 110px;
         max-width: 110px;
@@ -126,5 +129,4 @@ MAIN_WINDOW_STYLE = """
         color: #2c3e50;
         font-weight: 700;
     }
-
 """
