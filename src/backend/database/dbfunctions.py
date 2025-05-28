@@ -404,20 +404,21 @@ def delete_item(item_id):
 
 def get_all_persons(current_page, page_size, search_text=""):
     conn = database.create_connection()
-    cursor = conn.cursor(dictionary=True)
+    cursor = conn.cursor()
 
     offset = current_page * page_size
     like_pattern = f"%{search_text}%"
 
     query = """
-        SELECT *
+        SELECT PersonID, FirstName, LastName, PhoneNumber, Department, ProofID
         FROM Persons
-        WHERE IsDeleted = FALSE AND
-            (PersonID LIKE %s OR
+        WHERE IsDeleted = FALSE AND (
+            PersonID LIKE %s OR
             FirstName LIKE %s OR
             LastName LIKE %s OR
             PhoneNumber LIKE %s OR
-            Department LIKE %s)
+            Department LIKE %s
+        )
         LIMIT %s OFFSET %s
     """
 

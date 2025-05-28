@@ -171,23 +171,6 @@ def load_persons(personTable, personNext, personPrev, personPageLabel, currentPe
     table.verticalHeader().setDefaultSectionSize(70)
     table.setColumnWidth(0, 80)
 
-def load_items(itemTable, itemNext, itemPrev, itemPageLabel, currentItemPage, page_size):
-    items, total_records = dbfunctions.get_all_items(currentItemPage, page_size)
-    total_pages = max(1, (total_records + page_size - 1) // page_size)
-
-    table = itemTable
-    table.setRowCount(0)
-    table.setColumnCount(6)
-
-    for row_num, item in enumerate(items):
-        table.insertRow(row_num)
-        for col, value in enumerate(item):
-            table.setItem(row_num, col, QtWidgets.QTableWidgetItem(str(value)))
-
-    itemPageLabel.setText(f"Page {currentItemPage + 1} of {total_pages}")
-    itemPrev.setEnabled(currentItemPage > 0)
-    itemNext.setEnabled(currentItemPage < total_pages - 1)
-
 # def load_persons(personTable, personNext, personPrev, personPageLabel, currentPersonPage):
 #     persons = dbfunctions.get_all_persons()
 
