@@ -84,8 +84,8 @@ def add_reported_item(category, name, description, date_lost, location_lost, per
     cursor = conn.cursor()
     try:
         cursor.execute("""
-            INSERT INTO Items (Category, Name, Description, Status, ReportedBy, DateLost, LocationLost)
-            VALUES (%s, %s, %s, 'Reported', %s, %s, %s)
+            INSERT INTO Items (Category, Name, Description, Status, ReportedBy, DateLost, LocationLost, IsDeleted)
+            VALUES (%s, %s, %s, 'Reported', %s, %s, %s, FALSE)
         """, (category, name, description, person_id, date_lost, location_lost))
         item_id = cursor.lastrowid
         conn.commit()
@@ -291,8 +291,8 @@ def add_surrendered_item(category, name, description, date_found, location_found
     cursor = conn.cursor()
     try:
         cursor.execute("""
-            INSERT INTO Items (Category, Name, Description, Status, SurrenderedBy, DateFound, LocationFound)
-            VALUES (%s, %s, %s, 'Surrendered', %s, %s, %s)
+            INSERT INTO Items (Category, Name, Description, Status, SurrenderedBy, DateFound, LocationFound, IsDeleted)
+            VALUES (%s, %s, %s, 'Surrendered', %s, %s, %s, FALSE)
         """, (category, name, description, person_id, date_found, location_found))
         item_id = cursor.lastrowid
         conn.commit()
@@ -467,12 +467,13 @@ def get_total_persons(search_text=""):
     query = """
         SELECT COUNT(*)
         FROM Persons
-        WHERE
+        WHERE IsDeleted = FALSE AND (
             PersonID LIKE %s OR
             FirstName LIKE %s OR
             LastName LIKE %s OR
             PhoneNumber LIKE %s OR
             Department LIKE %s
+        )
     """
     cursor.execute(query, (like_pattern,) * 5)
     total_records = cursor.fetchone()[0]
@@ -520,7 +521,7 @@ def get_total_items():
         conn = database.create_connection()
         cursor = conn.cursor()
         
-        cursor.execute("SELECT COUNT(*) FROM items")
+        cursor.execute("SELECT COUNT(*) FROM Items WHERE IsDeleted = FALSE")
         total_records = cursor.fetchone()[0]
 
         cursor.close()
@@ -584,7 +585,7 @@ def get_total_reported_items(search_text=""):
         SELECT COUNT(*)
         FROM Items i
         JOIN Persons p ON i.ReportedBy = p.PersonID
-        WHERE i.Status = 'Reported' AND (
+        WHERE i.Status = 'Reported' AND i.IsDeleted = FALSE AND (
             i.Category LIKE %s OR
             i.Name LIKE %s OR
             i.Description LIKE %s OR
@@ -654,7 +655,7 @@ def get_total_surrendered_items(search_text=""):
         SELECT COUNT(*)
         FROM Items i
         JOIN Persons p ON i.SurrenderedBy = p.PersonID
-        WHERE i.Status = 'Surrendered' AND (
+        WHERE i.Status = 'Surrendered' AND i.IsDeleted = FALSE AND (
             i.Category LIKE %s OR
             i.Name LIKE %s OR
             i.Description LIKE %s OR
@@ -697,7 +698,7 @@ def get_all_claimed_items(current_page, page_size, search_text=""):
         JOIN 
             Persons p ON c.PersonID = p.PersonID
         WHERE 
-            i.Status = 'Claimed' AND (
+            i.Status = 'Claimed' AND i.IsDeleted = FALSE AND (
                 i.Category LIKE %s OR
                 i.Name LIKE %s OR
                 i.Description LIKE %s OR
@@ -708,7 +709,7 @@ def get_all_claimed_items(current_page, page_size, search_text=""):
             c.DateClaimed DESC
         LIMIT %s OFFSET %s
     """
-    cursor.execute(query, (like_pattern, like_pattern, like_pattern, like_pattern, like_pattern, page_size, offset))
+    cursor.execute(query, (like_pattern,) * 5 + (page_size, offset))
     results = cursor.fetchall()
 
     total_records = get_total_claimed_items(search_text)
@@ -730,7 +731,7 @@ def get_total_claimed_items(search_text=""):
         FROM ClaimedItems c
         JOIN Items i ON c.ItemID = i.ItemID
         JOIN Persons p ON c.PersonID = p.PersonID
-        WHERE i.Status = 'Claimed' AND (
+        WHERE i.Status = 'Claimed' AND i.IsDeleted = FALSE AND (
             i.Category LIKE %s OR
             i.Name LIKE %s OR
             i.Description LIKE %s OR
