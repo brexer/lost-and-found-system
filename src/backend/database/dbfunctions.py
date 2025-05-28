@@ -286,6 +286,38 @@ def claim_item(item_id, date_claimed, person_id):
 #         cursor.close()
 #         conn.close()
 
+def update_reported_item_to_surrendered(item_id, surrendered_by, date_found, location_found):
+    conn = database.create_connection()
+    cursor = conn.cursor()
+
+    try:
+        cursor.execute("""
+            UPDATE Items
+            SET Status = 'Surrendered',
+                SurrenderedBy = %s,
+                DateFound = %s,
+                LocationFound = %s
+            WHERE ItemID = %s AND Status = 'Reported'
+        """, (surrendered_by, date_found, location_found, item_id))
+
+        if cursor.rowcount == 0:
+            print("No reported item found with given ID or status.")
+            conn.rollback()
+            return False
+
+        conn.commit()
+        print(f"Reported item {item_id} successfully updated to surrendered.")
+        return True
+
+    except Exception as e:
+        print("Error updating reported item to surrendered:", e)
+        conn.rollback()
+        return False
+
+    finally:
+        cursor.close()
+        conn.close()
+
 def add_surrendered_item(category, name, description, date_found, location_found, person_id):
     conn = database.create_connection()
     cursor = conn.cursor()
