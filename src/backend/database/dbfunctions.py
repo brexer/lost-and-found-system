@@ -84,8 +84,8 @@ def add_reported_item(category, name, description, date_lost, location_lost, per
     cursor = conn.cursor()
     try:
         cursor.execute("""
-            INSERT INTO Items (Category, Name, Description, Status, ReportedBy, DateLost, LocationLost, IsDeleted)
-            VALUES (%s, %s, %s, 'Reported', %s, %s, %s, FALSE)
+            INSERT INTO Items (Category, Name, Description, Status, ReportedBy, DateLost, LocationLost)
+            VALUES (%s, %s, %s, 'Reported', %s, %s, %s)
         """, (category, name, description, person_id, date_lost, location_lost))
         item_id = cursor.lastrowid
         conn.commit()
@@ -286,13 +286,45 @@ def claim_item(item_id, date_claimed, person_id):
 #         cursor.close()
 #         conn.close()
 
+def update_reported_item_to_surrendered(item_id, surrendered_by, date_found, location_found):
+    conn = database.create_connection()
+    cursor = conn.cursor()
+
+    try:
+        cursor.execute("""
+            UPDATE Items
+            SET Status = 'Surrendered',
+                SurrenderedBy = %s,
+                DateFound = %s,
+                LocationFound = %s
+            WHERE ItemID = %s AND Status = 'Reported'
+        """, (surrendered_by, date_found, location_found, item_id))
+
+        if cursor.rowcount == 0:
+            print("No reported item found with given ID or status.")
+            conn.rollback()
+            return False
+
+        conn.commit()
+        print(f"Reported item {item_id} successfully updated to surrendered.")
+        return True
+
+    except Exception as e:
+        print("Error updating reported item to surrendered:", e)
+        conn.rollback()
+        return False
+
+    finally:
+        cursor.close()
+        conn.close()
+
 def add_surrendered_item(category, name, description, date_found, location_found, person_id):
     conn = database.create_connection()
     cursor = conn.cursor()
     try:
         cursor.execute("""
-            INSERT INTO Items (Category, Name, Description, Status, SurrenderedBy, DateFound, LocationFound, IsDeleted)
-            VALUES (%s, %s, %s, 'Surrendered', %s, %s, %s, FALSE)
+            INSERT INTO Items (Category, Name, Description, Status, SurrenderedBy, DateFound, LocationFound)
+            VALUES (%s, %s, %s, 'Surrendered', %s, %s, %s)
         """, (category, name, description, person_id, date_found, location_found))
         item_id = cursor.lastrowid
         conn.commit()
@@ -544,7 +576,7 @@ def get_total_items():
         conn = database.create_connection()
         cursor = conn.cursor()
         
-        cursor.execute("SELECT COUNT(*) FROM Items WHERE IsDeleted = FALSE")
+        cursor.execute("SELECT COUNT(*) FROM items")
         total_records = cursor.fetchone()[0]
 
         cursor.close()
@@ -692,6 +724,7 @@ def get_total_surrendered_items(search_text=""):
     cursor.close()
     conn.close()
     return total_records
+
 # def get_total_surrendered_items(search_text=""):
 #     conn = database.create_connection()
 #     cursor = conn.cursor()
@@ -745,7 +778,7 @@ def get_all_claimed_items(current_page, page_size, search_text=""):
         JOIN 
             Persons p ON c.PersonID = p.PersonID
         WHERE 
-            i.Status = 'Claimed' AND i.IsDeleted = FALSE AND (
+            i.Status = 'Claimed' AND i.isDeleted = FALSE AND (
                 i.Category LIKE %s OR
                 i.Name LIKE %s OR
                 i.Description LIKE %s OR
@@ -756,7 +789,7 @@ def get_all_claimed_items(current_page, page_size, search_text=""):
             c.DateClaimed DESC
         LIMIT %s OFFSET %s
     """
-    cursor.execute(query, (like_pattern,) * 5 + (page_size, offset))
+    cursor.execute(query, (like_pattern, like_pattern, like_pattern, like_pattern, like_pattern, page_size, offset))
     results = cursor.fetchall()
 
     total_records = get_total_claimed_items(search_text)
@@ -778,7 +811,7 @@ def get_total_claimed_items(search_text=""):
         FROM ClaimedItems c
         JOIN Items i ON c.ItemID = i.ItemID
         JOIN Persons p ON c.PersonID = p.PersonID
-        WHERE i.Status = 'Claimed' AND i.IsDeleted = FALSE AND (
+        WHERE i.Status = 'Claimed' AND i.isDeleted = FALSE AND (
             i.Category LIKE %s OR
             i.Name LIKE %s OR
             i.Description LIKE %s OR
