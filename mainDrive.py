@@ -57,7 +57,7 @@ class MainClass(QMainWindow, Ui_MainWindow):
         self.pageShown = 0
         self.homeButton.clicked.connect(self.goHomePage)
         self.managePersonsButton.clicked.connect(self.goManagePersonsPage)
-        self.reviewItemsButton.setVisible(True)
+        self.reviewItemsButton.setVisible(False)
         self.reviewItemsButton.clicked.connect(self.goReviewPage)
         self.claimItemButton.clicked.connect(self.goClaimedItemsPage)
         self.reportItemButton.clicked.connect(self.goReportedItemsPage)
@@ -98,9 +98,11 @@ class MainClass(QMainWindow, Ui_MainWindow):
         self.claimPrev.clicked.connect(self.prev_claim_page)
 
         #Claim buttons
+        self.itemUpdateButton.setEnabled(False) # Claiming button for match table
         self.surrenderClaimButton.setEnabled(False)
         self.reportClaimButton.setEnabled(False)
 
+        self.itemUpdateButton.clicked.connect(self.claimMatchItem)
         self.surrenderClaimButton.clicked.connect(self.claimSurrenderItem)
         self.reportClaimButton.clicked.connect(self.claimReportItem)
 
@@ -138,6 +140,7 @@ class MainClass(QMainWindow, Ui_MainWindow):
         self.claimTable.itemSelectionChanged.connect(self.update_claim_button_state)
         self.surrenderTable.itemSelectionChanged.connect(self.update_surrender_button_state)
         self.reportTable.itemSelectionChanged.connect(self.update_report_button_state)
+        self.matchTable.itemSelectionChanged.connect(self.update_match_claim_button_state)
 
     def tableSettings(self):
         self.personTable.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
@@ -159,6 +162,11 @@ class MainClass(QMainWindow, Ui_MainWindow):
         self.reportTable.setSelectionMode(QtWidgets.QAbstractItemView.SingleSelection)
         self.reportTable.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
         self.reportTable.verticalHeader().setVisible(False)
+
+        self.matchTable.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
+        self.matchTable.setSelectionMode(QtWidgets.QAbstractItemView.SingleSelection)
+        self.matchTable.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
+        self.matchTable.verticalHeader().setVisible(False)
 
     # UPDATE BUTTON STATES
     # def update_claim_surrender_button_state(self):
@@ -187,6 +195,10 @@ class MainClass(QMainWindow, Ui_MainWindow):
         self.reportClaimButton.setEnabled(has_selection)
         self.deleteReportButton.setEnabled(has_selection)
 
+    def update_match_claim_button_state(self):
+        has_selection = self.matchTable.selectionModel().hasSelection()
+        self.itemUpdateButton.setEnabled(has_selection)
+
         # Claim functions
     def claimSurrenderItem(self):
         selectedRow = self.surrenderTable.currentRow()
@@ -201,6 +213,39 @@ class MainClass(QMainWindow, Ui_MainWindow):
         ClaimSurrender = ClaimPersonDialog(itemID, self)
         if ClaimSurrender.exec_():
             self.goClaimedItemsPage()
+
+    def claimMatchItem(self):
+        selectedRow = self.matchTable.currentRow()
+        if selectedRow < 0:
+            QMessageBox.warning(self, "No selection", "Please select a matched item to claim.")
+            return
+
+        reported_item_id = int(self.matchTable.item(selectedRow, 0).text())
+
+        # Get surrendered item info saved in mainDrive
+        surrendered_item_id = getattr(self, 'last_surrendered_item_id', None)
+        date_found = getattr(self, 'last_surrendered_date_found', None)
+        location_found = getattr(self, 'last_surrendered_location_found', None)
+        surrendered_by = getattr(self, 'last_surrendered_person_id', None)
+
+        if not all([surrendered_item_id, date_found, location_found, surrendered_by]):
+            QMessageBox.warning(self, "Missing Data", "Surrendered item info not found. Please surrender an item first.")
+            return
+
+        # Update the reported item to surrendered with these details
+        success = dbfunctions.update_reported_item_to_surrendered(
+            reported_item_id,
+            surrendered_by,
+            date_found,
+            location_found
+        )
+        dbfunctions.soft_delete_surrendered_item(surrendered_item_id)
+
+        if success:
+            QMessageBox.information(self, "Success", "Reported item updated to surrendered.")
+            self.goSurrenderedItemsPage()
+        else:
+            QMessageBox.critical(self, "Error", "Failed to update reported item.")
 
     # delete functions
     
@@ -424,6 +469,18 @@ class MainClass(QMainWindow, Ui_MainWindow):
             self.searchText
         )
 
+    def update_match_page(self):
+        matches = getattr(self, 'match_data', [])
+        load.load_match_table(
+            self.matchTable,
+            self.itemNextButton,
+            self.itemPrevButton,
+            self.personPageLabel_2,
+            self.currentItemPage,
+            ROWS_PER_PAGE,
+            matches
+        )
+
     # Connections to add and surrender item
     def addReportedItem(self):
         reportItem = ReportItemDialog(self)
@@ -452,37 +509,50 @@ class MainClass(QMainWindow, Ui_MainWindow):
             self.update_person_page()
 
     def next_item_page(self):
-        if (self.currentItemPage + 1) * ROWS_PER_PAGE < dbfunctions.get_total_items():
-            total_records = len(self.match_data)
-            total_pages = max(1, (total_records + ROWS_PER_PAGE - 1) // ROWS_PER_PAGE)
+        total_records = len(getattr(self, 'match_data', []))
+        total_pages = max(1, (total_records + ROWS_PER_PAGE - 1) // ROWS_PER_PAGE)
+
         if self.currentItemPage < total_pages - 1:
             self.currentItemPage += 1
-            matches = getattr(self, 'match_data', [])
-            load.load_match_table(self.matchTable, self.itemNextButton, self.itemPrevButton, self.personPageLabel_2, self.currentItemPage, ROWS_PER_PAGE, matches)
-            load.load_match_table(
-                self.matchTable,
-                self.itemNextButton,
-                self.itemPrevButton,
-                self.personPageLabel_2,
-                self.currentItemPage,
-                ROWS_PER_PAGE,
-                self.match_data
-            )
+            self.update_match_page()
 
     def prev_item_page(self):
         if self.currentItemPage > 0:
             self.currentItemPage -= 1
-            matches = getattr(self, 'match_data', [])
-            load.load_match_table(self.matchTable, self.itemNextButton, self.itemPrevButton, self.personPageLabel_2, self.currentItemPage, ROWS_PER_PAGE, matches)
-            load.load_match_table(
-                self.matchTable,
-                self.itemNextButton,
-                self.itemPrevButton,
-                self.personPageLabel_2,
-                self.currentItemPage,
-                ROWS_PER_PAGE,
-                self.match_data
-            )
+            self.update_match_page()
+
+    # def next_item_page(self):
+    #     if (self.currentItemPage + 1) * ROWS_PER_PAGE < dbfunctions.get_total_items():
+    #         total_records = len(self.match_data)
+    #         total_pages = max(1, (total_records + ROWS_PER_PAGE - 1) // ROWS_PER_PAGE)
+    #     if self.currentItemPage < total_pages - 1:
+    #         self.currentItemPage += 1
+    #         matches = getattr(self, 'match_data', [])
+    #         load.load_match_table(self.matchTable, self.itemNextButton, self.itemPrevButton, self.personPageLabel_2, self.currentItemPage, ROWS_PER_PAGE, matches)
+    #         load.load_match_table(
+    #             self.matchTable,
+    #             self.itemNextButton,
+    #             self.itemPrevButton,
+    #             self.personPageLabel_2,
+    #             self.currentItemPage,
+    #             ROWS_PER_PAGE,
+    #             self.match_data
+    #         )
+
+    # def prev_item_page(self):
+    #     if self.currentItemPage > 0:
+    #         self.currentItemPage -= 1
+    #         matches = getattr(self, 'match_data', [])
+    #         load.load_match_table(self.matchTable, self.itemNextButton, self.itemPrevButton, self.personPageLabel_2, self.currentItemPage, ROWS_PER_PAGE, matches)
+    #         load.load_match_table(
+    #             self.matchTable,
+    #             self.itemNextButton,
+    #             self.itemPrevButton,
+    #             self.personPageLabel_2,
+    #             self.currentItemPage,
+    #             ROWS_PER_PAGE,
+    #             self.match_data
+    #         )
 
     def next_report_page(self):
         search_text = self.searchText if hasattr(self, 'searchText') and self.searchText is not None else ""
@@ -549,21 +619,34 @@ class MainClass(QMainWindow, Ui_MainWindow):
     #     load.load_persons(self.personTable, self.personNext, self.personPrev, self.personPageLabel, self.currentPersonPage)
 
     def goReviewPage(self):
+        self.pageShown = 2  # Keep only one of these
         self.currentItemPage = 0
-        matches = self.match_data
-        load.load_match_table(self.matchTable, self.itemNextButton, self.itemPrevButton, self.personPageLabel_2, self.currentItemPage, ROWS_PER_PAGE, matches)
-        load.load_match_table(
-            self.matchTable,
-            self.itemNextButton,
-            self.itemPrevButton,
-            self.personPageLabel_2,
-            self.currentItemPage,
-            ROWS_PER_PAGE,
-            matches
-        )
-        self.pageshown = 2
-        self.currentItemPage = 0
+
+        self.update_match_page()  # Cleaner and centralized match loading
+
         self.stackedWidget.setCurrentIndex(2)
+        self.matchTable.horizontalHeader().setStretchLastSection(True)
+        self.matchTable.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
+
+    # def goReviewPage(self):
+    #     self.pageShown = 2
+    #     self.currentItemPage = 0
+    #     matches = self.match_data
+    #     load.load_match_table(self.matchTable, self.itemNextButton, self.itemPrevButton, self.personPageLabel_2, self.currentItemPage, ROWS_PER_PAGE, matches)
+    #     load.load_match_table(
+    #         self.matchTable,
+    #         self.itemNextButton,
+    #         self.itemPrevButton,
+    #         self.personPageLabel_2,
+    #         self.currentItemPage,
+    #         ROWS_PER_PAGE,
+    #         matches
+    #     )
+    #     self.pageshown = 2
+    #     self.currentItemPage = 0
+    #     self.stackedWidget.setCurrentIndex(2)
+    #     self.matchTable.horizontalHeader().setStretchLastSection(True)
+    #     self.matchTable.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
 
     def goClaimedItemsPage(self):
         self.pageShown = 3
@@ -828,6 +911,11 @@ class SurrenderItemDialog(QDialog, Ui_SurrenderItemDialog):
                 item["category"], item["name"], item["description"],
                 item["date_found"], item["location_found"], person_id
             )
+
+            self.parent().last_surrendered_item_id = item_id
+            self.parent().last_surrendered_date_found = item["date_found"]
+            self.parent().last_surrendered_location_found = item["location_found"]
+            self.parent().last_surrendered_person_id = person_id
 
             if not item_id:
                 raise Exception("Failed to insert surrendered item.")
