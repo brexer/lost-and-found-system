@@ -382,7 +382,7 @@ class MainClass(QMainWindow, Ui_MainWindow):
     def goManagePersonsPage(self):
         self.pageShown = 1
         self.searchText = ""
-        self.currentPersonPage = 0  # Reset to first page
+        self.currentPersonPage = 0
         self.stackedWidget.setCurrentIndex(1)
         load.load_persons(self.personTable, self.personNext, self.personPrev, self.personPageLabel, self.currentPersonPage, ROWS_PER_PAGE)
         self.personTable.horizontalHeader().setStretchLastSection(True)
@@ -528,7 +528,7 @@ class ReportItemDialog(QDialog, Ui_ReportItemDialog):
             QMessageBox.warning(self, "Input Error", "All fields must be filled up.")
             return
 
-        if not first_name.isalpha() or last_name.isalpha() or department.isalpha():
+        if not all([first_name.isalpha(), last_name.isalpha(), department.isalpha()]):
             QMessageBox.warning(self, "Input Error", "Please input valid data.")
             return
         
@@ -641,9 +641,9 @@ class SurrenderItemDialog(QDialog, Ui_SurrenderItemDialog):
             QMessageBox.warning(self, "Input Error", "All fields must be filled up.")
             return
         
-        #if not first_name.isalpha() or last_name.isalpha() or department.isalpha():
-        #    QMessageBox.warning(self, "Input Error", "Please input valid data.")
-        #    return
+        if not all([first_name.isalpha(), last_name.isalpha(), department.isalpha()]):
+            QMessageBox.warning(self, "Input Error", "Please input valid data.")
+            return
         
         if not re.fullmatch(r"09\d{9}", phone_number):
             QMessageBox.warning(self, "Input Error", "Please input a valid phone number.")
@@ -697,6 +697,9 @@ class UpdateSurrenderedItemDialog(QDialog, Ui_UpdateItemDialog):
 
         self.loadItemData()
 
+        self.item_image_handler = ImageHandler(self.itemImagePreview)
+        self.pushButton.clicked.connect(lambda: self.item_image_handler.upload_image(self))
+        
         self.cancelButton.clicked.connect(self.reject)
         self.confirmButton.clicked.connect(self.validateItemInput)
 
@@ -738,7 +741,6 @@ class UpdateSurrenderedItemDialog(QDialog, Ui_UpdateItemDialog):
         date_found = self.dateTimeEdit.dateTime().toString("yyyy-MM-dd HH:mm:ss")
         location_found = self.locationEdit.text().strip().title()
         item_desc = self.descriptionEdit.text().strip()
-        # Image path can be added here
 
         return {
             "Name": item_name,
@@ -750,19 +752,44 @@ class UpdateSurrenderedItemDialog(QDialog, Ui_UpdateItemDialog):
 
     def validateItemInput(self):
         data = self.updateItemInput()
-        
+
         if not all(data.values()):
             QMessageBox.warning(self, "Validation Error", "Please fill in all fields.")
             return
 
+        image_path = None
+        if self.item_image_handler.current_image_path:
+            image_path = ImageHandler.save_uploaded_item_image(
+                self.item_image_handler.current_image_path, self.itemID
+            )
+
         try:
             conn = db.create_connection()
             cursor = conn.cursor()
-            cursor.execute("""
-                UPDATE Items
-                SET Name = %s, Category = %s, DateFound = %s, LocationFound = %s, Description = %s
-                WHERE ItemID = %s
-            """, (data["Name"], data["Category"], data["DateFound"], data["LocationFound"], data["Description"], self.itemID))
+
+            # Update with or without image depending on change
+            if image_path:
+                cursor.execute("""
+                    UPDATE Items
+                    SET Name = %s, Category = %s, DateFound = %s,
+                        LocationFound = %s, Description = %s, ImagePath = %s
+                    WHERE ItemID = %s
+                """, (
+                    data["Name"], data["Category"], data["DateFound"],
+                    data["LocationFound"], data["Description"],
+                    image_path, self.itemID
+                ))
+            else:
+                cursor.execute("""
+                    UPDATE Items
+                    SET Name = %s, Category = %s, DateFound = %s,
+                        LocationFound = %s, Description = %s
+                    WHERE ItemID = %s
+                """, (
+                    data["Name"], data["Category"], data["DateFound"],
+                    data["LocationFound"], data["Description"], self.itemID
+                ))
+
             conn.commit()
             QMessageBox.information(self, "Success", "Item updated successfully.")
             self.accept()
@@ -779,6 +806,9 @@ class UpdateReportedItemDialog(QDialog, Ui_UpdateItemDialog):
 
         self.loadItemData()
 
+        self.item_image_handler = ImageHandler(self.itemImagePreview)
+        self.pushButton.clicked.connect(lambda: self.item_image_handler.upload_image(self))
+
         self.cancelButton.clicked.connect(self.reject)
         self.confirmButton.clicked.connect(self.validateItemInput)
 
@@ -787,10 +817,10 @@ class UpdateReportedItemDialog(QDialog, Ui_UpdateItemDialog):
         cursor = conn.cursor()
 
         try:
-            cursor.execute("SELECT Name, Category, DateLost, LocationLost, Description FROM Items WHERE ItemID = %s", (self.itemID,))
+            cursor.execute("SELECT Name, Category, DateLost, LocationLost, Description, ImagePath FROM Items WHERE ItemID = %s", (self.itemID,))
             row = cursor.fetchone()
             if row:
-                item_name, category, date_lost, location, description = row
+                item_name, category, date_lost, location, description, image_path = row
 
                 self.itemNameEdit.setText(item_name)
                 index = self.categoryComboBox.findText(category)
@@ -800,6 +830,15 @@ class UpdateReportedItemDialog(QDialog, Ui_UpdateItemDialog):
                 self.dateTimeEdit.setDateTime(dt)
                 self.locationEdit.setText(location)
                 self.descriptionEdit.setText(description)
+
+                if image_path and os.path.exists(image_path):
+                    pixmap = QPixmap(image_path).scaled(
+                        self.itemImagePreview.size(),
+                        Qt.KeepAspectRatio,
+                        Qt.SmoothTransformation
+                    )
+                    self.itemImagePreview.setPixmap(pixmap)
+
             else:
                 QMessageBox.warning(self, "Error", "Item not found.")
                 self.reject()
@@ -812,7 +851,6 @@ class UpdateReportedItemDialog(QDialog, Ui_UpdateItemDialog):
         date_lost = self.dateTimeEdit.dateTime().toString("yyyy-MM-dd HH:mm:ss")
         location_lost = self.locationEdit.text().strip().title()
         item_desc = self.descriptionEdit.text().strip()
-        # Image path can be added here
 
         return {
             "Name": item_name,
@@ -829,15 +867,34 @@ class UpdateReportedItemDialog(QDialog, Ui_UpdateItemDialog):
         if not all(data.values()):
             QMessageBox.warning(self, "Validation Error", "Please fill in all fields.")
             return
+        
+        image_path = None
+        if self.item_image_handler.current_image_path:
+            image_path = ImageHandler.save_uploaded_item_image(
+                self.item_image_handler.current_image_path, self.itemID
+            )
 
         try:
             conn = db.create_connection()
             cursor = conn.cursor()
-            cursor.execute("""
-                UPDATE Items
-                SET Name = %s, Category = %s, DateLost = %s, LocationLost = %s, Description = %s
-                WHERE ItemID = %s
-            """, (data["Name"], data["Category"], data["DateLost"], data["LocationLost"], data["Description"], self.itemID))
+            
+            if image_path:
+                cursor.execute("""
+                    UPDATE Items
+                    SET Name = %s, Category = %s, DateLost = %s, LocationLost = %s, Description = %s, ImagePath = %s
+                    WHERE ItemID = %s
+                """, (
+                    data["Name"], data["Category"], data["DateLost"], data["LocationLost"], data["Description"], image_path, self.itemID
+                ))
+            else:
+                cursor.execute("""
+                    UPDATE Items
+                    SET Name = %s, Category = %s, DateLost = %s, LocationLost = %s, Description = %s
+                    WHERE ItemID = %s
+                """, (
+                    data["Name"], data["Category"], data["DateLost"], data["LocationLost"], data["Description"], self.itemID
+                ))
+            
             conn.commit()
             QMessageBox.information(self, "Success", "Item updated successfully.")
             self.accept()
@@ -854,23 +911,34 @@ class UpdatePersonEntryDialog(QDialog, Ui_UpdatePersonDialog):
 
         self.loadPersonData()
 
+        self.proof_id_handler = ImageHandler(self.proofImagePreview)
+        self.uploadImageButton.clicked.connect(lambda: self.proof_id_handler.upload_image(self))
+
         self.cancelButton.clicked.connect(self.reject)
         self.confirmButton.clicked.connect(self.validatePersonInput)
 
     def loadPersonData(self):
         conn = db.create_connection()
         cursor = conn.cursor()
-    # PROOF ID WALA PA NABUTANG
+
         try:
-            cursor.execute("SELECT FirstName, LastName, PhoneNumber, Department FROM Persons WHERE PersonID = %s", (self.personID,))
+            cursor.execute("SELECT FirstName, LastName, PhoneNumber, Department, ProofID FROM Persons WHERE PersonID = %s", (self.personID,))
             row = cursor.fetchone()
             if row:
-                first_name, last_name, phone_number, department = row
+                first_name, last_name, phone_number, department, proof_id = row
 
                 self.firstNameEdit.setText(first_name)
                 self.lastNameEdit.setText(last_name)
                 self.phoneNumberEdit.setText(phone_number)
                 self.departmentEdit.setText(department)
+
+                if proof_id and os.path.exists(proof_id):
+                    pixmap = QPixmap(proof_id).scaled(
+                        self.proofImagePreview.size(),
+                        Qt.KeepAspectRatio,
+                        Qt.SmoothTransformation
+                    )
+                    self.proofImagePreview.setPixmap(pixmap)
             else:
                 QMessageBox.warning(self, "Error", "Item not found.")
                 self.reject()
@@ -898,13 +966,16 @@ class UpdatePersonEntryDialog(QDialog, Ui_UpdatePersonDialog):
             QMessageBox.warning(self, "Validation Error", "Please fill in all fields.")
             return
         
-        if not data["FirstName"].isalpha() or data["LastName"].isalpha() or data["Department"].isalpha():
+        if not all([data["FirstName"].isalpha(), data["LastName"].isalpha(), data["Department"].isalpha()]):
             QMessageBox.warning(self, "Input Error", "Please input valid data.")
             return
         
         if not re.fullmatch(r"09\d{9}", data["PhoneNumber"]):
             QMessageBox.warning(self, "Input Error", "Please input a valid phone number.")
             return
+        
+        proof_id = None
+        if self.proof_id_handler.current_image_path: proof_id = ImageHandler.save_uploaded_proof_id(self.proof_id_handler.current_image_path, self.personID)
 
         try:
             conn = db.create_connection()
@@ -930,6 +1001,9 @@ class UpdateClaimItemDialog(QDialog, Ui_UpdateItemDialog):
 
         self.loadItemData()
 
+        self.item_image_handler = ImageHandler(self.itemImagePreview)
+        self.pushButton.clicked.connect(lambda: self.item_image_handler.upload_image(self))
+
         self.cancelButton.clicked.connect(self.reject)
         self.confirmButton.clicked.connect(self.validateItemInput)
 
@@ -938,10 +1012,10 @@ class UpdateClaimItemDialog(QDialog, Ui_UpdateItemDialog):
         cursor = conn.cursor()
 
         try:
-            cursor.execute("SELECT Name, Category, DateFound, LocationFound, Description FROM Items WHERE ItemID = %s", (self.itemID,))
+            cursor.execute("SELECT Name, Category, DateFound, LocationFound, Description, ImagePath FROM Items WHERE ItemID = %s", (self.itemID,))
             row = cursor.fetchone()
             if row:
-                item_name, category, date_found, location, description = row
+                item_name, category, date_found, location, description, image_path = row
 
                 self.itemNameEdit.setText(item_name)
                 index = self.categoryComboBox.findText(category)
@@ -951,6 +1025,14 @@ class UpdateClaimItemDialog(QDialog, Ui_UpdateItemDialog):
                 self.dateTimeEdit.setDateTime(dt)
                 self.locationEdit.setText(location)
                 self.descriptionEdit.setText(description)
+
+                if image_path and os.path.exists(image_path):
+                    pixmap = QPixmap(image_path).scaled(
+                        self.itemImagePreview.size(),
+                        Qt.KeepAspectRatio,
+                        Qt.SmoothTransformation
+                    )
+                    self.itemImagePreview.setPixmap(pixmap)
             else:
                 QMessageBox.warning(self, "Error", "Item not found.")
                 self.reject()
@@ -979,14 +1061,33 @@ class UpdateClaimItemDialog(QDialog, Ui_UpdateItemDialog):
             QMessageBox.warning(self, "Validation Error", "Please fill in all fields.")
             return
 
+        image_path = None
+        if self.item_image_handler.current_image_path:
+            image_path = ImageHandler.save_uploaded_item_image(
+                self.item_image_handler.current_image_path, self.itemID
+            )
+
         try:
             conn = db.create_connection()
             cursor = conn.cursor()
-            cursor.execute("""
-                UPDATE Items
-                SET Name = %s, Category = %s, DateFound = %s, LocationFound = %s, Description = %s
-                WHERE ItemID = %s
-            """, (data["Name"], data["Category"], data["DateFound"], data["LocationFound"], data["Description"], self.itemID))
+
+            if image_path:
+                cursor.execute("""
+                    UPDATE Items
+                    SET Name = %s, Category = %s, DateFound = %s, LocationFound = %s, Description = %s, ImagePath = %s
+                    WHERE ItemID = %s
+                """, (
+                    data["Name"], data["Category"], data["DateFound"], data["LocationFound"], data["Description"], image_path, self.itemID
+                ))
+            else:
+                cursor.execute("""
+                    UPDATE Items
+                    SET Name = %s, Category = %s, DateFound = %s, LocationFound = %s, Description = %s
+                    WHERE ItemID = %s
+                """, (
+                    data["Name"], data["Category"], data["DateFound"], data["LocationFound"], data["Description"], self.itemID
+                ))
+
             conn.commit()
             QMessageBox.information(self, "Success", "Item updated successfully.")
             self.accept()
@@ -1017,7 +1118,7 @@ class ClaimPersonDialog(QDialog, Ui_ClaimPersonDialog):
             QMessageBox.warning(self, "Input Error", "All fields must be filled up.")
             return
         
-        if not first_name.isalpha() or last_name.isalpha() or department.isalpha():
+        if not all([first_name.isalpha(), last_name.isalpha(), department.isalpha()]):
             QMessageBox.warning(self, "Input Error", "Please input valid data.")
             return
         
