@@ -467,12 +467,13 @@ def get_total_persons(search_text=""):
     query = """
         SELECT COUNT(*)
         FROM Persons
-        WHERE
+        WHERE IsDeleted = FALSE AND (
             PersonID LIKE %s OR
             FirstName LIKE %s OR
             LastName LIKE %s OR
             PhoneNumber LIKE %s OR
             Department LIKE %s
+        )
     """
     cursor.execute(query, (like_pattern,) * 5)
     total_records = cursor.fetchone()[0]
@@ -480,6 +481,29 @@ def get_total_persons(search_text=""):
     cursor.close()
     conn.close()
     return total_records
+
+# def get_total_persons(search_text=""):
+#     conn = database.create_connection()
+#     cursor = conn.cursor()
+
+#     like_pattern = f"%{search_text}%"
+
+#     query = """
+#         SELECT COUNT(*)
+#         FROM Persons
+#         WHERE
+#             PersonID LIKE %s OR
+#             FirstName LIKE %s OR
+#             LastName LIKE %s OR
+#             PhoneNumber LIKE %s OR
+#             Department LIKE %s
+#     """
+#     cursor.execute(query, (like_pattern,) * 5)
+#     total_records = cursor.fetchone()[0]
+
+#     cursor.close()
+#     conn.close()
+#     return total_records
 
 # def get_all_persons():
 #         conn = database.create_connection()
@@ -584,7 +608,7 @@ def get_total_reported_items(search_text=""):
         SELECT COUNT(*)
         FROM Items i
         JOIN Persons p ON i.ReportedBy = p.PersonID
-        WHERE i.Status = 'Reported' AND (
+        WHERE i.Status = 'Reported' AND i.IsDeleted = FALSE AND (
             i.Category LIKE %s OR
             i.Name LIKE %s OR
             i.Description LIKE %s OR
@@ -654,7 +678,7 @@ def get_total_surrendered_items(search_text=""):
         SELECT COUNT(*)
         FROM Items i
         JOIN Persons p ON i.SurrenderedBy = p.PersonID
-        WHERE i.Status = 'Surrendered' AND (
+        WHERE i.Status = 'Surrendered' AND i.IsDeleted = FALSE AND (
             i.Category LIKE %s OR
             i.Name LIKE %s OR
             i.Description LIKE %s OR
@@ -668,6 +692,30 @@ def get_total_surrendered_items(search_text=""):
     cursor.close()
     conn.close()
     return total_records
+# def get_total_surrendered_items(search_text=""):
+#     conn = database.create_connection()
+#     cursor = conn.cursor()
+
+#     like_pattern = f"%{search_text}%"
+
+#     query = """
+#         SELECT COUNT(*)
+#         FROM Items i
+#         JOIN Persons p ON i.SurrenderedBy = p.PersonID
+#         WHERE i.Status = 'Surrendered' AND (
+#             i.Category LIKE %s OR
+#             i.Name LIKE %s OR
+#             i.Description LIKE %s OR
+#             i.LocationFound LIKE %s OR
+#             CONCAT(p.FirstName, ' ', p.LastName) LIKE %s
+#         )
+#     """
+#     cursor.execute(query, (like_pattern,) * 5)
+#     total_records = cursor.fetchone()[0]
+
+#     cursor.close()
+#     conn.close()
+#     return total_records
 
 def get_all_claimed_items(current_page, page_size, search_text=""):
     conn = database.create_connection()
@@ -697,7 +745,7 @@ def get_all_claimed_items(current_page, page_size, search_text=""):
         JOIN 
             Persons p ON c.PersonID = p.PersonID
         WHERE 
-            i.Status = 'Claimed' AND (
+            i.Status = 'Claimed' AND i.isDeleted = FALSE AND (
                 i.Category LIKE %s OR
                 i.Name LIKE %s OR
                 i.Description LIKE %s OR
@@ -730,7 +778,7 @@ def get_total_claimed_items(search_text=""):
         FROM ClaimedItems c
         JOIN Items i ON c.ItemID = i.ItemID
         JOIN Persons p ON c.PersonID = p.PersonID
-        WHERE i.Status = 'Claimed' AND (
+        WHERE i.Status = 'Claimed' AND i.isDeleted = FALSE AND (
             i.Category LIKE %s OR
             i.Name LIKE %s OR
             i.Description LIKE %s OR
@@ -919,6 +967,16 @@ def soft_delete_surrendered_item(item_id):
     cursor = conn.cursor()
     try:
         cursor.execute("UPDATE Items SET IsDeleted = TRUE WHERE ItemID = %s AND Status = 'Surrendered'", (item_id,))
+        conn.commit()
+    finally:
+        cursor.close()
+        conn.close()
+
+def soft_delete_claimed_item(item_id):
+    conn = database.create_connection()
+    cursor = conn.cursor()
+    try:
+        cursor.execute("UPDATE Items SET IsDeleted = TRUE WHERE ItemID = %s AND Status = 'Claimed'", (item_id,))
         conn.commit()
     finally:
         cursor.close()
