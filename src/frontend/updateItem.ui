@@ -10,6 +10,18 @@
     <height>682</height>
    </rect>
   </property>
+  <property name="minimumSize">
+   <size>
+    <width>600</width>
+    <height>682</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>600</width>
+    <height>682</height>
+   </size>
+  </property>
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
@@ -24,9 +36,10 @@
    </property>
    <property name="font">
     <font>
+     <family>Segoe UI</family>
      <pointsize>11</pointsize>
-     <weight>75</weight>
-     <bold>true</bold>
+     <weight>50</weight>
+     <bold>false</bold>
     </font>
    </property>
    <property name="styleSheet">
@@ -81,9 +94,9 @@
    <property name="geometry">
     <rect>
      <x>460</x>
-     <y>460</y>
+     <y>450</y>
      <width>101</width>
-     <height>31</height>
+     <height>41</height>
     </rect>
    </property>
    <property name="styleSheet">
@@ -154,6 +167,9 @@
    </property>
    <property name="text">
     <string/>
+   </property>
+   <property name="placeholderText">
+    <string>Edit item name</string>
    </property>
   </widget>
   <widget class="QLabel" name="label_2">
@@ -273,6 +289,9 @@
    <property name="text">
     <string/>
    </property>
+   <property name="placeholderText">
+    <string>Edit details</string>
+   </property>
   </widget>
   <widget class="QLabel" name="label_7">
    <property name="geometry">
@@ -325,6 +344,9 @@
         border-radius: 10px;
         padding: 5px;
     }</string>
+   </property>
+   <property name="placeholderText">
+    <string>Update location</string>
    </property>
   </widget>
   <widget class="QLabel" name="itemImagePreview">
@@ -391,7 +413,7 @@
     </font>
    </property>
    <property name="text">
-    <string>Update Location</string>
+    <string>Location</string>
    </property>
   </widget>
   <widget class="QDateTimeEdit" name="dateTimeEdit">

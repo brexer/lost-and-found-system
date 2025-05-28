@@ -10,6 +10,18 @@
     <height>682</height>
    </rect>
   </property>
+  <property name="minimumSize">
+   <size>
+    <width>602</width>
+    <height>682</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>602</width>
+    <height>682</height>
+   </size>
+  </property>
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
@@ -33,7 +45,7 @@
      <property name="geometry">
       <rect>
        <x>20</x>
-       <y>80</y>
+       <y>90</y>
        <width>191</width>
        <height>41</height>
       </rect>
@@ -53,8 +65,8 @@
      <property name="geometry">
       <rect>
        <x>20</x>
-       <y>140</y>
-       <width>301</width>
+       <y>170</y>
+       <width>271</width>
        <height>41</height>
       </rect>
      </property>
@@ -68,12 +80,15 @@
      <property name="text">
       <string/>
      </property>
+     <property name="placeholderText">
+      <string>Item Name</string>
+     </property>
     </widget>
     <widget class="QLabel" name="label_3">
      <property name="geometry">
       <rect>
        <x>30</x>
-       <y>110</y>
+       <y>140</y>
        <width>80</width>
        <height>23</height>
       </rect>
@@ -91,8 +106,8 @@
      <property name="geometry">
       <rect>
        <x>320</x>
-       <y>220</y>
-       <width>271</width>
+       <y>250</y>
+       <width>261</width>
        <height>41</height>
       </rect>
      </property>
@@ -103,12 +118,15 @@
         padding: 5px;
     }</string>
      </property>
+     <property name="placeholderText">
+      <string>Location Found</string>
+     </property>
     </widget>
     <widget class="QLabel" name="label_5">
      <property name="geometry">
       <rect>
        <x>30</x>
-       <y>190</y>
+       <y>220</y>
        <width>191</width>
        <height>23</height>
       </rect>
@@ -126,7 +144,7 @@
      <property name="geometry">
       <rect>
        <x>330</x>
-       <y>190</y>
+       <y>220</y>
        <width>211</width>
        <height>23</height>
       </rect>
@@ -137,16 +155,16 @@
       </font>
      </property>
      <property name="text">
-      <string>Location Found</string>
+      <string>Location</string>
      </property>
     </widget>
     <widget class="QLineEdit" name="descriptionEdit">
      <property name="geometry">
       <rect>
        <x>20</x>
-       <y>300</y>
+       <y>330</y>
        <width>561</width>
-       <height>61</height>
+       <height>41</height>
       </rect>
      </property>
      <property name="styleSheet">
@@ -159,12 +177,15 @@
      <property name="text">
       <string/>
      </property>
+     <property name="placeholderText">
+      <string>Add more details</string>
+     </property>
     </widget>
     <widget class="QLabel" name="label_7">
      <property name="geometry">
       <rect>
        <x>30</x>
-       <y>270</y>
+       <y>300</y>
        <width>191</width>
        <height>23</height>
       </rect>
@@ -288,7 +309,7 @@
      <property name="geometry">
       <rect>
        <x>20</x>
-       <y>220</y>
+       <y>250</y>
        <width>271</width>
        <height>41</height>
       </rect>
@@ -305,8 +326,8 @@
     <widget class="QLabel" name="label_14">
      <property name="geometry">
       <rect>
-       <x>380</x>
-       <y>110</y>
+       <x>330</x>
+       <y>140</y>
        <width>191</width>
        <height>23</height>
       </rect>
@@ -323,17 +344,18 @@
     <widget class="QComboBox" name="comboBox_2">
      <property name="geometry">
       <rect>
-       <x>370</x>
-       <y>140</y>
-       <width>201</width>
+       <x>320</x>
+       <y>170</y>
+       <width>261</width>
        <height>41</height>
       </rect>
      </property>
      <property name="font">
       <font>
+       <family>Segoe UI</family>
        <pointsize>11</pointsize>
-       <weight>75</weight>
-       <bold>true</bold>
+       <weight>50</weight>
+       <bold>false</bold>
       </font>
      </property>
      <property name="styleSheet">
@@ -390,7 +412,7 @@
        <x>470</x>
        <y>470</y>
        <width>101</width>
-       <height>31</height>
+       <height>41</height>
       </rect>
      </property>
      <property name="styleSheet">
@@ -416,9 +438,9 @@
      <property name="geometry">
       <rect>
        <x>30</x>
-       <y>400</y>
+       <y>410</y>
        <width>431</width>
-       <height>191</height>
+       <height>181</height>
       </rect>
      </property>
      <property name="text">
@@ -432,7 +454,7 @@
      <property name="geometry">
       <rect>
        <x>30</x>
-       <y>370</y>
+       <y>380</y>
        <width>111</width>
        <height>23</height>
       </rect>
@@ -452,7 +474,7 @@
      <property name="geometry">
       <rect>
        <x>20</x>
-       <y>330</y>
+       <y>310</y>
        <width>191</width>
        <height>23</height>
       </rect>
@@ -470,7 +492,7 @@
      <property name="geometry">
       <rect>
        <x>21</x>
-       <y>280</y>
+       <y>260</y>
        <width>271</width>
        <height>41</height>
       </rect>
@@ -521,7 +543,7 @@
      <property name="geometry">
       <rect>
        <x>31</x>
-       <y>160</y>
+       <y>140</y>
        <width>80</width>
        <height>23</height>
       </rect>
@@ -539,7 +561,7 @@
      <property name="geometry">
       <rect>
        <x>31</x>
-       <y>250</y>
+       <y>230</y>
        <width>191</width>
        <height>23</height>
       </rect>
@@ -557,7 +579,7 @@
      <property name="geometry">
       <rect>
        <x>20</x>
-       <y>190</y>
+       <y>170</y>
        <width>271</width>
        <height>41</height>
       </rect>
@@ -610,7 +632,7 @@
      <property name="geometry">
       <rect>
        <x>320</x>
-       <y>250</y>
+       <y>230</y>
        <width>191</width>
        <height>23</height>
       </rect>
@@ -648,7 +670,7 @@
      <property name="geometry">
       <rect>
        <x>310</x>
-       <y>190</y>
+       <y>170</y>
        <width>271</width>
        <height>41</height>
       </rect>
@@ -711,7 +733,7 @@
         <x>20</x>
         <y>20</y>
         <width>60</width>
-        <height>31</height>
+        <height>41</height>
        </rect>
       </property>
       <property name="styleSheet">
@@ -738,7 +760,7 @@ QPushButton:pressed {
      <property name="geometry">
       <rect>
        <x>310</x>
-       <y>280</y>
+       <y>260</y>
        <width>271</width>
        <height>41</height>
       </rect>
@@ -758,7 +780,7 @@ QPushButton:pressed {
      <property name="geometry">
       <rect>
        <x>20</x>
-       <y>360</y>
+       <y>340</y>
        <width>441</width>
        <height>231</height>
       </rect>
@@ -774,9 +796,9 @@ QPushButton:pressed {
      <property name="geometry">
       <rect>
        <x>470</x>
-       <y>470</y>
+       <y>440</y>
        <width>101</width>
-       <height>31</height>
+       <height>41</height>
       </rect>
      </property>
      <property name="styleSheet">

@@ -15,12 +15,15 @@ class Ui_UpdateItemDialog(object):
     def setupUi(self, UpdateItemDialog):
         UpdateItemDialog.setObjectName("UpdateItemDialog")
         UpdateItemDialog.resize(600, 682)
+        UpdateItemDialog.setMinimumSize(QtCore.QSize(600, 682))
+        UpdateItemDialog.setMaximumSize(QtCore.QSize(600, 682))
         self.categoryComboBox = QtWidgets.QComboBox(UpdateItemDialog)
         self.categoryComboBox.setGeometry(QtCore.QRect(310, 160, 271, 41))
         font = QtGui.QFont()
+        font.setFamily("Segoe UI")
         font.setPointSize(11)
-        font.setBold(True)
-        font.setWeight(75)
+        font.setBold(False)
+        font.setWeight(50)
         self.categoryComboBox.setFont(font)
         self.categoryComboBox.setStyleSheet("QComboBox {\n"
 "        border: 2px solid #ccc;\n"
@@ -37,7 +40,7 @@ class Ui_UpdateItemDialog(object):
         self.categoryComboBox.addItem("")
         self.categoryComboBox.addItem("")
         self.pushButton = QtWidgets.QPushButton(UpdateItemDialog)
-        self.pushButton.setGeometry(QtCore.QRect(460, 460, 101, 31))
+        self.pushButton.setGeometry(QtCore.QRect(460, 450, 101, 41))
         self.pushButton.setStyleSheet("QPushButton {\n"
 "        background-color: rgb(170, 0, 0);\n"
 "        color: white;\n"
@@ -200,15 +203,18 @@ class Ui_UpdateItemDialog(object):
         self.categoryComboBox.setItemText(7, _translate("UpdateItemDialog", "Others"))
         self.pushButton.setText(_translate("UpdateItemDialog", "Upload "))
         self.cancelButton.setText(_translate("UpdateItemDialog", "Cancel"))
+        self.itemNameEdit.setPlaceholderText(_translate("UpdateItemDialog", "Edit item name"))
         self.label_2.setText(_translate("UpdateItemDialog", "Item Details"))
         self.label_11.setText(_translate("UpdateItemDialog", "Update an Item"))
         self.label_14.setText(_translate("UpdateItemDialog", "Category"))
         self.label_5.setText(_translate("UpdateItemDialog", "Date"))
+        self.descriptionEdit.setPlaceholderText(_translate("UpdateItemDialog", "Edit details"))
         self.label_7.setText(_translate("UpdateItemDialog", "Description"))
         self.label_15.setText(_translate("UpdateItemDialog", "Item Image"))
+        self.locationEdit.setPlaceholderText(_translate("UpdateItemDialog", "Update location"))
         self.itemImagePreview.setText(_translate("UpdateItemDialog", "No Image Selected"))
         self.confirmButton.setText(_translate("UpdateItemDialog", "Confirm"))
-        self.label_6.setText(_translate("UpdateItemDialog", "Update Location"))
+        self.label_6.setText(_translate("UpdateItemDialog", "Location"))
         self.label_3.setText(_translate("UpdateItemDialog", "Name"))
 
 

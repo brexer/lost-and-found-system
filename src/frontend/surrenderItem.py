@@ -15,6 +15,8 @@ class Ui_SurrenderItemDialog(object):
     def setupUi(self, SurrenderItemDialog):
         SurrenderItemDialog.setObjectName("SurrenderItemDialog")
         SurrenderItemDialog.resize(602, 682)
+        SurrenderItemDialog.setMinimumSize(QtCore.QSize(602, 682))
+        SurrenderItemDialog.setMaximumSize(QtCore.QSize(602, 682))
         self.stackedWidget = QtWidgets.QStackedWidget(SurrenderItemDialog)
         self.stackedWidget.setGeometry(QtCore.QRect(0, 0, 601, 681))
         self.stackedWidget.setStyleSheet("background-color: rgb(255, 255, 255);")
@@ -22,7 +24,7 @@ class Ui_SurrenderItemDialog(object):
         self.itemPage = QtWidgets.QWidget()
         self.itemPage.setObjectName("itemPage")
         self.label_2 = QtWidgets.QLabel(self.itemPage)
-        self.label_2.setGeometry(QtCore.QRect(20, 80, 191, 41))
+        self.label_2.setGeometry(QtCore.QRect(20, 90, 191, 41))
         font = QtGui.QFont()
         font.setPointSize(14)
         font.setBold(True)
@@ -30,7 +32,7 @@ class Ui_SurrenderItemDialog(object):
         self.label_2.setFont(font)
         self.label_2.setObjectName("label_2")
         self.itemNameEdit = QtWidgets.QLineEdit(self.itemPage)
-        self.itemNameEdit.setGeometry(QtCore.QRect(20, 140, 301, 41))
+        self.itemNameEdit.setGeometry(QtCore.QRect(20, 170, 271, 41))
         self.itemNameEdit.setStyleSheet("QLineEdit {\n"
 "        border: 2px solid #ccc;\n"
 "        border-radius: 10px;\n"
@@ -39,13 +41,13 @@ class Ui_SurrenderItemDialog(object):
         self.itemNameEdit.setText("")
         self.itemNameEdit.setObjectName("itemNameEdit")
         self.label_3 = QtWidgets.QLabel(self.itemPage)
-        self.label_3.setGeometry(QtCore.QRect(30, 110, 80, 23))
+        self.label_3.setGeometry(QtCore.QRect(30, 140, 80, 23))
         font = QtGui.QFont()
         font.setPointSize(12)
         self.label_3.setFont(font)
         self.label_3.setObjectName("label_3")
         self.locationFoundEdit = QtWidgets.QLineEdit(self.itemPage)
-        self.locationFoundEdit.setGeometry(QtCore.QRect(320, 220, 271, 41))
+        self.locationFoundEdit.setGeometry(QtCore.QRect(320, 250, 261, 41))
         self.locationFoundEdit.setStyleSheet("QLineEdit {\n"
 "        border: 2px solid #ccc;\n"
 "        border-radius: 10px;\n"
@@ -53,19 +55,19 @@ class Ui_SurrenderItemDialog(object):
 "    }")
         self.locationFoundEdit.setObjectName("locationFoundEdit")
         self.label_5 = QtWidgets.QLabel(self.itemPage)
-        self.label_5.setGeometry(QtCore.QRect(30, 190, 191, 23))
+        self.label_5.setGeometry(QtCore.QRect(30, 220, 191, 23))
         font = QtGui.QFont()
         font.setPointSize(12)
         self.label_5.setFont(font)
         self.label_5.setObjectName("label_5")
         self.label_6 = QtWidgets.QLabel(self.itemPage)
-        self.label_6.setGeometry(QtCore.QRect(330, 190, 211, 23))
+        self.label_6.setGeometry(QtCore.QRect(330, 220, 211, 23))
         font = QtGui.QFont()
         font.setPointSize(12)
         self.label_6.setFont(font)
         self.label_6.setObjectName("label_6")
         self.descriptionEdit = QtWidgets.QLineEdit(self.itemPage)
-        self.descriptionEdit.setGeometry(QtCore.QRect(20, 300, 561, 61))
+        self.descriptionEdit.setGeometry(QtCore.QRect(20, 330, 561, 41))
         self.descriptionEdit.setStyleSheet("QLineEdit {\n"
 "        border: 2px solid #ccc;\n"
 "        border-radius: 10px;\n"
@@ -74,7 +76,7 @@ class Ui_SurrenderItemDialog(object):
         self.descriptionEdit.setText("")
         self.descriptionEdit.setObjectName("descriptionEdit")
         self.label_7 = QtWidgets.QLabel(self.itemPage)
-        self.label_7.setGeometry(QtCore.QRect(30, 270, 191, 23))
+        self.label_7.setGeometry(QtCore.QRect(30, 300, 191, 23))
         font = QtGui.QFont()
         font.setPointSize(12)
         self.label_7.setFont(font)
@@ -131,24 +133,25 @@ class Ui_SurrenderItemDialog(object):
         self.label_11.setStyleSheet("color: rgb(255, 255, 255);")
         self.label_11.setObjectName("label_11")
         self.dateFoundEdit = QtWidgets.QDateTimeEdit(self.itemPage)
-        self.dateFoundEdit.setGeometry(QtCore.QRect(20, 220, 271, 41))
+        self.dateFoundEdit.setGeometry(QtCore.QRect(20, 250, 271, 41))
         font = QtGui.QFont()
         font.setPointSize(12)
         self.dateFoundEdit.setFont(font)
         self.dateFoundEdit.setCalendarPopup(True)
         self.dateFoundEdit.setObjectName("dateFoundEdit")
         self.label_14 = QtWidgets.QLabel(self.itemPage)
-        self.label_14.setGeometry(QtCore.QRect(380, 110, 191, 23))
+        self.label_14.setGeometry(QtCore.QRect(330, 140, 191, 23))
         font = QtGui.QFont()
         font.setPointSize(12)
         self.label_14.setFont(font)
         self.label_14.setObjectName("label_14")
         self.comboBox_2 = QtWidgets.QComboBox(self.itemPage)
-        self.comboBox_2.setGeometry(QtCore.QRect(370, 140, 201, 41))
+        self.comboBox_2.setGeometry(QtCore.QRect(320, 170, 261, 41))
         font = QtGui.QFont()
+        font.setFamily("Segoe UI")
         font.setPointSize(11)
-        font.setBold(True)
-        font.setWeight(75)
+        font.setBold(False)
+        font.setWeight(50)
         self.comboBox_2.setFont(font)
         self.comboBox_2.setStyleSheet("QComboBox {\n"
 "        border: 2px solid #ccc;\n"
@@ -165,7 +168,7 @@ class Ui_SurrenderItemDialog(object):
         self.comboBox_2.addItem("")
         self.comboBox_2.addItem("")
         self.itemImageButton = QtWidgets.QPushButton(self.itemPage)
-        self.itemImageButton.setGeometry(QtCore.QRect(470, 470, 101, 31))
+        self.itemImageButton.setGeometry(QtCore.QRect(470, 470, 101, 41))
         self.itemImageButton.setStyleSheet("QPushButton {\n"
 "        background-color: rgb(170, 0, 0);\n"
 "        color: white;\n"
@@ -181,11 +184,11 @@ class Ui_SurrenderItemDialog(object):
 "    }")
         self.itemImageButton.setObjectName("itemImageButton")
         self.itemImagePreview = QtWidgets.QLabel(self.itemPage)
-        self.itemImagePreview.setGeometry(QtCore.QRect(30, 400, 431, 191))
+        self.itemImagePreview.setGeometry(QtCore.QRect(30, 410, 431, 181))
         self.itemImagePreview.setAlignment(QtCore.Qt.AlignCenter)
         self.itemImagePreview.setObjectName("itemImagePreview")
         self.label_15 = QtWidgets.QLabel(self.itemPage)
-        self.label_15.setGeometry(QtCore.QRect(30, 370, 111, 23))
+        self.label_15.setGeometry(QtCore.QRect(30, 380, 111, 23))
         font = QtGui.QFont()
         font.setPointSize(12)
         self.label_15.setFont(font)
@@ -194,13 +197,13 @@ class Ui_SurrenderItemDialog(object):
         self.personPage = QtWidgets.QWidget()
         self.personPage.setObjectName("personPage")
         self.label_8 = QtWidgets.QLabel(self.personPage)
-        self.label_8.setGeometry(QtCore.QRect(20, 330, 191, 23))
+        self.label_8.setGeometry(QtCore.QRect(20, 310, 191, 23))
         font = QtGui.QFont()
         font.setPointSize(12)
         self.label_8.setFont(font)
         self.label_8.setObjectName("label_8")
         self.phoneNumberEdit = QtWidgets.QLineEdit(self.personPage)
-        self.phoneNumberEdit.setGeometry(QtCore.QRect(21, 280, 271, 41))
+        self.phoneNumberEdit.setGeometry(QtCore.QRect(21, 260, 271, 41))
         self.phoneNumberEdit.setStyleSheet("QLineEdit {\n"
 "        border: 2px solid #ccc;\n"
 "        border-radius: 10px;\n"
@@ -225,19 +228,19 @@ class Ui_SurrenderItemDialog(object):
 "    }")
         self.cancelButton_2.setObjectName("cancelButton_2")
         self.label_9 = QtWidgets.QLabel(self.personPage)
-        self.label_9.setGeometry(QtCore.QRect(31, 160, 80, 23))
+        self.label_9.setGeometry(QtCore.QRect(31, 140, 80, 23))
         font = QtGui.QFont()
         font.setPointSize(12)
         self.label_9.setFont(font)
         self.label_9.setObjectName("label_9")
         self.label_10 = QtWidgets.QLabel(self.personPage)
-        self.label_10.setGeometry(QtCore.QRect(31, 250, 191, 23))
+        self.label_10.setGeometry(QtCore.QRect(31, 230, 191, 23))
         font = QtGui.QFont()
         font.setPointSize(12)
         self.label_10.setFont(font)
         self.label_10.setObjectName("label_10")
         self.firstNameEdit = QtWidgets.QLineEdit(self.personPage)
-        self.firstNameEdit.setGeometry(QtCore.QRect(20, 190, 271, 41))
+        self.firstNameEdit.setGeometry(QtCore.QRect(20, 170, 271, 41))
         self.firstNameEdit.setStyleSheet("QLineEdit {\n"
 "        border: 2px solid #ccc;\n"
 "        border-radius: 10px;\n"
@@ -264,7 +267,7 @@ class Ui_SurrenderItemDialog(object):
 "    }")
         self.confirmButton.setObjectName("confirmButton")
         self.label_12 = QtWidgets.QLabel(self.personPage)
-        self.label_12.setGeometry(QtCore.QRect(320, 250, 191, 23))
+        self.label_12.setGeometry(QtCore.QRect(320, 230, 191, 23))
         font = QtGui.QFont()
         font.setPointSize(12)
         self.label_12.setFont(font)
@@ -278,7 +281,7 @@ class Ui_SurrenderItemDialog(object):
         self.label_13.setFont(font)
         self.label_13.setObjectName("label_13")
         self.lastNameEdit = QtWidgets.QLineEdit(self.personPage)
-        self.lastNameEdit.setGeometry(QtCore.QRect(310, 190, 271, 41))
+        self.lastNameEdit.setGeometry(QtCore.QRect(310, 170, 271, 41))
         self.lastNameEdit.setStyleSheet("QLineEdit {\n"
 "        border: 2px solid #ccc;\n"
 "        border-radius: 10px;\n"
@@ -301,7 +304,7 @@ class Ui_SurrenderItemDialog(object):
         self.label.setStyleSheet("color: rgb(255, 255, 255);")
         self.label.setObjectName("label")
         self.backButton = QtWidgets.QPushButton(self.frame)
-        self.backButton.setGeometry(QtCore.QRect(20, 20, 60, 31))
+        self.backButton.setGeometry(QtCore.QRect(20, 20, 60, 41))
         self.backButton.setStyleSheet("QPushButton {\n"
 "    background-color: white;\n"
 "    border: 1px solid;\n"
@@ -317,7 +320,7 @@ class Ui_SurrenderItemDialog(object):
 "}")
         self.backButton.setObjectName("backButton")
         self.departmentEdit_2 = QtWidgets.QLineEdit(self.personPage)
-        self.departmentEdit_2.setGeometry(QtCore.QRect(310, 280, 271, 41))
+        self.departmentEdit_2.setGeometry(QtCore.QRect(310, 260, 271, 41))
         self.departmentEdit_2.setStyleSheet("QLineEdit {\n"
 "        border: 2px solid #ccc;\n"
 "        border-radius: 10px;\n"
@@ -325,11 +328,11 @@ class Ui_SurrenderItemDialog(object):
 "    }")
         self.departmentEdit_2.setObjectName("departmentEdit_2")
         self.proofImagePreview = QtWidgets.QLabel(self.personPage)
-        self.proofImagePreview.setGeometry(QtCore.QRect(20, 360, 441, 231))
+        self.proofImagePreview.setGeometry(QtCore.QRect(20, 340, 441, 231))
         self.proofImagePreview.setAlignment(QtCore.Qt.AlignCenter)
         self.proofImagePreview.setObjectName("proofImagePreview")
         self.proofImageButton = QtWidgets.QPushButton(self.personPage)
-        self.proofImageButton.setGeometry(QtCore.QRect(470, 470, 101, 31))
+        self.proofImageButton.setGeometry(QtCore.QRect(470, 440, 101, 41))
         self.proofImageButton.setStyleSheet("QPushButton {\n"
 "        background-color: rgb(170, 0, 0);\n"
 "        color: white;\n"
@@ -347,16 +350,19 @@ class Ui_SurrenderItemDialog(object):
         self.stackedWidget.addWidget(self.personPage)
 
         self.retranslateUi(SurrenderItemDialog)
-        self.stackedWidget.setCurrentIndex(1)
+        self.stackedWidget.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(SurrenderItemDialog)
 
     def retranslateUi(self, SurrenderItemDialog):
         _translate = QtCore.QCoreApplication.translate
         SurrenderItemDialog.setWindowTitle(_translate("SurrenderItemDialog", "Dialog"))
         self.label_2.setText(_translate("SurrenderItemDialog", "Item Details"))
+        self.itemNameEdit.setPlaceholderText(_translate("SurrenderItemDialog", "Item Name"))
         self.label_3.setText(_translate("SurrenderItemDialog", "Name"))
+        self.locationFoundEdit.setPlaceholderText(_translate("SurrenderItemDialog", "Location Found"))
         self.label_5.setText(_translate("SurrenderItemDialog", "Date Found"))
-        self.label_6.setText(_translate("SurrenderItemDialog", "Location Found"))
+        self.label_6.setText(_translate("SurrenderItemDialog", "Location"))
+        self.descriptionEdit.setPlaceholderText(_translate("SurrenderItemDialog", "Add more details"))
         self.label_7.setText(_translate("SurrenderItemDialog", "Description"))
         self.nextButton.setText(_translate("SurrenderItemDialog", "Next"))
         self.cancelButton.setText(_translate("SurrenderItemDialog", "Cancel"))
@@ -388,3 +394,13 @@ class Ui_SurrenderItemDialog(object):
         self.departmentEdit_2.setPlaceholderText(_translate("SurrenderItemDialog", "e.g. BSCS"))
         self.proofImagePreview.setText(_translate("SurrenderItemDialog", "No Image Selected"))
         self.proofImageButton.setText(_translate("SurrenderItemDialog", "Upload"))
+
+
+if __name__ == "__main__":
+    import sys
+    app = QtWidgets.QApplication(sys.argv)
+    SurrenderItemDialog = QtWidgets.QDialog()
+    ui = Ui_SurrenderItemDialog()
+    ui.setupUi(SurrenderItemDialog)
+    SurrenderItemDialog.show()
+    sys.exit(app.exec_())
