@@ -551,6 +551,8 @@ class MainClass(QMainWindow, Ui_MainWindow):
     def goReviewPage(self):
         self.currentItemPage = 0
         matches = self.match_data
+        self.matchTable.horizontalHeader().setStretchLastSection(True)
+        self.matchTable.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
         load.load_match_table(self.matchTable, self.itemNextButton, self.itemPrevButton, self.personPageLabel_2, self.currentItemPage, ROWS_PER_PAGE, matches)
         load.load_match_table(
             self.matchTable,
