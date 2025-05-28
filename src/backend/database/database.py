@@ -63,6 +63,7 @@ def create_items_table():
             SurrenderedBy INT(8) UNSIGNED,
             DateFound DATETIME,
             LocationFound VARCHAR(100),
+            IsDeleted BOOLEAN DEFAULT FALSE,
             PRIMARY KEY (ItemID),
             FOREIGN KEY (ReportedBy) REFERENCES Persons(PersonID),
             FOREIGN KEY (SurrenderedBy) REFERENCES Persons(PersonID)

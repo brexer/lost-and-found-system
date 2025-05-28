@@ -98,7 +98,12 @@ class MainClass(QMainWindow, Ui_MainWindow):
         self.claimPrev.clicked.connect(self.prev_claim_page)
 
         #Claim buttons
-        self.surrenderDeleteButton.clicked.connect(self.claimSurrenderItem)
+        self.surrenderClaimButton.clicked.connect(self.claimSurrenderItem)
+
+        #delete buttons
+        self.DeletePersonButton.clicked.connect(self.delete_selected_person)
+        self.deleteReportButton.clicked.connect(self.delete_selected_reported_item)
+        self.surrenderDeleteButton.clicked.connect(self.delete_selected_surrendered_item)
         
         # Search button
         self.searchText = ""
@@ -169,6 +174,73 @@ class MainClass(QMainWindow, Ui_MainWindow):
         ClaimSurrender = ClaimPersonDialog(itemID, self)
         if ClaimSurrender.exec_():
             self.goClaimedItemsPage()
+
+    # delete functions
+    def delete_selected_person(self):
+        if not self.personTable.selectionModel().hasSelection():
+            QMessageBox.warning(self, "No Selection", "Please select a person to delete.")
+            return
+
+        selected_row = self.personTable.currentRow()
+        person_id_item = self.personTable.item(selected_row, 1)
+        if not person_id_item:
+            QMessageBox.warning(self, "Error", "Could not determine Person ID.")
+            return
+
+        person_id = person_id_item.text()
+        reply = QMessageBox.question(
+            self,
+            "Confirm Delete",
+            f"Are you sure you want to delete Person ID {person_id}?",
+            QMessageBox.Yes | QMessageBox.No
+        )
+        if reply == QMessageBox.Yes:
+            from src.backend.database import dbfunctions
+            dbfunctions.soft_delete_person(person_id)
+            QMessageBox.information(self, "Deleted", "Person has been deleted (soft delete).")
+            self.update_person_page()
+
+    def delete_selected_reported_item(self):
+        if not self.reportTable.selectionModel().hasSelection():
+            QMessageBox.warning(self, "No Selection", "Please select a reported item to delete.")
+            return
+        selected_row = self.reportTable.currentRow()
+        item_id_item = self.reportTable.item(selected_row, 1) 
+        if not item_id_item:
+            QMessageBox.warning(self, "Error", "Could not determine Item ID.")
+            return
+        item_id = item_id_item.text()
+        reply = QMessageBox.question(
+            self,
+            "Confirm Delete",
+            f"Are you sure you want to delete Reported Item ID {item_id}?",
+            QMessageBox.Yes | QMessageBox.No
+        )
+        if reply == QMessageBox.Yes:
+            dbfunctions.soft_delete_reported_item(item_id)
+            QMessageBox.information(self, "Deleted", "Reported item has been deleted (soft delete).")
+            self.update_report_page()
+
+    def delete_selected_surrendered_item(self):
+        if not self.surrenderTable.selectionModel().hasSelection():
+            QMessageBox.warning(self, "No Selection", "Please select a surrendered item to delete.")
+            return
+        selected_row = self.surrenderTable.currentRow()
+        item_id_item = self.surrenderTable.item(selected_row, 1) 
+        if not item_id_item:
+            QMessageBox.warning(self, "Error", "Could not determine Item ID.")
+            return
+        item_id = item_id_item.text()
+        reply = QMessageBox.question(
+            self,
+            "Confirm Delete",
+            f"Are you sure you want to delete Surrendered Item ID {item_id}?",
+            QMessageBox.Yes | QMessageBox.No
+        )
+        if reply == QMessageBox.Yes:
+            dbfunctions.soft_delete_surrendered_item(item_id)
+            QMessageBox.information(self, "Deleted", "Surrendered item has been deleted (soft delete).")
+            self.update_surrender_page()
         
     # Update functions
     def updateItemInput(self):
@@ -466,6 +538,10 @@ class MainClass(QMainWindow, Ui_MainWindow):
                 else:
                     QMessageBox.warning(self, "No Data", "No Person ID found for this entry.")
 
+    def refresh_recent_items(self):
+        recent_items = dbfunctions.get_recent_reported_and_surrendered(6)
+        ric.load_recent_items(self.recentItemsContainer, recent_items)
+
 class ReportItemDialog(QDialog, Ui_ReportItemDialog):
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -562,6 +638,7 @@ class ReportItemDialog(QDialog, Ui_ReportItemDialog):
                 dbfunctions.update_person_proof_id(person_id, proof_id_path)
 
             QMessageBox.information(self, "Success", "Item reported successfully.")
+            self.parent().refresh_recent_items()
             self.accept()
 
         except Exception as e:
@@ -684,6 +761,7 @@ class SurrenderItemDialog(QDialog, Ui_SurrenderItemDialog):
                 self.parent().reviewItemsButton.setVisible(False)
 
             QMessageBox.information(self, "Success", "Item surrendered successfully.")
+            self.parent().refresh_recent_items()
             self.accept()
 
         except Exception as e:
@@ -792,6 +870,7 @@ class UpdateSurrenderedItemDialog(QDialog, Ui_UpdateItemDialog):
 
             conn.commit()
             QMessageBox.information(self, "Success", "Item updated successfully.")
+            self.parent().refresh_recent_items()
             self.accept()
         except Exception as e:
             QMessageBox.critical(self, "Database Error", str(e))
@@ -897,6 +976,7 @@ class UpdateReportedItemDialog(QDialog, Ui_UpdateItemDialog):
             
             conn.commit()
             QMessageBox.information(self, "Success", "Item updated successfully.")
+            self.parent().refresh_recent_items()
             self.accept()
         except Exception as e:
             QMessageBox.critical(self, "Database Error", str(e))
@@ -1090,6 +1170,7 @@ class UpdateClaimItemDialog(QDialog, Ui_UpdateItemDialog):
 
             conn.commit()
             QMessageBox.information(self, "Success", "Item updated successfully.")
+            self.parent().refresh_recent_items()
             self.accept()
         except Exception as e:
             QMessageBox.critical(self, "Database Error", str(e))

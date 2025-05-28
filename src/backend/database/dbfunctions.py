@@ -552,7 +552,7 @@ def get_all_reported_items(current_page, page_size, search_text=""):
         JOIN 
             Persons p ON i.ReportedBy = p.PersonID
         WHERE 
-            i.Status = 'Reported' AND (
+            i.Status = 'Reported' AND i.IsDeleted = FALSE AND (
                 i.Category LIKE %s OR
                 i.Name LIKE %s OR
                 i.Description LIKE %s OR
@@ -618,13 +618,12 @@ def get_all_surrendered_items(current_page, page_size, search_text=""):
             i.ImagePath,
             CONCAT(p.FirstName, ' ', p.LastName) AS SurrenderedBy,
             p.PersonID AS SurrenderedByID
-
         FROM 
             Items i
         JOIN 
             Persons p ON i.SurrenderedBy = p.PersonID
         WHERE 
-            i.Status = 'Surrendered' AND (
+            i.Status = 'Surrendered' AND i.IsDeleted = FALSE AND (
                 i.Category LIKE %s OR
                 i.Name LIKE %s OR
                 i.Description LIKE %s OR
@@ -883,7 +882,7 @@ def get_recent_reported_and_surrendered(limit=6):
 
     query = f"""
         SELECT * FROM Items
-        WHERE Status IN ('Reported', 'Surrendered')
+        WHERE Status IN ('Reported', 'Surrendered') AND IsDeleted = FALSE
         ORDER BY 
             CASE WHEN Status = 'Reported' THEN DateLost ELSE DateFound END DESC
         LIMIT {limit}
@@ -900,6 +899,26 @@ def soft_delete_person(person_id):
     cursor = conn.cursor()
     try:
         cursor.execute("UPDATE Persons SET IsDeleted = TRUE WHERE PersonID = %s", (person_id,))
+        conn.commit()
+    finally:
+        cursor.close()
+        conn.close()
+
+def soft_delete_reported_item(item_id):
+    conn = database.create_connection()
+    cursor = conn.cursor()
+    try:
+        cursor.execute("UPDATE Items SET IsDeleted = TRUE WHERE ItemID = %s AND Status = 'Reported'", (item_id,))
+        conn.commit()
+    finally:
+        cursor.close()
+        conn.close()
+
+def soft_delete_surrendered_item(item_id):
+    conn = database.create_connection()
+    cursor = conn.cursor()
+    try:
+        cursor.execute("UPDATE Items SET IsDeleted = TRUE WHERE ItemID = %s AND Status = 'Surrendered'", (item_id,))
         conn.commit()
     finally:
         cursor.close()
