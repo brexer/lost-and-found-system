@@ -15,6 +15,8 @@ class Ui_UpdatePersonDialog(object):
     def setupUi(self, UpdatePersonDialog):
         UpdatePersonDialog.setObjectName("UpdatePersonDialog")
         UpdatePersonDialog.resize(600, 682)
+        UpdatePersonDialog.setMinimumSize(QtCore.QSize(600, 682))
+        UpdatePersonDialog.setMaximumSize(QtCore.QSize(600, 682))
         self.confirmButton = QtWidgets.QPushButton(UpdatePersonDialog)
         self.confirmButton.setGeometry(QtCore.QRect(360, 610, 211, 51))
         font = QtGui.QFont()
@@ -135,7 +137,7 @@ class Ui_UpdatePersonDialog(object):
         self.label_12.setFont(font)
         self.label_12.setObjectName("label_12")
         self.uploadImageButton = QtWidgets.QPushButton(UpdatePersonDialog)
-        self.uploadImageButton.setGeometry(QtCore.QRect(460, 450, 75, 31))
+        self.uploadImageButton.setGeometry(QtCore.QRect(460, 440, 101, 41))
         self.uploadImageButton.setStyleSheet("QPushButton {\n"
 "        background-color: rgb(170, 0, 0);\n"
 "        color: white;\n"
