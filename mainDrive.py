@@ -28,7 +28,7 @@ import src.backend.database.database as db
 from src.backend.database import dbfunctions
 # import src.backend.database.dbfunctions as dbf
 
-ROWS_PER_PAGE = 2 # change rani kung pila ka rows ang i-display per page
+ROWS_PER_PAGE = 5 # change rani kung pila ka rows ang i-display per page
 
 class MainClass(QMainWindow, Ui_MainWindow):
     def __init__(self):
@@ -100,7 +100,7 @@ class MainClass(QMainWindow, Ui_MainWindow):
         #Claim buttons
         self.itemUpdateButton.setEnabled(False) # Claiming button for match table
         self.surrenderClaimButton.setEnabled(False)
-        self.reportClaimButton.setEnabled(False)
+        self.reportClaimButton.setVisible(False)
 
         self.itemUpdateButton.clicked.connect(self.claimMatchItem)
         self.surrenderClaimButton.clicked.connect(self.claimSurrenderItem)
@@ -1047,6 +1047,7 @@ class UpdateSurrenderedItemDialog(QDialog, Ui_UpdateItemDialog):
 
             conn.commit()
             QMessageBox.information(self, "Success", "Item updated successfully.")
+            self.parent().update_surrender_page()
             self.parent().refresh_recent_items()
             self.accept()
         except Exception as e:
@@ -1153,6 +1154,7 @@ class UpdateReportedItemDialog(QDialog, Ui_UpdateItemDialog):
             
             conn.commit()
             QMessageBox.information(self, "Success", "Item updated successfully.")
+            self.parent().update_report_page()
             self.parent().refresh_recent_items()
             self.accept()
         except Exception as e:
@@ -1347,6 +1349,7 @@ class UpdateClaimItemDialog(QDialog, Ui_UpdateItemDialog):
 
             conn.commit()
             QMessageBox.information(self, "Success", "Item updated successfully.")
+            self.parent().update_claim_page()
             self.parent().refresh_recent_items()
             self.accept()
         except Exception as e:
