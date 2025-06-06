@@ -7,22 +7,23 @@ A desktop application for managing reported, surrendered, and claimed items, bui
 ## Features
 - Recent Reported and Surrendered Items
 
-![alt text](image.png)
+![alt text](assets/readme_imgs/image.png)
 
 - Report Lost Items
 
-![alt text](image-1.png)
+![alt text](assets/readme_imgs/image-1.png)
 
 - Surrender Found Items
-![alt text](image-2.png)
+
+![alt text](assets/readme_imgs/image-2.png)
 
 - Claim Items 
 
-![alt text](image-3.png)
+![alt text](assets/readme_imgs/image-3.png)
 
 - Clickable image previews with remove functionality
 
-![alt text](image-4.png)
+![alt text](assets/readme_imgs/image-4.png)
 
 - Search & Filter with Pagination
 ---
